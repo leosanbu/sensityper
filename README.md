@@ -1,2 +1,2 @@
 # sensityper
-Tool for in silico sensityping of Neisseria gonorrhoeae
+Tool for in silico sensityping of _Neisseria gonorrhoeae_
