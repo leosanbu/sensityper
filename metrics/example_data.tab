@@ -1,0 +1,20 @@
+id	CRO_treatment	AZM_treatment	CRO+AZM_treatment	CIP_treatment	TET_treatment	PCG_treatment	SPC_treatment	AZM+SPC_treatment	ZOL_treatment	CRO_predicted	AZM_predicted	CIP_predicted	TET_predicted	PCG_predicted	SPC_predicted	ZOL_predicted	CRO_recommend	AZM_recommend	CRO+AZM_recommend	CIP_recommend	SPC_recommend	ZOL_recommend	AZM+SPC_recommend
+WHO F	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes
+WHO G	Yes	Yes	Yes	No	No	No	Yes	Yes	Yes	Yes	Yes	No	No	No	Yes	Yes	Yes	Yes	Yes	No	Yes	Yes	Yes
+WHO K	Yes	Yes	Yes	No	No	No	Yes	Yes	Yes	Yes	Yes	No	No	No	Yes	Yes	Yes	Yes	Yes	No	Yes	Yes	Yes
+WHO L	Yes	Yes	Yes	No	No	No	Yes	Yes	Yes	Yes	Yes	No	No	No	Yes	Yes	Yes	Yes	Yes	No	Yes	Yes	Yes
+WHO M	Yes	Yes	Yes	No	No	No	Yes	Yes	Yes	Yes	Yes	No	No	No	Yes	Yes	Yes	Yes	Yes	No	Yes	Yes	Yes
+WHO N	Yes	Yes	Yes	No	No	No	Yes	Yes	Yes	Yes	Yes	No	No	No	Yes	Yes	Yes	Yes	Yes	No	Yes	Yes	Yes
+WHO O	Yes	Yes	Yes	Yes	No	No	No	No	Yes	Yes	Yes	Yes	No	No	No	Yes	Yes	Yes	Yes	Yes	No	Yes	No
+WHO P	Yes	No	No	Yes	No	No	Yes	No	Yes	Yes	No	Yes	No	Yes	Yes	Yes	Yes	No	No	Yes	Yes	Yes	No
+WHO Q	No	No	No	No	No	No	Yes	No	Yes	No	No	No	No	No	Yes	Yes	No	No	No	No	Yes	Yes	No
+WHO R	No	Yes	No	No	No	No	Yes	Yes	Yes	No	Yes	No	No	No	Yes	Yes	No	Yes	No	No	Yes	Yes	Yes
+WHO_S2	Yes	No	No	Yes	No		Yes	No	Yes	Yes	No	Yes	No	Yes	Yes	Yes	Yes	No	No	Yes	Yes	Yes	No
+WHO S	Yes	No	No	Yes	Yes	Yes	Yes	No	Yes	Yes	No	Yes	Yes	Yes	Yes	Yes	Yes	No	No	Yes	Yes	Yes	No
+WHO T	Yes	Yes	Yes	Yes	No	No	Yes	Yes	Yes	Yes	Yes	Yes	No	No	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes	Yes
+WHO U	Yes	No	No	Yes	No	No	Yes	No	Yes	Yes	No	Yes	No	No	Yes	Yes	Yes	No	No	Yes	Yes	Yes	No
+WHO V	Yes	No	No	No	No	No	Yes	No	Yes	Yes	No	No	No	No	Yes	Yes	Yes	No	No	No	Yes	Yes	No
+WHO W	Yes	Yes	Yes	No	No	No	Yes	Yes	Yes	Yes	Yes	No	No	No	Yes	Yes	Yes	Yes	Yes	No	Yes	Yes	Yes
+WHO X	No	Yes	No	No	No	No	Yes	Yes	Yes	No	Yes	No	No	No	Yes	Yes	No	Yes	No	No	Yes	Yes	Yes
+WHO Y	No	Yes	No	No	No	No	Yes	Yes	Yes	No	Yes	No	No	No	Yes	Yes	No	Yes	No	No	Yes	Yes	Yes
+WHO Z	No	Yes	No	No	No	No	Yes	Yes	Yes	No	Yes	No	No	No	Yes	Yes	No	Yes	No	No	Yes	Yes	Yes
