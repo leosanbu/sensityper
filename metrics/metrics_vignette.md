@@ -44,14 +44,14 @@ The input is a **tab-delimited table** containing, per isolate:
 
 ```text
 isolate_id	CRO_predicted	CRO_treatment	AZM_predicted	AZM_treatment	CRO+AZM_recommend	CRO+AZM_treatment
-WHO_A	S	S	S	S	YES	YES
-WHO_B	S	S	R	R	NO	NO
-WHO_C	S	S	S	S	YES	YES
-WHO_D	R	R	S	S	NO	NO
-WHO_E	S	S	R	R	NO	NO
-WHO_F	S	S	S	S	YES	YES
-WHO_Q	R	R	R	R	NO	NO
-WHO_Z	R	R	S	S	NO	NO
+WHO_A	YES	YES	YES	YES	YES	YES
+WHO_B	YES	YES	NO	NO	NO	NO
+WHO_C	YES	YES	YES	YES	YES	YES
+WHO_D	NO	NO	YES	YES	NO	NO
+WHO_E	YES	YES	NO	NO	NO	NO
+WHO_F	YES	YES	YES	YES	YES	YES
+WHO_Q	NO	NO	NO	NO	NO	NO
+WHO_Z	NO	NO	YES	YES	NO	NO
 ```
 
 Dual-therapy tokens (`CRO+AZM`, `AZM+SPC`, etc.) are supported **only if present as explicit columns**.
