@@ -1,0 +1,35 @@
+site_name: SensiTyper
+site_description: Genomic Antimicrobial Susceptibility Prediction and Treatment Recommendation for Neisseria gonorrhoeae
+site_url: https://leosanbu.github.io/sensityper/
+repo_url: https://github.com/leosanbu/sensityper
+repo_name: leosanbu/sensityper
+
+theme:
+  name: material
+  palette:
+    primary: teal
+    accent: teal
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Vignettes:
+    - WHO Reference Strains: who-vignette.md
+    - Sensityping Metrics: metrics.md
+
+markdown_extensions:
+  - tables
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - toc:
+      permalink: true
