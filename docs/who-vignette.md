@@ -203,7 +203,7 @@ WHO_B_SRR27944628         ceftriaxone,azithromycin                   penA.mosaic
 ceftriaxone_NWT: (empty)
 ceftriaxone_WT:  penA.A311_WT,penA.V316_WT,penA.A501_WT
 azithromycin_NWT: (empty)
-azithromycin_WT: 23S.A2045_WT,23S.C2597_WT,mtrC.WT,mtrD.WT
+azithromycin_WT: 23S.A2059_WT,23S.C2611_WT,mtrC.WT,mtrD.WT
 ciprofloxacin_NWT: (empty)
 ciprofloxacin_WT: gyrA.D95_WT,gyrA.S91_WT,parC.D86_WT,parC.E91_WT,parC.S87_WT
 ```
@@ -220,7 +220,7 @@ ciprofloxacin_WT: gyrA.D95_WT,gyrA.S91_WT,parC.D86_WT,parC.E91_WT,parC.S87_WT
 ceftriaxone_NWT: penA.60.001,penA.A311V,penA.V316T
 ceftriaxone_WT: penA.A501_WT
 azithromycin_NWT: 23S.A2059G[99.9%]
-azithromycin_WT: 23S.C2597_WT,mtrC.WT,mtrD.WT
+azithromycin_WT: 23S.C2611_WT,mtrC.WT,mtrD.WT
 ciprofloxacin_NWT: gyrA.D95_A,gyrA.S91F,parC.S87R
 ciprofloxacin_WT: parC.D86_WT,parC.E91_WT
 ```

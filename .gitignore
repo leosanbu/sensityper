@@ -3,3 +3,4 @@ old_repo/ARIBA_sensityping_110724.zip
 old_repo/sensiscript_v2.3.py
 old_repo/sensiscript.db
 old_repo/sensiscript.penA.db
+.github/workflows/deploy-docs.yml

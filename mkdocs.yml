@@ -22,8 +22,8 @@ theme:
 nav:
   - Home: index.md
   - Vignettes:
-    - WHO Reference Strains: who-vignette.md
-    - Sensityping Metrics: metrics.md
+    - SensiTyper tutorial: who-vignette.md
+    - Sensityping metrics: metrics.md
 
 extra_css:
   - stylesheets/extra.css

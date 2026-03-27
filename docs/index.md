@@ -2,6 +2,9 @@
 
 [![Python 3.6+](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-teal.svg)](https://leosanbu.github.io/sensityper/)
+
+> **Full documentation and vignettes:** [https://leosanbu.github.io/sensityper/](https://leosanbu.github.io/sensityper/)
 
 ## Overview
 
@@ -44,18 +47,18 @@ SensiTyper reads the summary output obtained from ARIBA containing key determina
 
 The table below lists the genetic markers evaluated by the prediction logic for each antibiotic. Wild-type detection indicates whether a marker is also used to confirm susceptibility.
 
-| Antibiotic | Gene | Wild-type position | Known substitution | Functional effect | Wild-type detection |
+| Antibiotic | Loci | Wild-type position | Known substitution | Functional effect | Wild-type detection |
 |------------|------|-------------------|--------------------|-------------------|---------------------|
-| Ceftriaxone | PBP2 | Ala311 | Val | Ceftriaxone resistance | Yes |
+| Ceftriaxone | PenA | Ala311 | Val | Ceftriaxone resistance | Yes |
 |  |  | Val316 | Thr, Pro | Ceftriaxone resistance | Yes |
 |  |  | A501 | Pro | Ceftriaxone resistance | Yes |
-| Azithromycin | 23S rRNA | A2059 | Guanine | Azithromycin resistance | Yes |
+| Azithromycin | 23S rDNA | A2059 | Guanine | Azithromycin resistance | Yes |
 |  | | C2611 | Thymine | Azithromycin resistance | Yes |
 |  | MtrD | NA | Semi- and mosaic structure | Azithromycin resistance | No |
 |  | MtrC | GC dinucleotide deletion in repeat | NA | Increase azithromycin susceptibility | No |
 | Ciprofloxacin | GyrA | Ser91 | Phe | Ciprofloxacin resistance | Yes |
-| Spectinomycin | 16S rRNA | C1192 | Thymine | Spectinomycin resistance | Yes |
-|  | rpsE (S5) | T22P | NA | Spectinomycin resistance | Yes |
+| Spectinomycin | 16S rDNA | C1192 | Thymine | Spectinomycin resistance | Yes |
+|  | RpsE | T22P | NA | Spectinomycin resistance | Yes |
 | Zoliflodacin | GyrB | Asp429 | Asn, Ala, Val | Zoliflodacin resistance | Yes |
 |  | GyrB | Lys450 | Thr | Zoliflodacin resistance | Yes |
 
@@ -292,9 +295,9 @@ Tab-separated file with columns:
 
 | isolate | treatment recommendation | ceftriaxone_NWT | ceftriaxone_WT | azithromycin_NWT | azithromycin_WT | ciprofloxacin_NWT | ciprofloxacin_WT | tetracycline_NWT | tetracycline_WT | penicillin_NWT | penicillin_WT | zoliflodacin_NWT | zoliflodacin_WT |
 |---------|-------------------------|-----------------|----------------|------------------|-----------------|-------------------|------------------|------------------|-----------------|----------------|---------------|------------------|-----------------|
-| WHO_A | ceftriaxone,<br>azithromycin,<br>ciprofloxacin,<br>tetracycline,<br>penicillin,<br>zoliflodacin | | penA.A311_WT<br>penA.A501_WT<br>penA.V316_WT | | 23S.A2045_WT<br>23S.C2597_WT<br>mtrC.WT<br>mtrD.WT | | gyrA.D95_WT<br>gyrA.S91_WT<br>parC.D86_WT<br>parC.E91_WT<br>parC.S87_WT | | rpsJ.V57_WT<br>tetM.not_present | | blaTEM.not_present<br>penA.insD345_WT<br>ponA.L421_WT | | gyrB.D429_WT<br>gyrB.K450_WT |
-| WHO_Q | (UND) zoliflodacin | penA.60.001<br>penA.A311V<br>penA.V316T | penA.A501_WT | 23S.A2045G[99.9%] | 23S.C2597_WT<br>mtrC.WT<br>mtrD.WT | gyrA.D95_A<br>gyrA.S91F<br>parC.S87R | parC.D86_WT<br>parC.E91_WT | rpsJ.V57M<br>tetM | | penA.60.001<br>ponA.L421P | blaTEM.not_present<br>penA.insD345_WT | | gyrB.D429_WT<br>gyrB.K450_WT |
-| WHO_Z | azithromycin,<br>zoliflodacin | penA.64.001<br>penA.A311V<br>penA.V316T | penA.A501_WT | | 23S.A2045_WT<br>23S.C2597_WT<br>mtrC.WT<br>mtrD.WT | gyrA.D95N<br>gyrA.S91F<br>parC.S87R | parC.D86_WT<br>parC.E91_WT | rpsJ.V57M | tetM.not_present | penA.64.001<br>ponA.L421P | blaTEM.not_present<br>penA.insD345_WT | | gyrB.D429_WT<br>gyrB.K450_WT |
+| WHO_A | ceftriaxone,<br>azithromycin,<br>ciprofloxacin,<br>tetracycline,<br>penicillin,<br>zoliflodacin | | penA.A311_WT<br>penA.A501_WT<br>penA.V316_WT | | 23S.A2059_WT<br>23S.C2611_WT<br>mtrC.WT<br>mtrD.WT | | gyrA.D95_WT<br>gyrA.S91_WT<br>parC.D86_WT<br>parC.E91_WT<br>parC.S87_WT | | rpsJ.V57_WT<br>tetM.not_present | | blaTEM.not_present<br>penA.insD345_WT<br>ponA.L421_WT | | gyrB.D429_WT<br>gyrB.K450_WT |
+| WHO_Q | (UND) zoliflodacin | penA.60.001<br>penA.A311V<br>penA.V316T | penA.A501_WT | 23S.A2059G[99.9%] | 23S.C2611_WT<br>mtrC.WT<br>mtrD.WT | gyrA.D95_A<br>gyrA.S91F<br>parC.S87R | parC.D86_WT<br>parC.E91_WT | rpsJ.V57M<br>tetM | | penA.60.001<br>ponA.L421P | blaTEM.not_present<br>penA.insD345_WT | | gyrB.D429_WT<br>gyrB.K450_WT |
+| WHO_Z | azithromycin,<br>zoliflodacin | penA.64.001<br>penA.A311V<br>penA.V316T | penA.A501_WT | | 23S.A2059_WT<br>23S.C2611_WT<br>mtrC.WT<br>mtrD.WT | gyrA.D95N<br>gyrA.S91F<br>parC.S87R | parC.D86_WT<br>parC.E91_WT | rpsJ.V57M | tetM.not_present | penA.64.001<br>ponA.L421P | blaTEM.not_present<br>penA.insD345_WT | | gyrB.D429_WT<br>gyrB.K450_WT |
 
 ### Treatment Output TSV (`treatment_output.tsv`)
 
