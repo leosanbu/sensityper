@@ -266,7 +266,7 @@ python sensityping_metrics.py \
   --radar_flag --radar_metrics PPV,one_minus_FDR,coverage_fraction
 ```
 
-See the **[Sensityping metrics vignette](metrics/metrics_vignette.md)** for a full step-by-step tutorial including argument descriptions, expected outputs, and metric interpretation.
+See the **[Sensityping metrics vignette](https://leosanbu.github.io/sensityper/metrics/)** for a full step-by-step tutorial including argument descriptions, expected outputs, and metric interpretation.
 
 ## Output Files
 
@@ -320,12 +320,12 @@ When running `sensityper sensitreat` or the `pipeline` mode including `sensitrea
 
 ## Documentation
 
-- **[*N. gonorrhoeae* WHO reference strains vignette](WHO_vignette.md)** - Step-by-step tutorial
+- **[*N. gonorrhoeae* WHO reference strains vignette](https://leosanbu.github.io/sensityper/who-vignette/)** - Step-by-step tutorial
   - Complete workflow example using *N. gonorrhoeae* WHO reference strains
   - Result interpretation
   - Common issues and solutions
 
-- **[Sensityping metrics vignette](metrics/metrics_vignette.md)** - Evaluation framework tutorial
+- **[Sensityping metrics vignette](https://leosanbu.github.io/sensityper/metrics/)** - Evaluation framework tutorial
   - Model-centric and clinical workflow evaluation
   - Confidence intervals, sample size diagnostics, and radar plots
 

@@ -1,5 +1,5 @@
 ARIBA run with this command:
-/Users/leosanbu/miniconda3/envs/ariba/bin/ariba prepareref prepareref -f sequences_260209.fa -m metadata_260209.tsv --cdhit_clusters clusters_260209.tsv 260209_ARIBAsensiDB
+/Users/leosanbu/miniconda3/envs/ariba/bin/ariba prepareref prepareref -f sequences_260209.fa -m metadata_260209.tsv --cdhit_clusters clusters_260209.tsv 260326_ARIBAsensiDB
 from this directory: /Users/leosanbu/Documents/sensityping/260118_for_Leo_UPDATED/resources/ariba_db
 
 ARIBA version: 2.14.6

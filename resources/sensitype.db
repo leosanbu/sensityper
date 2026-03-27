@@ -41,6 +41,7 @@ ceftriaxone	penA.V316	penA.penA.316G	penA.V316G
 ciprofloxacin	gyrA.S91	gyrA.gyrA.91F	gyrA.S91F
 ciprofloxacin	gyrA.S91	gyrA.gyrA.91T	gyrA.S91T
 ciprofloxacin	gyrA.S91	gyrA.gyrA.91Y	gyrA.S91Y
+ciprofloxacin	gyrA.S91	gyrA.gyrA.91I	gyrA.S91I
 ciprofloxacin	gyrA.D95	gyrA.gyrA.95G	gyrA.D95G
 ciprofloxacin	gyrA.D95	gyrA.gyrA.95N	gyrA.D95N
 ciprofloxacin	parC.D86	parC.parC.86N	parC.D86N
@@ -50,8 +51,8 @@ ciprofloxacin	parC.S87	parC.parC.87N	parC.S87N
 ciprofloxacin	parC.S87	parC.parC.87R	parC.S87R
 ciprofloxacin	parC.S87	parC.parC.87W	parC.S87W
 ciprofloxacin	parC.E91	parC.parC.91K	parC.E91K
-azithromycin	23S.A2045G	23S.23S.2045G	23S.A2045G
-azithromycin	23S.C2597T	23S.23S.2597T	23S.C2597T
+azithromycin	23S.A2059G	23S.23S.2045G	23S.A2059G
+azithromycin	23S.C2611T	23S.23S.2597T	23S.C2611T
 azithromycin	mtrD.mosaic	mtrD.ref_seq	mtrD.mosaic
 azithromycin	mtrC.disrupted	mtrC.assembled	mtrC.disrupted
 tetracycline	tetM	tetM.assembled	tetM

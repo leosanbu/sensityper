@@ -77,8 +77,6 @@ def write_header(antibiotics, outfile):
 	for x in antibiotics:
 		ab = x+'_NWT\t'+x+'_WT'
 		abxlist.append(ab)
-	#antibioticsR = [x+'_R' for x in antibiotics]
-	#antibioticsS = [x+'_S' for x in antibiotics]
 	outheader = 'isolate'+'\t'+'treatment recommendation'+'\t'+'\t'.join(abxlist)
 	if outfile:
 		outfilehandle = open(outfile, 'w+')
@@ -430,7 +428,6 @@ def translate_codon(codon):
 def create_treatment_line(isolate, recommended_treatment, found_mechanisms, wildtype_alleles, antibiotics):
 	treatment_prediction = []
 	mechanisms = []
-	#wt_mechanisms = []
 	for i in antibiotics:
 		if recommended_treatment[i] == True:
 			treatment_prediction.append(i)
@@ -438,8 +435,7 @@ def create_treatment_line(isolate, recommended_treatment, found_mechanisms, wild
 			treatment_prediction.append(i+'(WARN:novel_mutation)')
 		mechanisms.append('/'.join(sorted(found_mechanisms[i])))
 		mechanisms.append('/'.join(sorted(wildtype_alleles[i])))
-		#wt_mechanisms.append('/'.join(sorted(wildtype_alleles[i])))
-		treatment_prediction_line = ','.join(treatment_prediction)+'\t'+'\t'.join(mechanisms)#+'\t'+'\t'.join(wt_mechanisms)
+		treatment_prediction_line = ','.join(treatment_prediction)+'\t'+'\t'.join(mechanisms)
 		if len(treatment_prediction)<2:
 			treatment_prediction_line = '(UND) '+treatment_prediction_line
 	short_isolate = os.path.basename(isolate.replace('_ARIBA/report_complete.tsv', ''))

@@ -484,35 +484,30 @@ def process_output(input_file: str,
             'spectinomycin',
             'zoliflodacin'
         ]
-        #print(sensitreat_order)
+
         for row in reader:
             isolate = row.get('isolate', '')
-
             # From rules TSV: list of antibiotics that are recommended (susceptible options)
+            # To account for (UND) cases, remove this prefix in case it exists
             recommended_antibiotics = [
-                x.strip().lower()
+                x.strip().lower().replace('(und) ', '')
                 for x in (row.get('treatment recommendation', '') or '').split(',')
                 if x.strip()
             ]
-            #print(recommended_antibiotics)
             rec_avail = [abx for abx in recommended_antibiotics if abx in avail]
             rec_avail_set = set(rec_avail)
-            #print(rec_avail_set)
             # Maintain two simple "top" options among available recommendations, following the order
             # defined by available_antibiotics list as given (not the regimen order).
             treatment_recommendation = []
-            #print(available_antibiotics)
             for abx in available_antibiotics:
                 abx_l = abx.strip().lower()
                 if abx_l in rec_avail_set and abx_l not in treatment_recommendation:
                     treatment_recommendation.append(abx_l)
                 if len(treatment_recommendation) >= 2:
                     break
-            #print(treatment_recommendation)
 
             rec1 = treatment_recommendation[0] if len(treatment_recommendation) > 0 else 'None'
             rec2 = treatment_recommendation[1] if len(treatment_recommendation) > 1 else 'None'
-            #print(rec1, rec2)
 
             ceftriaxone_call = get_pred('ceftriaxone', recommended_antibiotics)#, 'CRO_predicted', 'ceftriaxone_predicted')
             azithromycin_call = get_pred('azithromycin', recommended_antibiotics)#row, 'azithromycin_NWT')#, 'AZM_predicted', 'azithromycin_predicted')
@@ -546,15 +541,12 @@ def process_output(input_file: str,
                 available_regimens.add('spectinomycin')
             if has('zoliflodacin'):
                 available_regimens.add('zoliflodacin')
-            #print(available_regimens)
 
             pick = 'None'
             for opt in canon_order:
                 if opt in available_regimens:
                     pick = opt
                     break
-            #print(canon_order)
-            #print(pick)
 
             treatment = ''
             comment = ''

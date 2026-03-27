@@ -6,6 +6,8 @@ repo_name: leosanbu/sensityper
 
 theme:
   name: material
+  logo: images/logo.png
+  favicon: images/logo.png
   palette:
     primary: teal
     accent: teal
@@ -22,6 +24,9 @@ nav:
   - Vignettes:
     - WHO Reference Strains: who-vignette.md
     - Sensityping Metrics: metrics.md
+
+extra_css:
+  - stylesheets/extra.css
 
 markdown_extensions:
   - tables

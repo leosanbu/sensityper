@@ -112,12 +112,14 @@ python sensityper_v0.6.7.py ariba \
 ```
 
 **Arguments**:
+
 - `--input_dirs` - Comma-separated list of directories containing FASTQ files
 - `--output_dir` - Output directory for ARIBA results
 - `--db_path`- Path to the ARIBA database, by default in `resources/ariba_db`
 - `--threads` - Number of CPU threads (default: 1)
 
 **FASTQ Naming**: Fastq files must follow one of these patterns:
+
 - `{sample}_1.fastq.gz` / `{sample}_2.fastq.gz`
 - `{sample}_R1.fastq.gz` / `{sample}_R2.fastq.gz`
 - `{sample}_R1_001.fastq.gz` / `{sample}_R2_001.fastq.gz`
@@ -136,6 +138,7 @@ python sensityper_v0.6.7.py sensitype \
 ```
 
 **Arguments**:
+
 - `--input_AMRtable` - ARIBA summary CSV file (required)
 - `--sensiscript_outfile` - Output TSV file path (default: `sensiscript_results.tsv`)
 - `--sensiscript_db` - Path to sensitype main database of genetic AMR determinants (default: `resources/sensitype.db`)
@@ -143,6 +146,7 @@ python sensityper_v0.6.7.py sensitype \
 - `--sensiscript_antibiotics` - Comma-separated antibiotic list (default: ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,zoliflodacin)
 
 **Outputs**:
+
 - `sensiscript_results.tsv` - Resistance mechanisms per isolate
 - `sensiscript_results.html` - Interactive table reporting the genetic determinants of AMR and identified wildtype positions found for each isolate
 
@@ -161,6 +165,7 @@ python sensityper_v0.6.7.py sensitreat \
 ```
 
 **Arguments**:
+
 - `--input_file` - Input resistance TSV from sensitype (required)
 - `--available_antibiotics` - Comma-separated list of antibiotics available in a specific setting (default: ceftriaxone,azithromycin,ciprofloxacin,spectinomycin,zoliflodacin)
 - `--sensitreat_order` - Regimen priority order (default: ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin,zoliflodacin). **Important:** azithromycin monotherapy is supported but NOT in the default order; include 'azithromycin' explicitly to enable it
@@ -168,6 +173,7 @@ python sensityper_v0.6.7.py sensitreat \
 - `--treatment_output` - Output treatment TSV path (default: `treatment_output.tsv`)
 
 **Outputs**:
+
 - `alert_output.tsv` - Isolates with XDR/no treatment options
 - `treatment_recommendations.tsv` - Recommended treatment regimens per isolate
 - `treatment_recommendations.html` - Combined tabbed HTML with:
@@ -186,6 +192,7 @@ python sensityper_v0.6.7.py pipeline \
 ```
 
 **Arguments**:
+
 - `--modules`: Comma-separated module names (required) (options: `ariba`, `sensitype`, `sensitreat`)
 - `--other_arguments` - All module-specific arguments within quotes
 
@@ -200,6 +207,7 @@ python sensityper_v0.6.7.py rename \
 ```
 
 **Arguments**:
+
 - `--directories` - Comma-separated directory list
 - `--pre` - Preview mode (dry-run, no actual renaming)
 
@@ -216,6 +224,7 @@ python sensityper_v0.6.7.py pipeline \
 ```
 
 **Outputs**:
+
 - `ariba_output/` - Folder with ARIBA results for each sample
 - `ariba_summary.csv` - ARIBA summary table
 - `sensiscript_results.tsv` - Resistance and wildtype determinants detected per isolate (direct output from the `sensitype` module)
@@ -273,6 +282,7 @@ See the **[Sensityping metrics vignette](metrics.md)** for a full step-by-step t
 ### Resistance Profile TSV (`sensiscript_results.tsv`)
 
 Tab-separated file with columns:
+
 - `isolate` - Sample identifier
 - `treatment recommendation` - Comma-separated list of suitable antibiotics
 - `{antibiotic}_NWT` - Non-wild-type (resistance) markers
@@ -289,6 +299,7 @@ Tab-separated file with columns:
 ### Treatment Output TSV (`treatment_output.tsv`)
 
 Tab-separated file with columns:
+
 - `isolate` - Sample identifier
 - `Predicted Profile` - Susceptibility summary (e.g., "ceftriaxone=YES, azithromycin=YES")
 - `Recommended Treatment` - Full regimen with dosing (e.g., "Ceftriaxone 1 g IM + Azithromycin 2 g orally")
@@ -305,6 +316,7 @@ Tab-separated file with columns:
 ### Alert Output TSV
 
 Lists isolates requiring clinical review:
+
 - **XDR** - Resistant to ceftriaxone, azithromycin, AND ciprofloxacin
 - **None** - No suitable treatment options available
 
@@ -334,19 +346,23 @@ When running `sensityper sensitreat` or the `pipeline` mode including `sensitrea
 ### Treatment Recommendation Categories
 
 **RECOMMENDATION 1** - Guideline-based monotherapy:
+
 - Ceftriaxone 1 g IM
 - Used when azithromycin resistance detected
 
 **RECOMMENDATION 2** - Acceptable combination therapy:
+
 - Ceftriaxone 1 g IM + Azithromycin 2 g orally
 - Preferred dual therapy for uncomplicated gonorrhea
 
 **RECOMMENDATION 3** - Alternative regimen:
+
 - Spectinomycin 2 g IM + Azithromycin 2 g orally
 - Used when ceftriaxone resistance detected
 - **Note**: Lower cure rates for pharyngeal infections
 
 **Investigational**:
+
 - Zoliflodacin 3 g orally (single dose)
 - Phase 3 trial data shows non-inferiority for urogenital infection
 

@@ -970,7 +970,7 @@ def _get_javascript_template(table_id: str = 'resultsTable', antibiotics: Option
 
         const recCell = cells[1];
         const recText = recCell.textContent.toLowerCase().trim().replace(/,/g, ',');
-        const recSet = new Set(recText.split(',').map(s => s.trim()));
+        const recSet = new Set(recText.split(',').map(s => s.trim().replace(/^\([^)]*\)\s*/, '')));
 
         const recContainer = document.createElement('div');
         recContainer.style.display = 'flex';

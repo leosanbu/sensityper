@@ -818,7 +818,7 @@
 
         const recCell = cells[1];
         const recText = recCell.textContent.toLowerCase().trim().replace(/,/g, ',');
-        const recSet = new Set(recText.split(',').map(s => s.trim()));
+        const recSet = new Set(recText.split(',').map(s => s.trim().replace(/^\([^)]*\)\s*/, '')));
 
         const recContainer = document.createElement('div');
         recContainer.style.display = 'flex';
@@ -1186,18 +1186,6 @@
             <td colname="Comment">Acceptable combination therapy (RECOMMENDATION 2)</td>
           </tr>
           <tr>
-            <td colname="isolate">WHO_F_SRR27944585</td>
-            <td colname="Predicted Profile">ceftriaxone=YES, azithromycin=YES, ciprofloxacin=YES</td>
-            <td colname="Recommended Treatment">Ceftriaxone 1 g IM + Azithromycin 2 g orally</td>
-            <td colname="Comment">Acceptable combination therapy (RECOMMENDATION 2)</td>
-          </tr>
-          <tr>
-            <td colname="isolate">WHO_G_SRR27944584</td>
-            <td colname="Predicted Profile">ceftriaxone=YES, azithromycin=YES, ciprofloxacin=NO</td>
-            <td colname="Recommended Treatment">Ceftriaxone 1 g IM + Azithromycin 2 g orally</td>
-            <td colname="Comment">Acceptable combination therapy (RECOMMENDATION 2)</td>
-          </tr>
-          <tr>
             <td colname="isolate">WHO_H_SRR27944583</td>
             <td colname="Predicted Profile">ceftriaxone=YES, azithromycin=YES, ciprofloxacin=NO</td>
             <td colname="Recommended Treatment">Ceftriaxone 1 g IM + Azithromycin 2 g orally</td>
@@ -1211,6 +1199,54 @@
           </tr>
           <tr>
             <td colname="isolate">WHO_J_SRR27944637</td>
+            <td colname="Predicted Profile">ceftriaxone=YES, azithromycin=YES, ciprofloxacin=NO</td>
+            <td colname="Recommended Treatment">Ceftriaxone 1 g IM + Azithromycin 2 g orally</td>
+            <td colname="Comment">Acceptable combination therapy (RECOMMENDATION 2)</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_Q_SRR27944630</td>
+            <td colname="Predicted Profile">ceftriaxone=NO, azithromycin=NO, ciprofloxacin=NO</td>
+            <td colname="Recommended Treatment">Zoliflodacin 3 g orally (single dose)</td>
+            <td colname="Comment">Investigational oral option; phase 3 non-inferior to ceftriaxone+azithromycin for uncomplicated urogenital infection</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_R_SRR27944629</td>
+            <td colname="Predicted Profile">ceftriaxone=NO, azithromycin=YES, ciprofloxacin=NO</td>
+            <td colname="Recommended Treatment">Zoliflodacin 3 g orally (single dose)</td>
+            <td colname="Comment">Investigational oral option; phase 3 non-inferior to ceftriaxone+azithromycin for uncomplicated urogenital infection</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_S_SRR27944627</td>
+            <td colname="Predicted Profile">ceftriaxone=YES, azithromycin=YES, ciprofloxacin=NO</td>
+            <td colname="Recommended Treatment">Ceftriaxone 1 g IM + Azithromycin 2 g orally</td>
+            <td colname="Comment">Acceptable combination therapy (RECOMMENDATION 2)</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_T_SRR27944625</td>
+            <td colname="Predicted Profile">ceftriaxone=YES, azithromycin=YES, ciprofloxacin=YES</td>
+            <td colname="Recommended Treatment">Ceftriaxone 1 g IM + Azithromycin 2 g orally</td>
+            <td colname="Comment">Acceptable combination therapy (RECOMMENDATION 2)</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_alpha_SRR27944639</td>
+            <td colname="Predicted Profile">ceftriaxone=YES, azithromycin=NO, ciprofloxacin=YES</td>
+            <td colname="Recommended Treatment">Ceftriaxone 1 g IM</td>
+            <td colname="Comment">Guideline-based monotherapy (RECOMMENDATION 1)</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_beta_SRR27944617</td>
+            <td colname="Predicted Profile">ceftriaxone=YES, azithromycin=YES, ciprofloxacin=NO</td>
+            <td colname="Recommended Treatment">Ceftriaxone 1 g IM + Azithromycin 2 g orally</td>
+            <td colname="Comment">Acceptable combination therapy (RECOMMENDATION 2)</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_F_SRR27944585</td>
+            <td colname="Predicted Profile">ceftriaxone=YES, azithromycin=YES, ciprofloxacin=YES</td>
+            <td colname="Recommended Treatment">Ceftriaxone 1 g IM + Azithromycin 2 g orally</td>
+            <td colname="Comment">Acceptable combination therapy (RECOMMENDATION 2)</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_G_SRR27944584</td>
             <td colname="Predicted Profile">ceftriaxone=YES, azithromycin=YES, ciprofloxacin=NO</td>
             <td colname="Recommended Treatment">Ceftriaxone 1 g IM + Azithromycin 2 g orally</td>
             <td colname="Comment">Acceptable combination therapy (RECOMMENDATION 2)</td>
@@ -1252,34 +1288,10 @@
             <td colname="Comment">Guideline-based monotherapy (RECOMMENDATION 1)</td>
           </tr>
           <tr>
-            <td colname="isolate">WHO_Q_SRR27944630</td>
-            <td colname="Predicted Profile">ceftriaxone=NO, azithromycin=NO, ciprofloxacin=NO</td>
-            <td colname="Recommended Treatment">XDR_isolate — manual follow-up</td>
-            <td colname="Comment">Flag for review</td>
-          </tr>
-          <tr>
-            <td colname="isolate">WHO_R_SRR27944629</td>
-            <td colname="Predicted Profile">ceftriaxone=NO, azithromycin=YES, ciprofloxacin=NO</td>
-            <td colname="Recommended Treatment">Zoliflodacin 3 g orally (single dose)</td>
-            <td colname="Comment">Investigational oral option; phase 3 non-inferior to ceftriaxone+azithromycin for uncomplicated urogenital infection</td>
-          </tr>
-          <tr>
             <td colname="isolate">WHO_S2_SRR27944626</td>
             <td colname="Predicted Profile">ceftriaxone=YES, azithromycin=NO, ciprofloxacin=YES</td>
             <td colname="Recommended Treatment">Ceftriaxone 1 g IM</td>
             <td colname="Comment">Guideline-based monotherapy (RECOMMENDATION 1)</td>
-          </tr>
-          <tr>
-            <td colname="isolate">WHO_S_SRR27944627</td>
-            <td colname="Predicted Profile">ceftriaxone=YES, azithromycin=NO, ciprofloxacin=YES</td>
-            <td colname="Recommended Treatment">Ceftriaxone 1 g IM</td>
-            <td colname="Comment">Guideline-based monotherapy (RECOMMENDATION 1)</td>
-          </tr>
-          <tr>
-            <td colname="isolate">WHO_T_SRR27944625</td>
-            <td colname="Predicted Profile">ceftriaxone=YES, azithromycin=YES, ciprofloxacin=YES</td>
-            <td colname="Recommended Treatment">Ceftriaxone 1 g IM + Azithromycin 2 g orally</td>
-            <td colname="Comment">Acceptable combination therapy (RECOMMENDATION 2)</td>
           </tr>
           <tr>
             <td colname="isolate">WHO_U_SRR27944624</td>
@@ -1316,18 +1328,6 @@
             <td colname="Predicted Profile">ceftriaxone=NO, azithromycin=YES, ciprofloxacin=NO</td>
             <td colname="Recommended Treatment">Zoliflodacin 3 g orally (single dose)</td>
             <td colname="Comment">Investigational oral option; phase 3 non-inferior to ceftriaxone+azithromycin for uncomplicated urogenital infection</td>
-          </tr>
-          <tr>
-            <td colname="isolate">WHO_alpha_SRR27944639</td>
-            <td colname="Predicted Profile">ceftriaxone=YES, azithromycin=YES, ciprofloxacin=NO</td>
-            <td colname="Recommended Treatment">Ceftriaxone 1 g IM + Azithromycin 2 g orally</td>
-            <td colname="Comment">Acceptable combination therapy (RECOMMENDATION 2)</td>
-          </tr>
-          <tr>
-            <td colname="isolate">WHO_beta_SRR27944617</td>
-            <td colname="Predicted Profile">ceftriaxone=YES, azithromycin=YES, ciprofloxacin=NO</td>
-            <td colname="Recommended Treatment">Ceftriaxone 1 g IM + Azithromycin 2 g orally</td>
-            <td colname="Comment">Acceptable combination therapy (RECOMMENDATION 2)</td>
           </tr>
         </tbody>
       </table>
@@ -1415,7 +1415,7 @@
             <td colname="ceftriaxoneR"></td>
             <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
             <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR"></td>
             <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
             <td colname="tetracyclineR"></td>
@@ -1433,7 +1433,7 @@
             <td colname="ceftriaxoneR"></td>
             <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
             <td colname="azithromycinR">mtrC.disrupted</td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrD.WT</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrD.WT</td>
             <td colname="ciprofloxacinR"></td>
             <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
             <td colname="tetracyclineR"></td>
@@ -1451,7 +1451,7 @@
             <td colname="ceftriaxoneR">penA.A311V</td>
             <td colname="ceftriaxoneS">penA.A501_WT/penA.V316_WT</td>
             <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR"></td>
             <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M</td>
@@ -1469,7 +1469,7 @@
             <td colname="ceftriaxoneR"></td>
             <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
             <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR"></td>
             <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M</td>
@@ -1487,7 +1487,7 @@
             <td colname="ceftriaxoneR"></td>
             <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
             <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR"></td>
             <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M</td>
@@ -1500,48 +1500,12 @@
             <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
           </tr>
           <tr>
-            <td colname="isolate">WHO_F_SRR27944585</td>
-            <td colname="treatment recommendation">ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,zoliflodacin</td>
-            <td colname="ceftriaxoneR"></td>
-            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
-            <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
-            <td colname="ciprofloxacinR"></td>
-            <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
-            <td colname="tetracyclineR"></td>
-            <td colname="tetracyclineS">rpsJ.V57_WT/tetM.not_present</td>
-            <td colname="penicillinR"></td>
-            <td colname="penicillinS">blaTEM.not_present/penA.insD345_WT/ponA.L421_WT</td>
-            <td colname="spectinomycinR"></td>
-            <td colname="spectinomycinS"></td>
-            <td colname="zoliflodacinR"></td>
-            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
-          </tr>
-          <tr>
-            <td colname="isolate">WHO_G_SRR27944584</td>
-            <td colname="treatment recommendation">ceftriaxone,azithromycin,zoliflodacin</td>
-            <td colname="ceftriaxoneR"></td>
-            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
-            <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
-            <td colname="ciprofloxacinR">gyrA.S91F</td>
-            <td colname="ciprofloxacinS">gyrA.D95_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
-            <td colname="tetracyclineR">rpsJ.V57M/tetM</td>
-            <td colname="tetracyclineS"></td>
-            <td colname="penicillinR">penA.insD345/ponA.L421P</td>
-            <td colname="penicillinS">blaTEM.not_present</td>
-            <td colname="spectinomycinR"></td>
-            <td colname="spectinomycinS"></td>
-            <td colname="zoliflodacinR"></td>
-            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
-          </tr>
-          <tr>
             <td colname="isolate">WHO_H_SRR27944583</td>
             <td colname="treatment recommendation">ceftriaxone,azithromycin,zoliflodacin</td>
             <td colname="ceftriaxoneR">penA.34.009/penA.V316T</td>
             <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT</td>
             <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR">gyrA.D95G/gyrA.S91F/parC.S87R</td>
             <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M</td>
@@ -1559,7 +1523,7 @@
             <td colname="ceftriaxoneR"></td>
             <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
             <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR">gyrA.S91F</td>
             <td colname="ciprofloxacinS">gyrA.D95_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M</td>
@@ -1577,7 +1541,7 @@
             <td colname="ceftriaxoneR"></td>
             <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
             <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR">gyrA.D95G/gyrA.S91F/parC.D86N</td>
             <td colname="ciprofloxacinS">parC.E91_WT/parC.S87_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M</td>
@@ -1590,120 +1554,12 @@
             <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
           </tr>
           <tr>
-            <td colname="isolate">WHO_K_SRR27944636</td>
-            <td colname="treatment recommendation">ceftriaxone,azithromycin,zoliflodacin</td>
-            <td colname="ceftriaxoneR">penA.10.006/penA.V316T</td>
-            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT</td>
-            <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
-            <td colname="ciprofloxacinR">gyrA.D95N/gyrA.S91F/parC.S87R</td>
-            <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT</td>
-            <td colname="tetracyclineR">rpsJ.V57M</td>
-            <td colname="tetracyclineS">tetM.not_present</td>
-            <td colname="penicillinR">penA.10.006/ponA.L421P</td>
-            <td colname="penicillinS">penA.insD345_WT</td>
-            <td colname="spectinomycinR"></td>
-            <td colname="spectinomycinS"></td>
-            <td colname="zoliflodacinR"></td>
-            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
-          </tr>
-          <tr>
-            <td colname="isolate">WHO_L_SRR27944635</td>
-            <td colname="treatment recommendation">ceftriaxone,azithromycin,zoliflodacin</td>
-            <td colname="ceftriaxoneR"></td>
-            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
-            <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
-            <td colname="ciprofloxacinR">gyrA.D95N/gyrA.S91F/parC.D86N</td>
-            <td colname="ciprofloxacinS">parC.E91_WT/parC.S87_WT</td>
-            <td colname="tetracyclineR">rpsJ.V57M</td>
-            <td colname="tetracyclineS">tetM.not_present</td>
-            <td colname="penicillinR">penA.insD345/ponA.L421P</td>
-            <td colname="penicillinS">blaTEM.not_present</td>
-            <td colname="spectinomycinR"></td>
-            <td colname="spectinomycinS"></td>
-            <td colname="zoliflodacinR"></td>
-            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
-          </tr>
-          <tr>
-            <td colname="isolate">WHO_M_SRR27944634</td>
-            <td colname="treatment recommendation">ceftriaxone,azithromycin,zoliflodacin</td>
-            <td colname="ceftriaxoneR"></td>
-            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
-            <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
-            <td colname="ciprofloxacinR">gyrA.D95G/gyrA.S91F</td>
-            <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
-            <td colname="tetracyclineR">rpsJ.V57M</td>
-            <td colname="tetracyclineS">tetM.not_present</td>
-            <td colname="penicillinR">blaTEM/penA.insD345/ponA.L421P</td>
-            <td colname="penicillinS"></td>
-            <td colname="spectinomycinR"></td>
-            <td colname="spectinomycinS"></td>
-            <td colname="zoliflodacinR"></td>
-            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
-          </tr>
-          <tr>
-            <td colname="isolate">WHO_N_SRR27944633</td>
-            <td colname="treatment recommendation">ceftriaxone,azithromycin,zoliflodacin</td>
-            <td colname="ceftriaxoneR"></td>
-            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
-            <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
-            <td colname="ciprofloxacinR">gyrA.D95G/gyrA.S91F/parC.S87I</td>
-            <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT</td>
-            <td colname="tetracyclineR">rpsJ.V57M/tetM</td>
-            <td colname="tetracyclineS"></td>
-            <td colname="penicillinR">blaTEM/penA.insD345/ponA.L421P</td>
-            <td colname="penicillinS"></td>
-            <td colname="spectinomycinR"></td>
-            <td colname="spectinomycinS"></td>
-            <td colname="zoliflodacinR"></td>
-            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
-          </tr>
-          <tr>
-            <td colname="isolate">WHO_O_SRR27944632</td>
-            <td colname="treatment recommendation">ceftriaxone,azithromycin,ciprofloxacin,zoliflodacin</td>
-            <td colname="ceftriaxoneR"></td>
-            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
-            <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
-            <td colname="ciprofloxacinR"></td>
-            <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
-            <td colname="tetracyclineR">rpsJ.V57M</td>
-            <td colname="tetracyclineS">tetM.not_present</td>
-            <td colname="penicillinR">blaTEM/penA.insD345/ponA.L421P</td>
-            <td colname="penicillinS"></td>
-            <td colname="spectinomycinR"></td>
-            <td colname="spectinomycinS"></td>
-            <td colname="zoliflodacinR"></td>
-            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
-          </tr>
-          <tr>
-            <td colname="isolate">WHO_P_SRR27944631</td>
-            <td colname="treatment recommendation">ceftriaxone,ciprofloxacin,zoliflodacin</td>
-            <td colname="ceftriaxoneR"></td>
-            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
-            <td colname="azithromycinR">mtrD.mosaic_1</td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT</td>
-            <td colname="ciprofloxacinR"></td>
-            <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
-            <td colname="tetracyclineR">rpsJ.V57M</td>
-            <td colname="tetracyclineS">tetM.not_present</td>
-            <td colname="penicillinR">penA.insD345</td>
-            <td colname="penicillinS">blaTEM.not_present/ponA.L421_WT</td>
-            <td colname="spectinomycinR"></td>
-            <td colname="spectinomycinS"></td>
-            <td colname="zoliflodacinR"></td>
-            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
-          </tr>
-          <tr>
             <td colname="isolate">WHO_Q_SRR27944630</td>
             <td colname="treatment recommendation">(UND) zoliflodacin</td>
             <td colname="ceftriaxoneR">penA.60.001/penA.A311V/penA.V316T</td>
             <td colname="ceftriaxoneS">penA.A501_WT</td>
-            <td colname="azithromycinR">23S.A2045G[99.9%]</td>
-            <td colname="azithromycinS">23S.C2597_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinR">23S.A2059G[99.9%]</td>
+            <td colname="azithromycinS">23S.C2611_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR">gyrA.D95_A/gyrA.S91F/parC.S87R</td>
             <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M/tetM</td>
@@ -1721,7 +1577,7 @@
             <td colname="ceftriaxoneR">penA.60.001/penA.A311V/penA.V316T</td>
             <td colname="ceftriaxoneS">penA.A501_WT</td>
             <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR">gyrA.D95_A/gyrA.S91F/parC.S87R</td>
             <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M</td>
@@ -1734,36 +1590,18 @@
             <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
           </tr>
           <tr>
-            <td colname="isolate">WHO_S2_SRR27944626</td>
-            <td colname="treatment recommendation">ceftriaxone,ciprofloxacin,zoliflodacin</td>
+            <td colname="isolate">WHO_S_SRR27944627</td>
+            <td colname="treatment recommendation">ceftriaxone,azithromycin,zoliflodacin</td>
             <td colname="ceftriaxoneR"></td>
             <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
-            <td colname="azithromycinR">mtrD.mosaic_2</td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT</td>
-            <td colname="ciprofloxacinR"></td>
-            <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
+            <td colname="azithromycinR"></td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="ciprofloxacinR">gyrA.D95N/gyrA.S91F/parC.S87I</td>
+            <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M</td>
             <td colname="tetracyclineS">tetM.not_present</td>
-            <td colname="penicillinR">penA.insD345</td>
-            <td colname="penicillinS">blaTEM.not_present/ponA.L421_WT</td>
-            <td colname="spectinomycinR"></td>
-            <td colname="spectinomycinS"></td>
-            <td colname="zoliflodacinR"></td>
-            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
-          </tr>
-          <tr>
-            <td colname="isolate">WHO_S_SRR27944627</td>
-            <td colname="treatment recommendation">ceftriaxone,ciprofloxacin,tetracycline,penicillin,zoliflodacin</td>
-            <td colname="ceftriaxoneR"></td>
-            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
-            <td colname="azithromycinR">23S.C2597T[99.9%]/mtrD.mosaic_2</td>
-            <td colname="azithromycinS">23S.A2045_WT/mtrC.WT</td>
-            <td colname="ciprofloxacinR"></td>
-            <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
-            <td colname="tetracyclineR"></td>
-            <td colname="tetracyclineS">rpsJ.V57_WT/tetM.not_present</td>
-            <td colname="penicillinR"></td>
-            <td colname="penicillinS">blaTEM.not_present/penA.insD345_WT/ponA.L421_WT</td>
+            <td colname="penicillinR">penA.insD345/ponA.L421P</td>
+            <td colname="penicillinS">blaTEM.not_present</td>
             <td colname="spectinomycinR"></td>
             <td colname="spectinomycinS"></td>
             <td colname="zoliflodacinR"></td>
@@ -1775,7 +1613,7 @@
             <td colname="ceftriaxoneR"></td>
             <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
             <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR"></td>
             <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M</td>
@@ -1788,12 +1626,210 @@
             <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
           </tr>
           <tr>
+            <td colname="isolate">WHO_alpha_SRR27944639</td>
+            <td colname="treatment recommendation">ceftriaxone,ciprofloxacin,tetracycline,penicillin,zoliflodacin</td>
+            <td colname="ceftriaxoneR"></td>
+            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
+            <td colname="azithromycinR">23S.C2611T[99.9%]/mtrD.mosaic_2</td>
+            <td colname="azithromycinS">23S.A2059_WT/mtrC.WT</td>
+            <td colname="ciprofloxacinR"></td>
+            <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
+            <td colname="tetracyclineR"></td>
+            <td colname="tetracyclineS">rpsJ.V57_WT/tetM.not_present</td>
+            <td colname="penicillinR"></td>
+            <td colname="penicillinS">blaTEM.not_present/penA.insD345_WT/ponA.L421_WT</td>
+            <td colname="spectinomycinR"></td>
+            <td colname="spectinomycinS"></td>
+            <td colname="zoliflodacinR"></td>
+            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_beta_SRR27944617</td>
+            <td colname="treatment recommendation">ceftriaxone,azithromycin,zoliflodacin</td>
+            <td colname="ceftriaxoneR"></td>
+            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
+            <td colname="azithromycinR"></td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="ciprofloxacinR">gyrA.D95_A/gyrA.S91F/parC.E91K/parC.S87N</td>
+            <td colname="ciprofloxacinS">parC.D86_WT</td>
+            <td colname="tetracyclineR">rpsJ.V57M/tetM</td>
+            <td colname="tetracyclineS"></td>
+            <td colname="penicillinR">blaTEM/penA.insD345/ponA.L421P</td>
+            <td colname="penicillinS"></td>
+            <td colname="spectinomycinR"></td>
+            <td colname="spectinomycinS"></td>
+            <td colname="zoliflodacinR"></td>
+            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_F_SRR27944585</td>
+            <td colname="treatment recommendation">ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,zoliflodacin</td>
+            <td colname="ceftriaxoneR"></td>
+            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
+            <td colname="azithromycinR"></td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="ciprofloxacinR"></td>
+            <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
+            <td colname="tetracyclineR"></td>
+            <td colname="tetracyclineS">rpsJ.V57_WT/tetM.not_present</td>
+            <td colname="penicillinR"></td>
+            <td colname="penicillinS">blaTEM.not_present/penA.insD345_WT/ponA.L421_WT</td>
+            <td colname="spectinomycinR"></td>
+            <td colname="spectinomycinS"></td>
+            <td colname="zoliflodacinR"></td>
+            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_G_SRR27944584</td>
+            <td colname="treatment recommendation">ceftriaxone,azithromycin,zoliflodacin</td>
+            <td colname="ceftriaxoneR"></td>
+            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
+            <td colname="azithromycinR"></td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="ciprofloxacinR">gyrA.S91F</td>
+            <td colname="ciprofloxacinS">gyrA.D95_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
+            <td colname="tetracyclineR">rpsJ.V57M/tetM</td>
+            <td colname="tetracyclineS"></td>
+            <td colname="penicillinR">penA.insD345/ponA.L421P</td>
+            <td colname="penicillinS">blaTEM.not_present</td>
+            <td colname="spectinomycinR"></td>
+            <td colname="spectinomycinS"></td>
+            <td colname="zoliflodacinR"></td>
+            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_K_SRR27944636</td>
+            <td colname="treatment recommendation">ceftriaxone,azithromycin,zoliflodacin</td>
+            <td colname="ceftriaxoneR">penA.10.006/penA.V316T</td>
+            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT</td>
+            <td colname="azithromycinR"></td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="ciprofloxacinR">gyrA.D95N/gyrA.S91F/parC.S87R</td>
+            <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT</td>
+            <td colname="tetracyclineR">rpsJ.V57M</td>
+            <td colname="tetracyclineS">tetM.not_present</td>
+            <td colname="penicillinR">penA.10.006/ponA.L421P</td>
+            <td colname="penicillinS">penA.insD345_WT</td>
+            <td colname="spectinomycinR"></td>
+            <td colname="spectinomycinS"></td>
+            <td colname="zoliflodacinR"></td>
+            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_L_SRR27944635</td>
+            <td colname="treatment recommendation">ceftriaxone,azithromycin,zoliflodacin</td>
+            <td colname="ceftriaxoneR"></td>
+            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
+            <td colname="azithromycinR"></td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="ciprofloxacinR">gyrA.D95N/gyrA.S91F/parC.D86N</td>
+            <td colname="ciprofloxacinS">parC.E91_WT/parC.S87_WT</td>
+            <td colname="tetracyclineR">rpsJ.V57M</td>
+            <td colname="tetracyclineS">tetM.not_present</td>
+            <td colname="penicillinR">penA.insD345/ponA.L421P</td>
+            <td colname="penicillinS">blaTEM.not_present</td>
+            <td colname="spectinomycinR"></td>
+            <td colname="spectinomycinS"></td>
+            <td colname="zoliflodacinR"></td>
+            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_M_SRR27944634</td>
+            <td colname="treatment recommendation">ceftriaxone,azithromycin,zoliflodacin</td>
+            <td colname="ceftriaxoneR"></td>
+            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
+            <td colname="azithromycinR"></td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="ciprofloxacinR">gyrA.D95G/gyrA.S91F</td>
+            <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
+            <td colname="tetracyclineR">rpsJ.V57M</td>
+            <td colname="tetracyclineS">tetM.not_present</td>
+            <td colname="penicillinR">blaTEM/penA.insD345/ponA.L421P</td>
+            <td colname="penicillinS"></td>
+            <td colname="spectinomycinR"></td>
+            <td colname="spectinomycinS"></td>
+            <td colname="zoliflodacinR"></td>
+            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_N_SRR27944633</td>
+            <td colname="treatment recommendation">ceftriaxone,azithromycin,zoliflodacin</td>
+            <td colname="ceftriaxoneR"></td>
+            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
+            <td colname="azithromycinR"></td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="ciprofloxacinR">gyrA.D95G/gyrA.S91F/parC.S87I</td>
+            <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT</td>
+            <td colname="tetracyclineR">rpsJ.V57M/tetM</td>
+            <td colname="tetracyclineS"></td>
+            <td colname="penicillinR">blaTEM/penA.insD345/ponA.L421P</td>
+            <td colname="penicillinS"></td>
+            <td colname="spectinomycinR"></td>
+            <td colname="spectinomycinS"></td>
+            <td colname="zoliflodacinR"></td>
+            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_O_SRR27944632</td>
+            <td colname="treatment recommendation">ceftriaxone,azithromycin,ciprofloxacin,zoliflodacin</td>
+            <td colname="ceftriaxoneR"></td>
+            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
+            <td colname="azithromycinR"></td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="ciprofloxacinR"></td>
+            <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
+            <td colname="tetracyclineR">rpsJ.V57M</td>
+            <td colname="tetracyclineS">tetM.not_present</td>
+            <td colname="penicillinR">blaTEM/penA.insD345/ponA.L421P</td>
+            <td colname="penicillinS"></td>
+            <td colname="spectinomycinR"></td>
+            <td colname="spectinomycinS"></td>
+            <td colname="zoliflodacinR"></td>
+            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_P_SRR27944631</td>
+            <td colname="treatment recommendation">ceftriaxone,ciprofloxacin,zoliflodacin</td>
+            <td colname="ceftriaxoneR"></td>
+            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
+            <td colname="azithromycinR">mtrD.mosaic_1</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT</td>
+            <td colname="ciprofloxacinR"></td>
+            <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
+            <td colname="tetracyclineR">rpsJ.V57M</td>
+            <td colname="tetracyclineS">tetM.not_present</td>
+            <td colname="penicillinR">penA.insD345</td>
+            <td colname="penicillinS">blaTEM.not_present/ponA.L421_WT</td>
+            <td colname="spectinomycinR"></td>
+            <td colname="spectinomycinS"></td>
+            <td colname="zoliflodacinR"></td>
+            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
+          </tr>
+          <tr>
+            <td colname="isolate">WHO_S2_SRR27944626</td>
+            <td colname="treatment recommendation">ceftriaxone,ciprofloxacin,zoliflodacin</td>
+            <td colname="ceftriaxoneR"></td>
+            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
+            <td colname="azithromycinR">mtrD.mosaic_2</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT</td>
+            <td colname="ciprofloxacinR"></td>
+            <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
+            <td colname="tetracyclineR">rpsJ.V57M</td>
+            <td colname="tetracyclineS">tetM.not_present</td>
+            <td colname="penicillinR">penA.insD345</td>
+            <td colname="penicillinS">blaTEM.not_present/ponA.L421_WT</td>
+            <td colname="spectinomycinR"></td>
+            <td colname="spectinomycinS"></td>
+            <td colname="zoliflodacinR"></td>
+            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
+          </tr>
+          <tr>
             <td colname="isolate">WHO_U_SRR27944624</td>
             <td colname="treatment recommendation">ceftriaxone,ciprofloxacin,zoliflodacin</td>
             <td colname="ceftriaxoneR"></td>
             <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
-            <td colname="azithromycinR">23S.C2597T[99.9%]</td>
-            <td colname="azithromycinS">23S.A2045_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinR">23S.C2611T[99.9%]</td>
+            <td colname="azithromycinS">23S.A2059_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR"></td>
             <td colname="ciprofloxacinS">gyrA.D95_WT/gyrA.S91_WT/parC.D86_WT/parC.E91_WT/parC.S87_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M</td>
@@ -1810,8 +1846,8 @@
             <td colname="treatment recommendation">ceftriaxone,zoliflodacin</td>
             <td colname="ceftriaxoneR"></td>
             <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
-            <td colname="azithromycinR">23S.A2045G[99.9%]</td>
-            <td colname="azithromycinS">23S.C2597_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinR">23S.A2059G[99.9%]</td>
+            <td colname="azithromycinS">23S.C2611_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR">gyrA.D95G/gyrA.S91F/parC.S87R</td>
             <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M</td>
@@ -1829,7 +1865,7 @@
             <td colname="ceftriaxoneR">penA.10.006/penA.V316T</td>
             <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT</td>
             <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR">gyrA.D95N/gyrA.S91F/parC.S87R</td>
             <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M</td>
@@ -1847,7 +1883,7 @@
             <td colname="ceftriaxoneR">penA.37.001/penA.A311V/penA.V316P</td>
             <td colname="ceftriaxoneS">penA.A501_WT</td>
             <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR">gyrA.D95N/gyrA.S91F/parC.S87R</td>
             <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M</td>
@@ -1865,7 +1901,7 @@
             <td colname="ceftriaxoneR">penA.42.001/penA.A501P/penA.V316T</td>
             <td colname="ceftriaxoneS">penA.A311_WT</td>
             <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR">gyrA.D95G/gyrA.S91F/parC.S87R</td>
             <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M</td>
@@ -1883,49 +1919,13 @@
             <td colname="ceftriaxoneR">penA.64.001/penA.A311V/penA.V316T</td>
             <td colname="ceftriaxoneS">penA.A501_WT</td>
             <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
+            <td colname="azithromycinS">23S.A2059_WT/23S.C2611_WT/mtrC.WT/mtrD.WT</td>
             <td colname="ciprofloxacinR">gyrA.D95N/gyrA.S91F/parC.S87R</td>
             <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT</td>
             <td colname="tetracyclineR">rpsJ.V57M</td>
             <td colname="tetracyclineS">tetM.not_present</td>
             <td colname="penicillinR">penA.64.001/ponA.L421P</td>
             <td colname="penicillinS">blaTEM.not_present/penA.insD345_WT</td>
-            <td colname="spectinomycinR"></td>
-            <td colname="spectinomycinS"></td>
-            <td colname="zoliflodacinR"></td>
-            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
-          </tr>
-          <tr>
-            <td colname="isolate">WHO_alpha_SRR27944639</td>
-            <td colname="treatment recommendation">ceftriaxone,azithromycin,zoliflodacin</td>
-            <td colname="ceftriaxoneR"></td>
-            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
-            <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
-            <td colname="ciprofloxacinR">gyrA.D95N/gyrA.S91F/parC.S87I</td>
-            <td colname="ciprofloxacinS">parC.D86_WT/parC.E91_WT</td>
-            <td colname="tetracyclineR">rpsJ.V57M</td>
-            <td colname="tetracyclineS">tetM.not_present</td>
-            <td colname="penicillinR">penA.insD345/ponA.L421P</td>
-            <td colname="penicillinS">blaTEM.not_present</td>
-            <td colname="spectinomycinR"></td>
-            <td colname="spectinomycinS"></td>
-            <td colname="zoliflodacinR"></td>
-            <td colname="zoliflodacinS">gyrB.D429_WT/gyrB.K450_WT</td>
-          </tr>
-          <tr>
-            <td colname="isolate">WHO_beta_SRR27944617</td>
-            <td colname="treatment recommendation">ceftriaxone,azithromycin,zoliflodacin</td>
-            <td colname="ceftriaxoneR"></td>
-            <td colname="ceftriaxoneS">penA.A311_WT/penA.A501_WT/penA.V316_WT</td>
-            <td colname="azithromycinR"></td>
-            <td colname="azithromycinS">23S.A2045_WT/23S.C2597_WT/mtrC.WT/mtrD.WT</td>
-            <td colname="ciprofloxacinR">gyrA.D95_A/gyrA.S91F/parC.E91K/parC.S87N</td>
-            <td colname="ciprofloxacinS">parC.D86_WT</td>
-            <td colname="tetracyclineR">rpsJ.V57M/tetM</td>
-            <td colname="tetracyclineS"></td>
-            <td colname="penicillinR">blaTEM/penA.insD345/ponA.L421P</td>
-            <td colname="penicillinS"></td>
             <td colname="spectinomycinR"></td>
             <td colname="spectinomycinS"></td>
             <td colname="zoliflodacinR"></td>

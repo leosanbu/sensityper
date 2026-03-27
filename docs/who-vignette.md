@@ -5,6 +5,7 @@
 This tutorial demonstrates a complete SensiTyper workflow using WHO *Neisseria gonorrhoeae* reference strains with known antimicrobial resistance (AMR) profiles.
 
 **Prerequisites**:
+
 - Python 3.6+
 - ARIBA installed (`conda install -c bioconda ariba`)
 - Sensityping scripts and databases (see README.md for installation)
@@ -106,6 +107,7 @@ python sensityper_v0.6.7.py ariba \
 ```
 
 **Arguments**:
+
 - `--input_dirs`: Directory containing FASTQ files
 - `--output_dir`: Where to save ARIBA results
 - `--threads`: CPU cores to use (adjust based on your system)
@@ -158,6 +160,7 @@ python sensityper_v0.6.7.py sensitype \
 ```
 
 **Arguments**:
+
 - `--input_AMRtable`: ARIBA summary CSV from Step 2
 - `--sensiscript_outfile`: Output file path (TSV format)
 - `--antibiotics`: (Optional) Comma-separated list to analyze specific antibiotics (default: all 7)
@@ -189,6 +192,7 @@ WHO_B_SRR27944628         ceftriaxone,azithromycin                   penA.mosaic
 ### Interpreting Results
 
 **Columns**:
+
 - `isolate`: Sample identifier
 - `treatment recommendation`: Comma-separated list of suitable antibiotics
 - `{antibiotic}_NWT`: **Non-Wild-Type** (resistance mutations, **RED** in HTML)
@@ -205,6 +209,7 @@ ciprofloxacin_WT: gyrA.D95_WT,gyrA.S91_WT,parC.D86_WT,parC.E91_WT,parC.S87_WT
 ```
 
 **Interpretation**:
+
 - **Ceftriaxone**: Susceptible (no key *penA* mutations)
 - **Azithromycin**: Susceptible (no key *23S rRNA* or *mtrD* mutations)
 - **Ciprofloxacin**: Susceptible (no key *gyrA* or *parC* mutations)
@@ -221,6 +226,7 @@ ciprofloxacin_WT: parC.D86_WT,parC.E91_WT
 ```
 
 **Interpretation**:
+
 - **Ceftriaxone**: Resistant (mosaic *penA* with key resistance mutations)
 - **Azithromycin**: Resistant (23S rRNA mutation at position 2059)
 - **Ciprofloxacin**: Resistant (gyrA mutations at codons 91 and 95)
@@ -237,6 +243,7 @@ start WHO_strains_sensitreat.html  # Windows
 ```
 
 **Interactive Features**:
+
 - **Click column headers** to sort (▲/▼ indicators)
 - **Search box** for live filtering
 - **Antibiotic filter** (multi-select dropdown)
@@ -257,6 +264,7 @@ python sensityper_v0.6.7.py sensitreat \
 ```
 
 **Arguments**:
+
 - `--input_file`: Resistance TSV from Step 3
 - `--treatment_output`: Output file path for treatment recommendations
 - `--available_antibiotics`: (Optional) Limit to available antibiotics (default: all except azithromycin monotherapy)
@@ -300,6 +308,7 @@ XDR WHO_Q_SRR27944630   (UND) zoliflodacin
 ```
 
 **Alert Types**:
+
 - **XDR**: Extensively Drug-Resistant (resistant to ceftriaxone, azithromycin, AND ciprofloxacin)
 - **None**: No suitable treatment available from specified antibiotics
 
@@ -314,6 +323,7 @@ Comment:                 Acceptable combination therapy (RECOMMENDATION 2)
 ```
 
 **Clinical Interpretation**:
+
 - **Regimen**: Standard dual therapy (first-line)
 - **Route**: Ceftriaxone intramuscular (IM), Azithromycin oral
 - **Rationale**: Susceptible to both agents, combination prevents resistance development
@@ -328,6 +338,7 @@ Comment:                 Alternative regimen (RECOMMENDATION 3)
 ```
 
 **Clinical Interpretation**:
+
 - **Regimen**: Alternative dual therapy (ceftriaxone resistance detected)
 - **Route**: Both intramuscular or oral
 - **Rationale**: Avoid ceftriaxone due to resistance, use spectinomycin + azithromycin
@@ -344,6 +355,7 @@ Alert:                   XDR
 ```
 
 **Clinical Interpretation**:
+
 - **Regimen**: Spectinomycin monotherapy (only option)
 - **Alert**: XDR isolate - flagged for clinical review
 - **Action Required**:
@@ -356,20 +368,24 @@ Alert:                   XDR
 ### Treatment Recommendation Categories
 
 **RECOMMENDATION 1** - Guideline-based monotherapy:
+
 - Ceftriaxone 1 g IM
 - Used when: Azithromycin resistance detected OR azithromycin unavailable
 
 **RECOMMENDATION 2** - Acceptable combination therapy:
+
 - Ceftriaxone 1 g IM + Azithromycin 2 g orally
 - Used when: Both agents susceptible
 - Preferred regimen for uncomplicated gonorrhea
 
 **RECOMMENDATION 3** - Alternative regimen:
+
 - Spectinomycin 2 g IM + Azithromycin 2 g orally
 - Used when: Ceftriaxone resistance detected
 - ⚠️ Lower cure rates for pharyngeal infections
 
 **Investigational**:
+
 - Zoliflodacin 3 g orally (single dose)
 - Phase 3 trial data: non-inferior to ceftriaxone+azithromycin for urogenital infection
 - Not yet widely available
@@ -403,6 +419,7 @@ A pre-computed version is available at `examples/sensityper_output/WHO_strains_s
 ### Tab 1: Treatment Recommendations
 
 **Columns** (4 total):
+
 1. **Isolate** - Sample identifier
 2. **Predicted Profile** - Color-coded susceptibility badges
    - Green badge = YES (susceptible)
@@ -411,6 +428,7 @@ A pre-computed version is available at `examples/sensityper_output/WHO_strains_s
 4. **Comment** - Clinical guidance and recommendation category
 
 **Interactive Features**:
+
 - **Sort**: Click column headers
 - **Search**: Live filtering across all columns
 - **Pagination**: 10/25/50/100/All entries per page
@@ -420,11 +438,13 @@ A pre-computed version is available at `examples/sensityper_output/WHO_strains_s
 ### Tab 2: Resistance Profile
 
 **Columns** (varies by antibiotic):
+
 - `isolate`
 - `treatment recommendation`
 - For each antibiotic: `{antibiotic}_NWT`, `{antibiotic}_WT`
 
 **Interactive Features**:
+
 - **Sort**: Click column headers
 - **Search**: Live filtering
 - **Antibiotic Filter**: Multi-select dropdown
