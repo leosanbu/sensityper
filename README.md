@@ -36,8 +36,8 @@ SensiTyper reads the summary output obtained from ARIBA containing key determina
 | --- | --- |
 | `ariba` | Run ARIBA as a wrapper script |
 | `sensitype` | Identify antibiotics each strain is susceptible to |
-| `sensitreat` | Perform a treatment recommndation |
-| `pipeline` | Chain different modules, e.g. `ariba,sensitype,sensitreat`, `sensitype,sensitreat`, etc. Note that the order must be `ariba < sensitype < sensitreat`, and `sensitreat` needs the output of sensitype to run |
+| `sensitreat` | Perform a treatment recommendation |
+| `pipeline` | Chain different modules, e.g. `ariba,sensitype,sensitreat`, `sensitype,sensitreat`, etc. Note that the order must be `ariba → sensitype → sensitreat`, and `sensitreat` needs the output of sensitype to run |
 
 ### Workflow:
 
@@ -45,22 +45,22 @@ SensiTyper reads the summary output obtained from ARIBA containing key determina
 
 ### Resistance Determinants
 
-The table below lists the genetic markers evaluated by the prediction logic for each antibiotic. Wild-type detection indicates whether a marker is also used to confirm susceptibility.
+The table below lists the genetic markers evaluated by the prediction logic for each antibiotic.
 
-| Antibiotic | Loci | Wild-type position | Known substitution | Functional effect | Wild-type detection |
-|------------|------|-------------------|--------------------|-------------------|---------------------|
-| Ceftriaxone | PenA | Ala311 | Val | Ceftriaxone resistance | Yes |
-|  |  | Val316 | Thr, Pro | Ceftriaxone resistance | Yes |
-|  |  | A501 | Pro | Ceftriaxone resistance | Yes |
-| Azithromycin | 23S rDNA | A2059 | Guanine | Azithromycin resistance | Yes |
-|  | | C2611 | Thymine | Azithromycin resistance | Yes |
-|  | MtrD | NA | Semi- and mosaic structure | Azithromycin resistance | No |
-|  | MtrC | GC dinucleotide deletion in repeat | NA | Increase azithromycin susceptibility | No |
-| Ciprofloxacin | GyrA | Ser91 | Phe | Ciprofloxacin resistance | Yes |
-| Spectinomycin | 16S rNA | C1192 | Thymine | Spectinomycin resistance | Yes |
-|  | RpsE | T22P | NA | Spectinomycin resistance | Yes |
-| Zoliflodacin | GyrB | Asp429 | Asn, Ala, Val | Zoliflodacin resistance | Yes |
-|  | GyrB | Lys450 | Thr | Zoliflodacin resistance | Yes |
+| Antibiotic | Loci | Wild-type position | Known substitution |
+|------------|------|--------------------|--------------------|
+| Ceftriaxone | PenA | Ala311 | Val |
+|  |  | Val316 | Thr, Pro |
+|  |  | A501 | Pro |
+| Azithromycin | 23S rDNA | A2059 | Guanine |
+|  | | C2611 | Thymine |
+|  | MtrD | NA | Semi- and mosaic structure |
+|  | MtrC | GC dinucleotide deletion in repeat | NA |
+| Ciprofloxacin | GyrA | Ser91 | Phe |
+| Spectinomycin | 16S rDNA | C1192 | Thymine |
+|  | RpsE | T22P | NA |
+| Zoliflodacin | GyrB | Asp429 | Asn, Ala, Val |
+|  | GyrB | Lys450 | Thr |
 
 ## Installation
 
@@ -301,9 +301,9 @@ Tab-separated file with columns:
 
 | isolate | recommended_1 | recommended_2 | Predicted Profile | Recommended Treatment | Comment | ceftriaxone+<br>azithromycin | ceftriaxone | azithromycin | azithromycin+<br>spectinomycin | ciprofloxacin | spectinomycin | zoliflodacin | chosen_regimen |
 |---------|---------------|---------------|-------------------|----------------------|---------|------------------------------|-------------|--------------|--------------------------------|---------------|---------------|--------------|----------------|
-| WHO-A_S1_L001 | ceftriaxone | azithromycin | ceftriaxone=YES,<br>azithromycin=YES,<br>ciprofloxacin=YES | Ceftriaxone 1 g IM +<br>Azithromycin 2 g orally | Acceptable combination therapy<br>(RECOMMENDATION 2) | YES | NO | NO | NO | NO | NO | NO | ceftriaxone+<br>azithromycin |
-| WHO-Q_S9_L001 | None | None | ceftriaxone=NO,<br>azithromycin=NO,<br>ciprofloxacin=NO | XDR_isolate —<br>manual follow-up | Flag for review | NO | NO | NO | NO | NO | NO | NO | None |
-| WHO_Z_ERR1448255 | azithromycin | zoliflodacin | ceftriaxone=NO,<br>azithromycin=YES,<br>ciprofloxacin=NO | Zoliflodacin 3 g orally<br>(single dose) | Investigational oral option;<br>phase 3 non-inferior to<br>ceftriaxone+azithromycin for<br>uncomplicated urogenital infection | NO | NO | NO | NO | NO | NO | YES | zoliflodacin |
+| WHO_A | ceftriaxone | azithromycin | ceftriaxone=YES,<br>azithromycin=YES,<br>ciprofloxacin=YES | Ceftriaxone 1 g IM +<br>Azithromycin 2 g orally | Acceptable combination therapy<br>(RECOMMENDATION 2) | YES | NO | NO | NO | NO | NO | NO | ceftriaxone+<br>azithromycin |
+| WHO_Q | None | None | ceftriaxone=NO,<br>azithromycin=NO,<br>ciprofloxacin=NO | XDR_isolate —<br>manual follow-up | Flag for review | NO | NO | NO | NO | NO | NO | NO | None |
+| WHO_Z | azithromycin | zoliflodacin | ceftriaxone=NO,<br>azithromycin=YES,<br>ciprofloxacin=NO | Zoliflodacin 3 g orally<br>(single dose) | Investigational oral option;<br>phase 3 non-inferior to<br>ceftriaxone+azithromycin for<br>uncomplicated urogenital infection | NO | NO | NO | NO | NO | NO | YES | zoliflodacin |
 
 ### Alert Output TSV
 
