@@ -47,30 +47,30 @@ SensiTyper reads the summary output obtained from ARIBA containing key determina
 
 The table below lists the genetic markers evaluated by the prediction logic for each antibiotic.
 
-| Antibiotic | Loci | Wild-type position | Known AMR determinant |
+| Antibiotic | Locus | Wild-type position | Known AMR determinant |
 |------------|------|--------------------|-------------------|
-| Ceftriaxone | PenA | A311 | Any |
+| **Ceftriaxone** | PenA | A311 | Any |
 |  |  | V316 | Any |
 |  |  | A501 | A501P |
-| Azithromycin | 23S rDNA | A2059 | 2059A>G |
+| **Azithromycin** | 23S rDNA | A2059 | 2059A>G |
 |  | | C2611 | 2611C>T |
 |  | MtrD | - | Semi- and mosaic structure |
 |  | MtrC | - | GC dinucleotide deletion in repeat |
-| Ciprofloxacin | GyrA | S91 | S91F/T/Y/I |
+| **Ciprofloxacin** | GyrA | S91 | S91F/T/Y/I |
 |  |  | D95 | D95G/N |
 |  | ParC | D86 | D86N |
 |  |  | S87 | S87A/I/N/R/W |
 |  |  | E91 | E91K |
-| Penicillin | blaTEM | - | Presence |
+| **Penicillin** | *bla*TEM | - | Presence in pBla plasmid |
 |  | PenA | - | insD345 |
+|  |  | - | Semi- and mosaic structure |
 |  | PonA | L421 | L421P |
-|  | PenA | - | Semi- and mosaic structure |
-| Tetracycline | tetM | - | Presence |
+| **Tetracycline** | *tetM* | - | Presence in pConjugative plasmid |
 |  | RpsJ | V57 | V57M |
-| Spectinomycin | 16S rDNA | C1192 | 1192C>T |
+| **Spectinomycin** | 16S rDNA | C1192 | 1192C>T |
 |  | RpsE | T24 | T24P |
-| Zoliflodacin | GyrB | D429 | Any |
-|  | GyrB | K450 | Any |
+| **Zoliflodacin** | GyrB | D429 | Any |
+|  |  | K450 | Any |
 
 ## Installation
 

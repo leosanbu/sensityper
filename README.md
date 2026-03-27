@@ -47,20 +47,30 @@ SensiTyper reads the summary output obtained from ARIBA containing key determina
 
 The table below lists the genetic markers evaluated by the prediction logic for each antibiotic.
 
-| Antibiotic | Loci | Wild-type position | Known substitution |
-|------------|------|--------------------|--------------------|
-| Ceftriaxone | PenA | Ala311 | Val |
-|  |  | Val316 | Thr, Pro |
-|  |  | A501 | Pro |
-| Azithromycin | 23S rDNA | A2059 | Guanine |
-|  | | C2611 | Thymine |
-|  | MtrD | NA | Semi- and mosaic structure |
-|  | MtrC | GC dinucleotide deletion in repeat | NA |
-| Ciprofloxacin | GyrA | Ser91 | Phe |
-| Spectinomycin | 16S rDNA | C1192 | Thymine |
-|  | RpsE | T22P | NA |
-| Zoliflodacin | GyrB | Asp429 | Asn, Ala, Val |
-|  | GyrB | Lys450 | Thr |
+| Antibiotic | Locus | Wild-type position | Known AMR determinant |
+|------------|------|--------------------|-------------------|
+| **Ceftriaxone** | PenA | A311 | Any |
+|  |  | V316 | Any |
+|  |  | A501 | A501P |
+| **Azithromycin** | 23S rDNA | A2059 | 2059A>G |
+|  | | C2611 | 2611C>T |
+|  | MtrD | - | Semi- and mosaic structure |
+|  | MtrC | - | GC dinucleotide deletion in repeat |
+| **Ciprofloxacin** | GyrA | S91 | S91F/T/Y/I |
+|  |  | D95 | D95G/N |
+|  | ParC | D86 | D86N |
+|  |  | S87 | S87A/I/N/R/W |
+|  |  | E91 | E91K |
+| **Penicillin** | *bla*TEM | - | Presence in pBla plasmid |
+|  | PenA | - | insD345 |
+|  |  | - | Semi- and mosaic structure |
+|  | PonA | L421 | L421P |
+| **Tetracycline** | *tetM* | - | Presence in pConjugative plasmid |
+|  | RpsJ | V57 | V57M |
+| **Spectinomycin** | 16S rDNA | C1192 | 1192C>T |
+|  | RpsE | T24 | T24P |
+| **Zoliflodacin** | GyrB | D429 | Any |
+|  |  | K450 | Any |
 
 ## Installation
 
