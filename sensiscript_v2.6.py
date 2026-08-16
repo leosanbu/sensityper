@@ -306,11 +306,14 @@ def check_treatment(antibiotics, amrdict, recommended_treatment, found_mechanism
 	return [recommended_treatment, found_mechanisms, wildtype_alleles]
 
 def call_wildtype(isolate, line_results, selected_determinants):
+	known_genes = set(s.split('.')[0] for s in selected_determinants) # genes sensityper knows about; ignore any extra markers present only in larger ARIBA dbs
 	with open(isolate, 'r') as report:
 		headrep = report.readline().rstrip().split('\t')
 		for r in report:
 			rsplit = r.rstrip().split('\t')
 			gene = rsplit[6]
+			if gene not in known_genes: # skip markers not relevant to sensityper (e.g. mtrR_promoter, folP, porB1b...)
+				continue
 			known_var = rsplit[13]
 			known_var_change = rsplit[16]
 			has_known_var = rsplit[17]
