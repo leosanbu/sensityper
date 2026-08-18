@@ -26,7 +26,6 @@ The script is standalone and requires only standard scientific Python:
 - python >= 3.6
 - numpy
 - pandas
-- scipy
 - scikit-learn
 - plotly
 

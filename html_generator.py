@@ -702,7 +702,7 @@ def _get_javascript_template(table_id: str = 'resultsTable', antibiotics: Option
     if antibiotics:
         abx_list_js = json.dumps(antibiotics)
     else:
-        abx_list_js = "['ceftriaxone', 'azithromycin', 'ciprofloxacin', 'tetracycline', 'penicillin', 'spectinomycin', 'zoliflodacin']"
+        abx_list_js = "['ceftriaxone', 'azithromycin', 'ciprofloxacin', 'tetracycline', 'penicillin', 'spectinomycin', 'zoliflodacin', 'gepotidacin']"
 
     # Build antibiotic filter mapping if antibiotics provided
     abx_cols_js = '{}'
@@ -970,7 +970,7 @@ def _get_javascript_template(table_id: str = 'resultsTable', antibiotics: Option
 
         const recCell = cells[1];
         const recText = recCell.textContent.toLowerCase().trim().replace(/,/g, ',');
-        const recSet = new Set(recText.split(',').map(s => s.trim().replace(/^\([^)]*\)\s*/, '')));
+        const recSet = new Set(recText.split(',').map(s => s.trim().replace(/^\\([^)]*\\)\\s*/, '')));
 
         const recContainer = document.createElement('div');
         recContainer.style.display = 'flex';
@@ -1005,7 +1005,7 @@ def _get_javascript_template(table_id: str = 'resultsTable', antibiotics: Option
           let content = td.textContent.trim();
           if (!content) continue;
 
-          const items = content.split(/[\/\\s]+/).filter(item => item.length > 0);
+          const items = content.split(/[\\/\\s]+/).filter(item => item.length > 0);
           if (items.length > 1) {{
             const listDiv = document.createElement('div');
             listDiv.className = 'list-items';
@@ -1434,6 +1434,9 @@ def generate_resistance_profile_html(tsv_path: str, output_html_path: str, antib
         output_html_path: Path for output HTML file
         antibiotics: List of antibiotic names (optional, will auto-detect from TSV if not provided)
     """
+    # Collapse redundant separators (e.g. "outdir//results.html") so the written and reported paths match
+    output_html_path = os.path.normpath(output_html_path)
+
     # Auto-detect antibiotics from TSV if not provided
     if antibiotics is None or len(antibiotics) == 0:
         antibiotics = _extract_antibiotics_from_tsv(tsv_path)
@@ -1523,6 +1526,9 @@ def generate_combined_tabbed_html(
         antibiotics: List of antibiotic names (optional, will auto-detect from TSV if not provided)
         alert_tsv_path: Optional path to alert_output.tsv
     """
+    # Collapse redundant separators (e.g. "outdir//treatment.html") so the written and reported paths match
+    output_html_path = os.path.normpath(output_html_path)
+
     # Auto-detect antibiotics from TSV if not provided
     if antibiotics is None or len(antibiotics) == 0:
         antibiotics = _extract_antibiotics_from_tsv(sensiscript_tsv_path)

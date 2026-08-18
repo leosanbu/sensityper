@@ -864,8 +864,9 @@ Notes
     # Radar settings
     parser.add_argument("--radar_flag", action="store_true",
                         help="If set, writes a radar chart HTML to --output_dir.")
-    parser.add_argument("--radar_antibiotics", default="CRO,AZM,CIP,TET,PCG,SPC,ZOL",
-                        help="Comma-separated list for predicted_vs_treatment radar (single drugs only).")
+    parser.add_argument("--radar_antibiotics", default="CRO,AZM,CIP,TET,PCG,SPC,ZOL,GPT",
+                        help=("Comma-separated list for predicted_vs_treatment radar (single drugs only). "
+                              "Entries without matching <ABX>_predicted/<ABX>_treatment columns are skipped."))
     parser.add_argument("--radar_metrics",
                         default="PPV,one_minus_FDR,coverage_fraction",
                         help=("Comma-separated metrics for radar (0..1 scale). Useful options: "

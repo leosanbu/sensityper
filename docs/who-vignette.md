@@ -163,7 +163,7 @@ python sensityper_v0.6.7.py sensitype \
 
 - `--input_AMRtable`: ARIBA summary CSV from Step 2
 - `--sensiscript_outfile`: Output file path (TSV format)
-- `--antibiotics`: (Optional) Comma-separated list to analyze specific antibiotics (default: all 7)
+- `--antibiotics`: (Optional) Comma-separated list to analyze specific antibiotics (default: all 8)
 
 ### Expected Runtime
 
@@ -206,6 +206,10 @@ azithromycin_NWT: (empty)
 azithromycin_WT: 23S.A2059_WT,23S.C2611_WT,mtrC.WT,mtrD.WT
 ciprofloxacin_NWT: (empty)
 ciprofloxacin_WT: gyrA.D95_WT,gyrA.S91_WT,parC.D86_WT,parC.E91_WT,parC.S87_WT
+spectinomycin_NWT: rpsE.T24P
+spectinomycin_WT: 16S.C1184_WT
+gepotidacin_NWT: (empty)
+gepotidacin_WT: gyrA.A92_WT,parC.D86_WT
 ```
 
 **Interpretation**:
@@ -213,6 +217,8 @@ ciprofloxacin_WT: gyrA.D95_WT,gyrA.S91_WT,parC.D86_WT,parC.E91_WT,parC.S87_WT
 - **Ceftriaxone**: Susceptible (no key *penA* mutations)
 - **Azithromycin**: Susceptible (no key *23S rRNA* or *mtrD* mutations)
 - **Ciprofloxacin**: Susceptible (no key *gyrA* or *parC* mutations)
+- **Spectinomycin**: Resistant (*rpsE* T24P)
+- **Gepotidacin**: Susceptible (neither *gyrA* A92T nor *parC* D86N)
 - **Treatment**: Suitable for ceftriaxone + azithromycin dual therapy
 
 **Example: WHO_Q_SRR27944630 (XDR)**
@@ -223,6 +229,10 @@ azithromycin_NWT: 23S.A2059G[99.9%]
 azithromycin_WT: 23S.C2611_WT,mtrC.WT,mtrD.WT
 ciprofloxacin_NWT: gyrA.D95_A,gyrA.S91F,parC.S87R
 ciprofloxacin_WT: parC.D86_WT,parC.E91_WT
+spectinomycin_NWT: (empty)
+spectinomycin_WT: 16S.C1184_WT,rpsE.T24_WT
+gepotidacin_NWT: (empty)
+gepotidacin_WT: gyrA.A92_WT,parC.D86_WT
 ```
 
 **Interpretation**:
@@ -230,6 +240,8 @@ ciprofloxacin_WT: parC.D86_WT,parC.E91_WT
 - **Ceftriaxone**: Resistant (mosaic *penA* with key resistance mutations)
 - **Azithromycin**: Resistant (23S rRNA mutation at position 2059)
 - **Ciprofloxacin**: Resistant (gyrA mutations at codons 91 and 95)
+- **Spectinomycin**: Susceptible (16S C1184 and *rpsE* T24 both wild-type)
+- **Gepotidacin**: Susceptible (excluded only when *gyrA* A92T **and** *parC* D86N occur together; neither is present)
 - **Treatment**: XDR - requires alternative regimen or investigational drugs
 
 ### Explore WHO_strains_sensitreat.html
@@ -304,7 +316,7 @@ cat alert_output.tsv
 **Expected Output** (if XDR isolates present):
 ```
 Alert  isolate           treatment recommendation
-XDR WHO_Q_SRR27944630   (UND) zoliflodacin
+XDR WHO_Q_SRR27944630   spectinomycin,zoliflodacin,gepotidacin
 ```
 
 **Alert Types**:
@@ -356,11 +368,11 @@ Alert:                   XDR
 
 **Clinical Interpretation**:
 
-- **Regimen**: Spectinomycin monotherapy (only option)
+- **Regimen**: Spectinomycin monotherapy (highest-priority available regimen; zoliflodacin and gepotidacin are also predicted active)
 - **Alert**: XDR isolate - flagged for clinical review
 - **Action Required**:
   1. Confirm infection site (spectinomycin ineffective for pharyngeal)
-  2. Consider investigational drugs (zoliflodacin)
+  2. Consider investigational drugs (zoliflodacin, gepotidacin)
   3. Consult infectious disease specialist
   4. Report to public health authorities
   5. Ensure test of cure after treatment
@@ -387,6 +399,7 @@ Alert:                   XDR
 **Investigational**:
 
 - Zoliflodacin 3 g orally (single dose)
+- Gepotidacin 3 g orally twice (2 doses, 10-12 h apart)
 - Phase 3 trial data: non-inferior to ceftriaxone+azithromycin for urogenital infection
 - Not yet widely available
 

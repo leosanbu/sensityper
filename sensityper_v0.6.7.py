@@ -35,7 +35,8 @@ Important usage note (v0.6.7)
     - ciprofloxacin
     - spectinomycin
     - zoliflodacin
-- Abbreviations (e.g., CRO, AZM, CIP, SPC, ZOL) are no longer accepted in sensitreat_order.
+    - gepotidacin
+- Abbreviations (e.g., CRO, AZM, CIP, SPC, ZOL, GPT) are no longer accepted in sensitreat_order.
 """
 
 import os
@@ -364,7 +365,7 @@ def run_sensitype(parsed_args_or_dict) -> None:
 
         antibiotics = parsed_args_or_dict.get(
             '--sensiscript_antibiotics',
-            'ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,zoliflodacin'
+            'ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,spectinomycin,zoliflodacin,gepotidacin'
         ).split(',')
         sensiscript_outfile = parsed_args_or_dict['--sensiscript_outfile']
     else:
@@ -383,6 +384,10 @@ def run_sensitype(parsed_args_or_dict) -> None:
 
         antibiotics = parsed_args_or_dict.sensiscript_antibiotics.split(',')
         sensiscript_outfile = parsed_args_or_dict.sensiscript_outfile
+
+    # Collapse redundant separators (e.g. "outdir//results.tsv") so written and printed paths match
+    input_AMRtable = os.path.normpath(input_AMRtable)
+    sensiscript_outfile = os.path.normpath(sensiscript_outfile)
 
     # Config printout
     print("\n=== Effective configuration (Sensitype rules) ===")
@@ -436,13 +441,14 @@ def process_output(input_file: str,
           - ciprofloxacin
           - spectinomycin
           - zoliflodacin
+          - gepotidacin
         """
         s = label.strip().lower().replace(' ', '')
         if s in ('ceftriaxone+azithromycin', 'azithromycin+ceftriaxone'):
             return 'ceftriaxone+azithromycin'
         if s in ('azithromycin+spectinomycin', 'spectinomycin+azithromycin'):
             return 'azithromycin+spectinomycin'
-        if s in ('ceftriaxone', 'azithromycin', 'ciprofloxacin', 'spectinomycin', 'zoliflodacin'):
+        if s in ('ceftriaxone', 'azithromycin', 'ciprofloxacin', 'spectinomycin', 'zoliflodacin', 'gepotidacin'):
             return s
         return s
 
@@ -467,6 +473,7 @@ def process_output(input_file: str,
             'ciprofloxacin',
             'spectinomycin',
             'zoliflodacin',
+            'gepotidacin',
             'chosen_regimen'
         ])
         alert_writer.writerow(['Alert'] + headers)
@@ -482,7 +489,8 @@ def process_output(input_file: str,
             'azithromycin+spectinomycin',
             'ciprofloxacin',
             'spectinomycin',
-            'zoliflodacin'
+            'zoliflodacin',
+            'gepotidacin'
         ]
 
         for row in reader:
@@ -541,6 +549,8 @@ def process_output(input_file: str,
                 available_regimens.add('spectinomycin')
             if has('zoliflodacin'):
                 available_regimens.add('zoliflodacin')
+            if has('gepotidacin'):
+                available_regimens.add('gepotidacin')
 
             pick = 'None'
             for opt in canon_order:
@@ -571,6 +581,9 @@ def process_output(input_file: str,
             elif pick == 'zoliflodacin':
                 treatment = 'Zoliflodacin 3 g orally (single dose)'
                 comment = 'Investigational oral option; phase 3 non-inferior to ceftriaxone+azithromycin for uncomplicated urogenital infection'
+            elif pick == 'gepotidacin':
+                treatment = 'Gepotidacin 3 g orally twice (2 doses, 10-12 h apart)'
+                comment = 'Investigational oral option; phase 3 non-inferior to ceftriaxone+azithromycin for uncomplicated urogenital infection'
             else:
                 treatment = 'XDR_isolate — manual follow-up'
                 comment = 'Flag for review'
@@ -583,6 +596,7 @@ def process_output(input_file: str,
                 'ciprofloxacin':           yesno(pick == 'ciprofloxacin'),
                 'spectinomycin':           yesno(pick == 'spectinomycin'),
                 'zoliflodacin':            yesno(pick == 'zoliflodacin'),
+                'gepotidacin':             yesno(pick == 'gepotidacin'),
             }
 
             print("{iso} → ceftriaxone={cro}, azithromycin={azm}, ciprofloxacin={cip}, spectinomycin={spc}  | regimen={pick}".format(
@@ -608,6 +622,7 @@ def process_output(input_file: str,
                 flags['ciprofloxacin'],
                 flags['spectinomycin'],
                 flags['zoliflodacin'],
+                flags['gepotidacin'],
                 pick
             ])
 
@@ -621,16 +636,16 @@ def run_sensitreat(parsed_args_or_dict) -> None:
         input_file = parsed_args_or_dict.get('--input_file') or parsed_args_or_dict.get('--sensiscript_outfile')
         available_antibiotics = parsed_args_or_dict.get(
             '--available_antibiotics',
-            'ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,spectinomycin,zoliflodacin'
+            'ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,spectinomycin,zoliflodacin,gepotidacin'
         ).split(',')
         sensitreat_order = parsed_args_or_dict.get(
             '--sensitreat_order',
-            'ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin,zoliflodacin'
+            'ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin,zoliflodacin,gepotidacin'
         )
         if sensitreat_order:
             sensitreat_order = sensitreat_order.split(',')
         else:
-            sensitreat_order = 'ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin,zoliflodacin'.split(',')
+            sensitreat_order = 'ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin,zoliflodacin,gepotidacin'.split(',')
         alert_output = parsed_args_or_dict.get('--alert_output', 'alert_output.tsv')
         treatment_output = parsed_args_or_dict.get('--treatment_output', 'treatment_output.tsv')
     else:
@@ -642,6 +657,11 @@ def run_sensitreat(parsed_args_or_dict) -> None:
 
     available_antibiotics = [a.strip() for a in available_antibiotics if a.strip()]
     sensitreat_order = [a.strip() for a in sensitreat_order if a.strip()]
+
+    # Collapse redundant separators (e.g. "outdir//treatment.tsv") so written and printed paths match
+    input_file = os.path.normpath(input_file)
+    alert_output = os.path.normpath(alert_output)
+    treatment_output = os.path.normpath(treatment_output)
 
     process_output(input_file, available_antibiotics, sensitreat_order, alert_output, treatment_output)
 
@@ -758,10 +778,10 @@ def main():
     )
     sensitype_parser.add_argument(
         '--sensiscript_antibiotics',
-        default='ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,zoliflodacin',
+        default='ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,spectinomycin,zoliflodacin,gepotidacin',
         help=("Comma-separated antibiotics (evaluation order for rules stage).\n"
               "  e.g., --sensiscript_antibiotics ceftriaxone,ciprofloxacin,azithromycin,spectinomycin\n"
-              "  (default: ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,zoliflodacin)")
+              "  (default: ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,spectinomycin,zoliflodacin,gepotidacin)")
     )
     sensitype_parser.set_defaults(func=run_sensitype)
 
@@ -774,21 +794,21 @@ def main():
     )
     treat_parser.add_argument(
         '--available_antibiotics',
-        default='ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,spectinomycin,zoliflodacin',
+        default='ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,spectinomycin,zoliflodacin,gepotidacin',
         help=("Comma-separated list of available antibiotics in your setting.\n"
               "Used to filter which recommendations can be chosen and to pick recommended_1/2.\n"
               "  e.g., --available_antibiotics ceftriaxone,ciprofloxacin,azithromycin,spectinomycin\n"
-              "  (default: ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,spectinomycin,zoliflodacin)")
+              "  (default: ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,spectinomycin,zoliflodacin,gepotidacin)")
     )
     treat_parser.add_argument(
         '--sensitreat_order',
-        default='ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin,zoliflodacin',
+        default='ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin,zoliflodacin,gepotidacin',
         help=("Priority order for regimen categories (paper categories).\n"
               "Accepts combos and singles (case-insensitive) using full names only, e.g.:\n"
-              "  --sensitreat_order ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin,zoliflodacin\n"
+              "  --sensitreat_order ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin,zoliflodacin,gepotidacin\n"
               "Canonical categories: ceftriaxone+azithromycin, ceftriaxone, azithromycin, azithromycin+spectinomycin,\n"
-              "                     ciprofloxacin, spectinomycin, zoliflodacin\n"
-              "  (default: ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin,zoliflodacin)\n"
+              "                     ciprofloxacin, spectinomycin, zoliflodacin, gepotidacin\n"
+              "  (default: ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin,zoliflodacin,gepotidacin)\n"
               "NOTE: azithromycin monotherapy is supported but NOT in the default order; include 'azithromycin' explicitly to enable it.")
     )
     treat_parser.add_argument(
@@ -818,7 +838,7 @@ def main():
               '--db_path <ARIBA_DB_DIR> '
               '--sensiscript_outfile <RULES_OUTFILE.tsv> '
               '--available_antibiotics ceftriaxone,ciprofloxacin,azithromycin,spectinomycin '
-              '--sensitreat_order ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin,zoliflodacin '
+              '--sensitreat_order ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin,zoliflodacin,gepotidacin '
               '--treatment_output <TREATMENT_OUT.tsv>"')
     )
 

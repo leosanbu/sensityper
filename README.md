@@ -12,7 +12,7 @@ SensiTyper is a genomic antimicrobial susceptibility typing pipeline for *Neisse
 
 ### Key Features
 
-- **Genomic resistance profiling** - Identifies resistance-conferring mutations in 7 antibiotics
+- **Genomic resistance profiling** - Identifies resistance-conferring mutations in 8 antibiotics
 - **Treatment recommendations** - Assigns regimens based on current clinical guidelines
 - **Interactive HTML reports** - Sortable, searchable tables for easy investigation of results
 - **XDR detection** - Flags extensively drug-resistant (XDR) isolates for clinical review
@@ -27,6 +27,7 @@ SensiTyper is a genomic antimicrobial susceptibility typing pipeline for *Neisse
 - **Penicillin** - Historical β-lactam
 - **Tetracycline** - Historical broad-spectrum
 - **Zoliflodacin** - Investigational oral spiropyrimidinetrione
+- **Gepotidacin** - Investigational oral triazaacenaphthylene
 
 ### Pipeline Overview
 
@@ -71,15 +72,23 @@ The table below lists the genetic markers evaluated by the prediction logic for 
 |  | RpsE | T24 | T24P |
 | **Zoliflodacin** | GyrB | D429 | Any |
 |  |  | K450 | Any |
+| **Gepotidacin** | GyrA | A92 | A92T \* |
+|  | ParC | D86 | D86N \* |
+
+\* **Combination rule.** Gepotidacin is excluded only when **both** GyrA A92T *and* ParC D86N are present; either mutation on its own is reported in `gepotidacin_NWT` but does not exclude the drug. Ceftriaxone follows the same pattern: it is excluded by PenA A501P, or by A311 **and** V316 together.
 
 ## Installation
 
 ### Prerequisites
 
-- **Python 3.6+** (no external Python packages required)
+- **Python 3.6+** — the core pipeline (`ariba`, `sensitype` and `sensitreat` modules) requires no external Python packages
 - **[ARIBA](https://github.com/sanger-pathogens/ariba/wiki)** (Antimicrobial Resistance Identification By Assembly)
   ```bash
   conda install -c bioconda ariba
+  ```
+- **Sensityping metrics only** — the companion evaluation script (`sensityping_metrics.py`) additionally requires standard scientific Python:
+  ```bash
+  pip install numpy pandas scikit-learn plotly
   ```
 
 ### Setup
@@ -153,7 +162,7 @@ python sensityper_v0.6.7.py sensitype \
 - `--sensiscript_outfile` - Output TSV file path (default: `sensiscript_results.tsv`)
 - `--sensiscript_db` - Path to sensitype main database of genetic AMR determinants (default: `resources/sensitype.db`)
 - `--sensiscript_pena` - Path to a database of penA mosaics (default: `resources/sensitype.penA.db`)
-- `--sensiscript_antibiotics` - Comma-separated antibiotic list (default: ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,zoliflodacin)
+- `--sensiscript_antibiotics` - Comma-separated antibiotic list (default: ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,spectinomycin,zoliflodacin,gepotidacin)
 
 **Outputs**:
 - `sensiscript_results.tsv` - Resistance mechanisms per isolate
@@ -175,8 +184,8 @@ python sensityper_v0.6.7.py sensitreat \
 
 **Arguments**:
 - `--input_file` - Input resistance TSV from sensitype (required)
-- `--available_antibiotics` - Comma-separated list of antibiotics available in a specific setting (default: ceftriaxone,azithromycin,ciprofloxacin,spectinomycin,zoliflodacin)
-- `--sensitreat_order` - Regimen priority order (default: ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin,zoliflodacin). **Important:** azithromycin monotherapy is supported but NOT in the default order; include 'azithromycin' explicitly to enable it
+- `--available_antibiotics` - Comma-separated list of antibiotics available in a specific setting (default: ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,spectinomycin,zoliflodacin,gepotidacin)
+- `--sensitreat_order` - Regimen priority order (default: ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin,zoliflodacin,gepotidacin). **Important:** azithromycin monotherapy is supported but NOT in the default order; include 'azithromycin' explicitly to enable it
 - `--alert_output` - Output TSV for isolates tagged as a clinical alert (default `alert_output.tsv`)
 - `--treatment_output` - Output treatment TSV path (default: `treatment_output.tsv`)
 
@@ -293,11 +302,11 @@ Tab-separated file with columns:
 
 **Example**:
 
-| isolate | treatment recommendation | ceftriaxone_NWT | ceftriaxone_WT | azithromycin_NWT | azithromycin_WT | ciprofloxacin_NWT | ciprofloxacin_WT | tetracycline_NWT | tetracycline_WT | penicillin_NWT | penicillin_WT | zoliflodacin_NWT | zoliflodacin_WT |
-|---------|-------------------------|-----------------|----------------|------------------|-----------------|-------------------|------------------|------------------|-----------------|----------------|---------------|------------------|-----------------|
-| WHO_A | ceftriaxone,<br>azithromycin,<br>ciprofloxacin,<br>tetracycline,<br>penicillin,<br>zoliflodacin | | penA.A311_WT<br>penA.A501_WT<br>penA.V316_WT | | 23S.A2059_WT<br>23S.C2611_WT<br>mtrC.WT<br>mtrD.WT | | gyrA.D95_WT<br>gyrA.S91_WT<br>parC.D86_WT<br>parC.E91_WT<br>parC.S87_WT | | rpsJ.V57_WT<br>tetM.not_present | | blaTEM.not_present<br>penA.insD345_WT<br>ponA.L421_WT | | gyrB.D429_WT<br>gyrB.K450_WT |
-| WHO_Q | (UND) zoliflodacin | penA.60.001<br>penA.A311V<br>penA.V316T | penA.A501_WT | 23S.A2059G[99.9%] | 23S.C2611_WT<br>mtrC.WT<br>mtrD.WT | gyrA.D95_A<br>gyrA.S91F<br>parC.S87R | parC.D86_WT<br>parC.E91_WT | rpsJ.V57M<br>tetM | | penA.60.001<br>ponA.L421P | blaTEM.not_present<br>penA.insD345_WT | | gyrB.D429_WT<br>gyrB.K450_WT |
-| WHO_Z | azithromycin,<br>zoliflodacin | penA.64.001<br>penA.A311V<br>penA.V316T | penA.A501_WT | | 23S.A2059_WT<br>23S.C2611_WT<br>mtrC.WT<br>mtrD.WT | gyrA.D95N<br>gyrA.S91F<br>parC.S87R | parC.D86_WT<br>parC.E91_WT | rpsJ.V57M | tetM.not_present | penA.64.001<br>ponA.L421P | blaTEM.not_present<br>penA.insD345_WT | | gyrB.D429_WT<br>gyrB.K450_WT |
+| isolate | treatment recommendation | ceftriaxone_NWT | ceftriaxone_WT | azithromycin_NWT | azithromycin_WT | ciprofloxacin_NWT | ciprofloxacin_WT | tetracycline_NWT | tetracycline_WT | penicillin_NWT | penicillin_WT | spectinomycin_NWT | spectinomycin_WT | zoliflodacin_NWT | zoliflodacin_WT | gepotidacin_NWT | gepotidacin_WT |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| WHO_A | ceftriaxone,<br>azithromycin,<br>ciprofloxacin,<br>tetracycline,<br>penicillin,<br>zoliflodacin,<br>gepotidacin |  | penA.A311_WT<br>penA.A501_WT<br>penA.V316_WT |  | 23S.A2059_WT<br>23S.C2611_WT<br>mtrC.WT<br>mtrD.WT |  | gyrA.D95_WT<br>gyrA.S91_WT<br>parC.D86_WT<br>parC.E91_WT<br>parC.S87_WT |  | rpsJ.V57_WT<br>tetM.not_present |  | blaTEM.not_present<br>penA.insD345_WT<br>ponA.L421_WT | rpsE.T24P | 16S.C1184_WT |  | gyrB.D429_WT<br>gyrB.K450_WT |  | gyrA.A92_WT<br>parC.D86_WT |
+| WHO_Q | spectinomycin,<br>zoliflodacin,<br>gepotidacin | penA.60.001<br>penA.A311V<br>penA.V316T | penA.A501_WT | 23S.A2059G[99.9%] | 23S.C2611_WT<br>mtrC.WT<br>mtrD.WT | gyrA.D95_A<br>gyrA.S91F<br>parC.S87R | parC.D86_WT<br>parC.E91_WT | rpsJ.V57M<br>tetM |  | penA.60.001<br>ponA.L421P | blaTEM.not_present<br>penA.insD345_WT |  | 16S.C1184_WT<br>rpsE.T24_WT |  | gyrB.D429_WT<br>gyrB.K450_WT |  | gyrA.A92_WT<br>parC.D86_WT |
+| WHO_Z | azithromycin,<br>spectinomycin,<br>zoliflodacin,<br>gepotidacin | penA.64.001<br>penA.A311V<br>penA.V316T | penA.A501_WT |  | 23S.A2059_WT<br>23S.C2611_WT<br>mtrC.WT<br>mtrD.WT | gyrA.D95N<br>gyrA.S91F<br>parC.S87R | parC.D86_WT<br>parC.E91_WT | rpsJ.V57M | tetM.not_present | penA.64.001<br>ponA.L421P | blaTEM.not_present<br>penA.insD345_WT |  | 16S.C1184_WT<br>rpsE.T24_WT |  | gyrB.D429_WT<br>gyrB.K450_WT |  | gyrA.A92_WT<br>parC.D86_WT |
 
 ### Treatment Output TSV (`treatment_output.tsv`)
 
@@ -309,11 +318,11 @@ Tab-separated file with columns:
 
 **Example**:
 
-| isolate | recommended_1 | recommended_2 | Predicted Profile | Recommended Treatment | Comment | ceftriaxone+<br>azithromycin | ceftriaxone | azithromycin | azithromycin+<br>spectinomycin | ciprofloxacin | spectinomycin | zoliflodacin | chosen_regimen |
-|---------|---------------|---------------|-------------------|----------------------|---------|------------------------------|-------------|--------------|--------------------------------|---------------|---------------|--------------|----------------|
-| WHO_A | ceftriaxone | azithromycin | ceftriaxone=YES,<br>azithromycin=YES,<br>ciprofloxacin=YES | Ceftriaxone 1 g IM +<br>Azithromycin 2 g orally | Acceptable combination therapy<br>(RECOMMENDATION 2) | YES | NO | NO | NO | NO | NO | NO | ceftriaxone+<br>azithromycin |
-| WHO_Q | None | None | ceftriaxone=NO,<br>azithromycin=NO,<br>ciprofloxacin=NO | XDR_isolate —<br>manual follow-up | Flag for review | NO | NO | NO | NO | NO | NO | NO | None |
-| WHO_Z | azithromycin | zoliflodacin | ceftriaxone=NO,<br>azithromycin=YES,<br>ciprofloxacin=NO | Zoliflodacin 3 g orally<br>(single dose) | Investigational oral option;<br>phase 3 non-inferior to<br>ceftriaxone+azithromycin for<br>uncomplicated urogenital infection | NO | NO | NO | NO | NO | NO | YES | zoliflodacin |
+| isolate | recommended_1 | recommended_2 | Predicted Profile | Recommended Treatment | Comment | ceftriaxone+azithromycin | ceftriaxone | azithromycin | azithromycin+spectinomycin | ciprofloxacin | spectinomycin | zoliflodacin | gepotidacin | chosen_regimen |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| WHO_A | ceftriaxone | azithromycin | ceftriaxone=YES,<br>azithromycin=YES,<br>ciprofloxacin=YES,<br>spectinomycin=NO | Ceftriaxone 1 g IM + Azithromycin 2 g orally | Acceptable combination therapy (RECOMMENDATION 2) | YES | NO | NO | NO | NO | NO | NO | NO | ceftriaxone+azithromycin |
+| WHO_Q | spectinomycin | zoliflodacin | ceftriaxone=NO,<br>azithromycin=NO,<br>ciprofloxacin=NO,<br>spectinomycin=YES | Spectinomycin 2 g IM | Lower cure rates in oropharyngeal infection; avoid for pharyngeal disease when possible (RECOMMENDATION 1) | NO | NO | NO | NO | NO | YES | NO | NO | spectinomycin |
+| WHO_Z | azithromycin | spectinomycin | ceftriaxone=NO,<br>azithromycin=YES,<br>ciprofloxacin=NO,<br>spectinomycin=YES | Spectinomycin 2 g IM + Azithromycin 2 g orally | Alternative regimen (RECOMMENDATION 3) | NO | NO | NO | YES | NO | NO | NO | NO | azithromycin+spectinomycin |
 
 ### Alert Output TSV
 
@@ -361,6 +370,7 @@ When running `sensityper sensitreat` or the `pipeline` mode including `sensitrea
 
 **Investigational**:
 - Zoliflodacin 3 g orally (single dose)
+- Gepotidacin 3 g orally twice (2 doses, 10-12 h apart)
 - Phase 3 trial data shows non-inferiority for urogenital infection
 
 ### Important Limitations

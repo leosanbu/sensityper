@@ -21,7 +21,7 @@ arg = parser.parse_args()
 def get_arguments(arg):
 	args = {
 		'intable': arg.input_AMRtable if arg.input_AMRtable else False,
-		'antibiotics': arg.antibiotics.rstrip().split(',') if arg.antibiotics else ['ceftriaxone','azithromycin','ciprofloxacin','tetracycline','penicillin', 'spectinomycin', 'zoliflodacin'],
+		'antibiotics': arg.antibiotics.rstrip().split(',') if arg.antibiotics else ['ceftriaxone','azithromycin','ciprofloxacin','tetracycline','penicillin', 'spectinomycin', 'zoliflodacin', 'gepotidacin'],
 		'database': arg.database if arg.database else 'sensitype.db',
 		'pena': arg.pena if arg.pena else 'sensitype.penA.db',
 		'outfile': arg.outfile if arg.outfile else False,
@@ -145,17 +145,25 @@ def cro_treatment(line_results, amrdict, abxdict, mutnamedb, antibiotic):
 	filtered_wt = exclude_mutated_codon(wt, mech)
 	return [rec_treat, mech, set(filtered_wt)]
 
-def cip_tet_spt_zol_treatment(line_results, amrdict, abxdict, mutnamedb, antibiotic):
+def cip_tet_spt_zol_gpt_treatment(line_results, amrdict, abxdict, mutnamedb, antibiotic):
 	rec_treat = True
 	mech = []
 	wt = []
 	target_sites = abxdict[antibiotic]
+	check_gyrA92T = 0
+	check_parC86N = 0
 	for site in target_sites:
 		for det in amrdict[site]:
 			if mutnamedb[det] in line_results:
 				if 'yes' in line_results[mutnamedb[det]]:
 					mech.append(mutnamedb[det])
-					rec_treat = False
+					if antibiotic == 'gepotidacin': # Only DO NOT recommend when: gyrA.A92T+parC.D86N
+						if mutnamedb[det] == 'gyrA.A92T':
+							check_gyrA92T = 1
+						elif mutnamedb[det] == 'parC.D86N':
+							check_parC86N = 1
+					else:
+						rec_treat = False
 				else:
 					if 'no' in line_results[mutnamedb[det]]:
 						if '16S.' in site:
@@ -168,6 +176,8 @@ def cip_tet_spt_zol_treatment(line_results, amrdict, abxdict, mutnamedb, antibio
 			else:
 				if site in line_results: #e.g. when no particular mutations for gyrB.D429 or gyrB.K450
 					wt.append(site+'_WT')
+	if check_gyrA92T == 1 and check_parC86N == 1:
+		rec_treat = False
 	novel_mech = include_novel_mutations(line_results, abxdict, antibiotic)
 	if len(novel_mech)>0:
 		for n in novel_mech:
@@ -274,7 +284,7 @@ def check_treatment(antibiotics, amrdict, recommended_treatment, found_mechanism
 			found_mechanisms[i] = cro_check[1]
 			wildtype_alleles[i] = cro_check[2]
 		elif i == 'ciprofloxacin':
-			cip_check = cip_tet_spt_zol_treatment(line_results, amrdict, abxdict, mutnamedb, antibiotic="ciprofloxacin")
+			cip_check = cip_tet_spt_zol_gpt_treatment(line_results, amrdict, abxdict, mutnamedb, antibiotic="ciprofloxacin")
 			recommended_treatment[i] = cip_check[0]
 			found_mechanisms[i] = cip_check[1]
 			wildtype_alleles[i] = cip_check[2]
@@ -284,7 +294,7 @@ def check_treatment(antibiotics, amrdict, recommended_treatment, found_mechanism
 			found_mechanisms[i] = azm_check[1]
 			wildtype_alleles[i] = azm_check[2]
 		elif i == 'tetracycline':
-			tet_check = cip_tet_spt_zol_treatment(line_results, amrdict, abxdict, mutnamedb, antibiotic="tetracycline")
+			tet_check = cip_tet_spt_zol_gpt_treatment(line_results, amrdict, abxdict, mutnamedb, antibiotic="tetracycline")
 			recommended_treatment[i] = tet_check[0]
 			found_mechanisms[i] = tet_check[1]
 			wildtype_alleles[i] = tet_check[2]
@@ -294,15 +304,20 @@ def check_treatment(antibiotics, amrdict, recommended_treatment, found_mechanism
 			found_mechanisms[i] = pen_check[1]
 			wildtype_alleles[i] = pen_check[2]
 		elif i == 'spectinomycin':
-			spt_check = cip_tet_spt_zol_treatment(line_results, amrdict, abxdict, mutnamedb, antibiotic="spectinomycin")
+			spt_check = cip_tet_spt_zol_gpt_treatment(line_results, amrdict, abxdict, mutnamedb, antibiotic="spectinomycin")
 			recommended_treatment[i] = spt_check[0]
 			found_mechanisms[i] = spt_check[1]
 			wildtype_alleles[i] = spt_check[2]
 		elif i == 'zoliflodacin':
-			zol_check = cip_tet_spt_zol_treatment(line_results, amrdict, abxdict, mutnamedb, antibiotic="zoliflodacin")
+			zol_check = cip_tet_spt_zol_gpt_treatment(line_results, amrdict, abxdict, mutnamedb, antibiotic="zoliflodacin")
 			recommended_treatment[i] = zol_check[0]
 			found_mechanisms[i] = zol_check[1]
 			wildtype_alleles[i] = zol_check[2]
+		elif i == 'gepotidacin':
+			gpt_check = cip_tet_spt_zol_gpt_treatment(line_results, amrdict, abxdict, mutnamedb, antibiotic="gepotidacin")
+			recommended_treatment[i] = gpt_check[0]
+			found_mechanisms[i] = gpt_check[1]
+			wildtype_alleles[i] = gpt_check[2]
 	return [recommended_treatment, found_mechanisms, wildtype_alleles]
 
 def call_wildtype(isolate, line_results, selected_determinants):
