@@ -26,8 +26,8 @@ SensiTyper is a genomic antimicrobial susceptibility typing pipeline for *Neisse
 - **Spectinomycin** - Alternative injectable (limited pharyngeal efficacy)
 - **Penicillin** - Historical β-lactam
 - **Tetracycline** - Historical broad-spectrum
-- **Zoliflodacin** - Investigational oral spiropyrimidinetrione
-- **Gepotidacin** - Investigational oral triazaacenaphthylene
+- **Zoliflodacin** - Oral spiropyrimidinetrione
+- **Gepotidacin** - Oral triazaacenaphthylene
 
 ### Pipeline Overview
 
@@ -114,7 +114,7 @@ The table below lists the genetic markers evaluated by the prediction logic for 
    export SENSITYPE_PENA_DB=/path/to/sensitype.penA.db
    export SENSITYPE_ARIBA_DB=/path/to/ariba_db
    export SENSITYPE_ARIBA_BATCH=/path/to/ariba_batch.py
-   export SENSITYPE_RULES_PATH=/path/to/sensiscript_v2.6.py
+   export SENSITYPE_RULES_PATH=/path/to/sensiscript.py
    ```
 
    If not set, the scripts will automatically look in the structure of directories available in the repository. 
@@ -126,7 +126,7 @@ The table below lists the genetic markers evaluated by the prediction logic for 
 Run ARIBA in batch mode on FASTQ directories.
 
 ```bash
-python sensityper_v0.6.7.py ariba \
+python sensityper.py ariba \
     --input_dirs /data/run1,/data/run2 \
     --output_dir ariba_results \
     --db_path /path/to/ariba_db \
@@ -149,7 +149,7 @@ python sensityper_v0.6.7.py ariba \
 Generate resistance profiles from ARIBA output.
 
 ```bash
-python sensityper_v0.6.7.py sensitype \
+python sensityper.py sensitype \
     --input_AMRtable ariba_summary.csv \
     --sensiscript_outfile sensiscript_results.tsv \
     --sensiscript_db resources/sensitype.db \
@@ -173,7 +173,7 @@ python sensityper_v0.6.7.py sensitype \
 Assign treatment recommendations from resistance profiles.
 
 ```bash
-python sensityper_v0.6.7.py sensitreat \
+python sensityper.py sensitreat \
     --input_file resistance_profiles.tsv \
     --available_antibiotics ceftriaxone,azithromycin,ciprofloxacin,spectinomycin \
     --sensitreat_order ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin \
@@ -202,7 +202,7 @@ python sensityper_v0.6.7.py sensitreat \
 Chain multiple modules together in a single command.
 
 ```bash
-python sensityper_v0.6.7.py pipeline \
+python sensityper.py pipeline \
     --modules sensitype,sensitreat \
     --other_arguments '--input_AMRtable ariba_summary.csv --sensiscript_outfile sensiscript_results.tsv'
 ```
@@ -216,7 +216,7 @@ python sensityper_v0.6.7.py pipeline \
 Standardize FASTQ file naming across directories.
 
 ```bash
-python sensityper_v0.6.7.py rename \
+python sensityper.py rename \
     --directories /data/run1,/data/run2 \
     --pre
 ```
@@ -228,7 +228,7 @@ python sensityper_v0.6.7.py rename \
 ### Complete Pipeline (FASTQ → Treatment Recommendations)
 
 ```bash
-python sensityper_v0.6.7.py pipeline \
+python sensityper.py pipeline \
     --modules ariba,sensitype,sensitreat \
     --other_arguments '--input_dirs /data/fastqs \
                        --output_dir ariba_outputdir \
@@ -312,17 +312,17 @@ Tab-separated file with columns:
 
 Tab-separated file with columns:
 - `isolate` - Sample identifier
-- `Predicted Profile` - Susceptibility summary (e.g., "ceftriaxone=YES, azithromycin=YES")
+- `Predicted Profile` - Susceptibility summary, one entry per antibiotic evaluated by `sensitype` (e.g., "ceftriaxone=YES, azithromycin=YES, ...")
 - `Recommended Treatment` - Full regimen with dosing (e.g., "Ceftriaxone 1 g IM + Azithromycin 2 g orally")
-- `Comment` - Clinical guidance (RECOMMENDATION 1/2/3, warnings)
+- `Comment` - Clinical guidance and warnings
 
 **Example**:
 
 | isolate | recommended_1 | recommended_2 | Predicted Profile | Recommended Treatment | Comment | ceftriaxone+azithromycin | ceftriaxone | azithromycin | azithromycin+spectinomycin | ciprofloxacin | spectinomycin | zoliflodacin | gepotidacin | chosen_regimen |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| WHO_A | ceftriaxone | azithromycin | ceftriaxone=YES,<br>azithromycin=YES,<br>ciprofloxacin=YES,<br>spectinomycin=NO | Ceftriaxone 1 g IM + Azithromycin 2 g orally | Acceptable combination therapy (RECOMMENDATION 2) | YES | NO | NO | NO | NO | NO | NO | NO | ceftriaxone+azithromycin |
-| WHO_Q | spectinomycin | zoliflodacin | ceftriaxone=NO,<br>azithromycin=NO,<br>ciprofloxacin=NO,<br>spectinomycin=YES | Spectinomycin 2 g IM | Lower cure rates in oropharyngeal infection; avoid for pharyngeal disease when possible (RECOMMENDATION 1) | NO | NO | NO | NO | NO | YES | NO | NO | spectinomycin |
-| WHO_Z | azithromycin | spectinomycin | ceftriaxone=NO,<br>azithromycin=YES,<br>ciprofloxacin=NO,<br>spectinomycin=YES | Spectinomycin 2 g IM + Azithromycin 2 g orally | Alternative regimen (RECOMMENDATION 3) | NO | NO | NO | YES | NO | NO | NO | NO | azithromycin+spectinomycin |
+| WHO_A | ceftriaxone | azithromycin | ceftriaxone=YES,<br>azithromycin=YES,<br>ciprofloxacin=YES,<br>tetracycline=YES,<br>penicillin=YES,<br>spectinomycin=NO,<br>zoliflodacin=YES,<br>gepotidacin=YES | Ceftriaxone 1 g IM + Azithromycin 2 g orally | Acceptable combination therapy | YES | NO | NO | NO | NO | NO | NO | NO | ceftriaxone+azithromycin |
+| WHO_Q | spectinomycin | zoliflodacin | ceftriaxone=NO,<br>azithromycin=NO,<br>ciprofloxacin=NO,<br>tetracycline=NO,<br>penicillin=NO,<br>spectinomycin=YES,<br>zoliflodacin=YES,<br>gepotidacin=YES | Spectinomycin 2 g IM | Lower cure rates in oropharyngeal infection; avoid as monotherapy for oropharyngeal infection when possible | NO | NO | NO | NO | NO | YES | NO | NO | spectinomycin |
+| WHO_Z | azithromycin | spectinomycin | ceftriaxone=NO,<br>azithromycin=YES,<br>ciprofloxacin=NO,<br>tetracycline=NO,<br>penicillin=NO,<br>spectinomycin=YES,<br>zoliflodacin=YES,<br>gepotidacin=YES | Spectinomycin 2 g IM + Azithromycin 2 g orally | Alternative regimen | NO | NO | NO | YES | NO | NO | NO | NO | azithromycin+spectinomycin |
 
 ### Alert Output TSV
 
@@ -336,6 +336,7 @@ When running the `sensiscript` alone or `sensityper sensitype` module, results w
 
 When running `sensityper sensitreat` or the `pipeline` mode including `sensitreat`, a combined HTML report will be produced showing the results of both `sensitype` and `sensitreat` as two tabs:
 
+- **Report header** - Isolate count and the list of antibiotics available for treatment in this setting, as given to `--available_antibiotics`
 - **Alert Banner** - Clinical warnings
 - **Tab 1: Treatment Recommendations** (direct output from the `sensitreat` module with recommended treatment regimes)
 - **Tab 2: Resistance Profile** (outut from the `sensitype` module with detailed resistance and wildtype determinants
@@ -355,23 +356,23 @@ When running `sensityper sensitreat` or the `pipeline` mode including `sensitrea
 
 ### Treatment Recommendation Categories
 
-**RECOMMENDATION 1** - Guideline-based monotherapy:
+**Guideline-recommended monotherapy**:
 - Ceftriaxone 1 g IM
 - Used when azithromycin resistance detected
 
-**RECOMMENDATION 2** - Acceptable combination therapy:
+**Acceptable combination therapy**:
 - Ceftriaxone 1 g IM + Azithromycin 2 g orally
 - Preferred dual therapy for uncomplicated gonorrhea
 
-**RECOMMENDATION 3** - Alternative regimen:
+**Alternative regimen**:
 - Spectinomycin 2 g IM + Azithromycin 2 g orally
 - Used when ceftriaxone resistance detected
 - **Note**: Lower cure rates for pharyngeal infections
 
-**Investigational**:
+**Newer oral options**:
 - Zoliflodacin 3 g orally (single dose)
 - Gepotidacin 3 g orally twice (2 doses, 10-12 h apart)
-- Phase 3 trial data shows non-inferiority for urogenital infection
+- US FDA-approved for uncomplicated urogenital infection; lower cure rates in oropharyngeal infection
 
 ### Important Limitations
 

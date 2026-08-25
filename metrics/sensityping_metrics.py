@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-sensityping_metrics_v2.0.py
+sensityping_metrics.py
 
 Metrics for antibiotic predictions and first-line recommendations
 (supports provided combo columns like CRO+AZM).
@@ -48,14 +48,14 @@ EXAMPLE COMMANDS
 ================================================================================
 
 1) Per-antibiotic predictions vs treatment (no combos here) + CIs + SSD:
-   python sensityping_metrics_v2.0.py -i results.tsv -o out.txt -d ./out \
+   python sensityping_metrics.py -i results.tsv -o out.txt -d ./out \
       --analysis_type predicted_vs_treatment \
       --ci_flag --ci_method hybrid --ci_level 0.95 --n_boot 2000 --seed 1 \
       --ssd_flag --ssd_width 0.05 --ssd_mode conservative \
       --radar_flag --radar_metrics PPV,one_minus_FDR,coverage_fraction
 
 2) First-line (rule-based) vs treatment with order including a combo token present in the table:
-   python sensityping_metrics_v2.0.py -i treatment_output.tsv -o firstline_metrics.txt -d ./out \
+   python sensityping_metrics.py -i treatment_output.tsv -o firstline_metrics.txt -d ./out \
       --analysis_type first_line_vs_treatment \
       --order CIP,CRO+AZM,CRO,SPC \
       --ci_flag --ci_method hybrid \
@@ -671,7 +671,7 @@ def main(input_file, output_file, output_dir, analysis_type, order,
     metrics_dict = {}
 
     with open(output_file, 'w') as f_out:
-        f_out.write("# sensityping_metrics_v2.0\n")
+        f_out.write("# sensityping_metrics\n")
         f_out.write("# version: %s\n" % __version__)
         if ci_flag:
             f_out.write("# CI enabled: method=%s, level=%s, n_boot=%s, seed=%s\n" % (ci_method, ci_level, n_boot, seed))
@@ -804,14 +804,14 @@ if __name__ == "__main__":
 Examples
 --------
 1) Per-antibiotic predictions vs treatment (no combos here) + CIs + SSD:
-   python sensityping_metrics_v2.0.py -i results.tsv -o out.txt -d ./out \\
+   python sensityping_metrics.py -i results.tsv -o out.txt -d ./out \\
       --analysis_type predicted_vs_treatment \\
       --ci_flag --ci_method hybrid --ci_level 0.95 --n_boot 2000 --seed 1 \\
       --ssd_flag --ssd_width 0.05 --ssd_mode conservative \\
       --radar_flag --radar_metrics PPV,one_minus_FDR,coverage_fraction
 
 2) First-line (rule-based) vs treatment with order including a combo token present in the table:
-   python sensityping_metrics_v2.0.py -i treatment_output.tsv -o firstline_metrics.txt -d ./out \\
+   python sensityping_metrics.py -i treatment_output.tsv -o firstline_metrics.txt -d ./out \\
       --analysis_type first_line_vs_treatment \\
       --order CIP,CRO+AZM,CRO,SPC \\
       --ci_flag --ci_method hybrid \\
@@ -913,7 +913,7 @@ Notes
     args = parser.parse_args()
 
     if args.version:
-        print("sensityping_metrics_v2.0.py version %s" % __version__)
+        print("sensityping_metrics.py version %s" % __version__)
         raise SystemExit(0)
 
     # Enforce required args only when actually running analysis

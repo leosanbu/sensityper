@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-Sensitype (CLI orchestrator) — v0.6.7-py36
+Sensitype (CLI orchestrator) — v1.0.0
 
 What this does
 --------------
 - Runs ARIBA in batch over input directories (with a retry loop per sample)
-- Runs the Sensitype rules script (formerly sensiscript_v2.5.py) to generate per-antibiotic predictions
+- Runs the Sensitype rules script (sensiscript.py) to generate per-antibiotic predictions
 - Runs Sensitreat (this file) to select recommended_1, recommended_2 (no "second-line" wording)
 - Provides a 'pipeline' mode to chain modules
 - Regimen-category flags are written to treatment_output.tsv.
@@ -24,9 +24,19 @@ Breaking changes vs earlier internal versions
                    azithromycin monotherapy regimen category (only selectable if explicitly
                    included in --sensitreat_order). Antibiotic abbreviations removed from CLI
                    help/examples and output headers now use full regimen labels.
+- v1.0.0:          Added gepotidacin (excluded only by gyrA A92T + parC D86N together),
+                   which adds gepotidacin_NWT/_WT to the rules output and a gepotidacin
+                   column to treatment_output.tsv. Fixed the sensitype default antibiotic
+                   list omitting spectinomycin, which made the azithromycin+spectinomycin
+                   regimen unreachable in a default pipeline run; this changes recommended
+                   regimens for isolates that are spectinomycin-susceptible. Scripts renamed
+                   to sensityper.py / sensiscript.py (version now only in __version__).
+                   Sensitreat comment strings reworded and the "RECOMMENDATION 1/2/3"
+                   labels introduced in v0.6.7 removed, so the Comment column text differs
+                   from earlier releases.
 
-Important usage note (v0.6.7)
------------------------------
+Important usage note
+--------------------
 - Regimen categories in --sensitreat_order MUST be written using full names:
     - ceftriaxone+azithromycin
     - ceftriaxone
@@ -47,7 +57,7 @@ import sys
 from pathlib import Path
 from typing import Optional  # 3.6+ compatible unions
 
-__version__ = "0.6.7-py36"
+__version__ = "1.0.0"
 
 # -------------------------------------------------------------------
 # Path resolution helpers: CLI > ENV > script-dir fallback
@@ -108,7 +118,7 @@ def config_print(label: str, value: Optional[str]):
 # -------------------------------------------------------------------
 # We keep helper scripts next to this file; databases in resources/
 DEFAULT_ARIBA_BATCH = SCRIPT_DIR / "ariba_batch_v0.2.py"
-DEFAULT_RULES_PATH  = SCRIPT_DIR / "sensiscript_v2.6.py"
+DEFAULT_RULES_PATH  = SCRIPT_DIR / "sensiscript.py"
 DEFAULT_DB_MAIN     = SCRIPT_DIR / "resources" / "sensitype.db"
 DEFAULT_DB_PENA     = SCRIPT_DIR / "resources" / "sensitype.penA.db"
 DEFAULT_ARIBA_DB    = SCRIPT_DIR / "resources" / "ariba_db"   # put your bundled ARIBA DB here
@@ -324,7 +334,7 @@ def run_sensiscript(input_AMRtable: str,
                     outfile: str,
                     suppress_html: bool = False) -> None:
     """
-    Calls the rules script (default: sensiscript_v2.5.py) to generate per-antibiotic predictions.
+    Calls the rules script (default: sensiscript.py) to generate per-antibiotic predictions.
     DB names default to sensitype.db / sensitype.penA.db per v0.6.0 migration.
     """
     cmd = [
@@ -431,7 +441,7 @@ def process_output(input_file: str,
 
     def canon_regimen(label: str) -> str:
         """
-        Canonicalise regimen-category labels (v0.6.7: full names only).
+        Canonicalise regimen-category labels (full names only).
 
         Accepted examples:
           - ceftriaxone+azithromycin
@@ -459,6 +469,15 @@ def process_output(input_file: str,
         reader = csv.DictReader(infile, delimiter='\t')
         headers = reader.fieldnames or []
         print("\nColumn headers in input file:\n{h}\n".format(h=headers))
+
+        # Antibiotics the sensitype stage actually evaluated, taken from its <abx>_NWT columns
+        # in the order they appear, so the Predicted Profile follows whatever was typed.
+        profile_antibiotics = []
+        for h in headers:
+            if h.endswith('_NWT'):
+                abx = h[:-len('_NWT')]
+                if abx and abx not in profile_antibiotics:
+                    profile_antibiotics.append(abx)
 
         alert_writer = csv.writer(alert_file, delimiter='\t')
         treated_writer = csv.writer(treated_file, delimiter='\t')
@@ -521,15 +540,19 @@ def process_output(input_file: str,
             azithromycin_call = get_pred('azithromycin', recommended_antibiotics)#row, 'azithromycin_NWT')#, 'AZM_predicted', 'azithromycin_predicted')
             ciprofloxacin_call = get_pred('ciprofloxacin', recommended_antibiotics)#row, 'ciprofloxacin_NWT')#, 'CIP_predicted', 'ciprofloxacin_predicted')
             spectinomycin_call = get_pred('spectinomycin', recommended_antibiotics)#row, 'spectinomycin_NWT')#, 'SPC_predicted', 'spectinomycin_predicted')
-            zoliflodacin_call = get_pred('zoliflodacin', recommended_antibiotics)#row, 'zoliflodacin_NWT')#, 'ZOL_predicted', 'zoliflodacin_predicted')
 
-            profile = "ceftriaxone={c}, azithromycin={a}, ciprofloxacin={i}".format(
-                c=ceftriaxone_call.upper(),
-                a=azithromycin_call.upper(),
-                i=ciprofloxacin_call.upper()
-            )
-            if any(h.lower().startswith('spectinomycin') or h.lower().startswith('spc') for h in headers):
-                profile += ", spectinomycin={s}".format(s=spectinomycin_call.upper())
+            # One entry per antibiotic sensitype evaluated (zoliflodacin and gepotidacin included)
+            if profile_antibiotics:
+                profile = ", ".join(
+                    "{a}={v}".format(a=abx, v=get_pred(abx, recommended_antibiotics).upper())
+                    for abx in profile_antibiotics
+                )
+            else:  # input without <abx>_NWT columns: keep the previous fixed set
+                profile = "ceftriaxone={c}, azithromycin={a}, ciprofloxacin={i}".format(
+                    c=ceftriaxone_call.upper(),
+                    a=azithromycin_call.upper(),
+                    i=ciprofloxacin_call.upper()
+                )
 
             def has(drug: str) -> bool:
                 return drug.lower() in rec_avail_set
@@ -562,31 +585,31 @@ def process_output(input_file: str,
             comment = ''
             if pick == 'ceftriaxone+azithromycin':
                 treatment = 'Ceftriaxone 1 g IM + Azithromycin 2 g orally'
-                comment = 'Acceptable combination therapy (RECOMMENDATION 2)'
+                comment = 'Acceptable combination therapy'
             elif pick == 'ceftriaxone':
                 treatment = 'Ceftriaxone 1 g IM'
-                comment = 'Guideline-based monotherapy (RECOMMENDATION 1)'
+                comment = 'Guideline-recommended monotherapy'
             elif pick == 'azithromycin+spectinomycin':
                 treatment = 'Spectinomycin 2 g IM + Azithromycin 2 g orally'
-                comment = 'Alternative regimen (RECOMMENDATION 3)'
+                comment = 'Alternative regimen'
             elif pick == 'azithromycin':
                 treatment = 'Azithromycin 2 g orally (single dose)'
                 comment = 'Avoid monotherapy due to rapid macrolide resistance selection'
             elif pick == 'ciprofloxacin':
                 treatment = 'Ciprofloxacin 500 mg orally'
-                comment = 'Use only when susceptibility confirmed (e.g., gyrA S91 wild-type)'
+                comment = 'Use only when susceptibility confirmed (e.g., GyrA S91 wild-type)'
             elif pick == 'spectinomycin':
                 treatment = 'Spectinomycin 2 g IM'
-                comment = 'Lower cure rates in oropharyngeal infection; avoid for pharyngeal disease when possible (RECOMMENDATION 1)'
+                comment = 'Lower cure rates in oropharyngeal infection; avoid as monotherapy for oropharyngeal infection when possible'
             elif pick == 'zoliflodacin':
                 treatment = 'Zoliflodacin 3 g orally (single dose)'
-                comment = 'Investigational oral option; phase 3 non-inferior to ceftriaxone+azithromycin for uncomplicated urogenital infection'
+                comment = 'US FDA-approved for treatment of uncomplicated urogenital infection; lower cure rates in oropharyngeal infection'
             elif pick == 'gepotidacin':
                 treatment = 'Gepotidacin 3 g orally twice (2 doses, 10-12 h apart)'
-                comment = 'Investigational oral option; phase 3 non-inferior to ceftriaxone+azithromycin for uncomplicated urogenital infection'
+                comment = 'US FDA-approved for treatment of uncomplicated urogenital infection; lower cure rates in oropharyngeal infection'
             else:
                 treatment = 'XDR_isolate — manual follow-up'
-                comment = 'Flag for review'
+                comment = 'Flag for expert follow-up'
 
             flags = {
                 'ceftriaxone+azithromycin': yesno(pick == 'ceftriaxone+azithromycin'),

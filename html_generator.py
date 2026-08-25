@@ -1281,7 +1281,9 @@ def _generate_resistance_table_html(data: List[Dict[str, str]], antibiotics: Lis
     # Build table headers
     headers_html = []
     headers_html.append('            <th colname="isolate" onclick="sortTable(0)">Isolate</th>')
-    headers_html.append('            <th colname="treatment recommendation" onclick="sortTable(1)">Treatment recommendation</th>')
+    # Same data as the treatment tab's "Predicted Profile" column, so use the same visible label.
+    # colname stays "treatment recommendation" — it is the internal key used by the CSS and JS.
+    headers_html.append('            <th colname="treatment recommendation" onclick="sortTable(1)">Predicted Profile</th>')
 
     col_idx = 2
     for abx in antibiotics:
@@ -1540,6 +1542,14 @@ def generate_combined_tabbed_html(
 
     isolate_count = len(resistance_data)
 
+    # Antibiotics available in this setting (from --available_antibiotics); these gate which
+    # regimens sensitreat may choose, so report them alongside the predictions.
+    available_html = ''
+    if antibiotics:
+        chips = ''.join('<span class="info-badge">{a}</span>'.format(a=a) for a in antibiotics)
+        available_html = ('\n      <div style="margin-top: 6px;">Antibiotics available for treatment '
+                          'in this setting{c}</div>'.format(c=chips))
+
     # Generate alert banner (always shown, displays "No clinical alerts" if none exist)
     alert_html = _generate_alert_banner_html(alert_data)
 
@@ -1594,7 +1604,7 @@ def generate_combined_tabbed_html(
 <body>
   <div class="container">
     <h2><em>Neisseria gonorrhoeae</em> sensityper results</h2>
-    <div class="subtitle">Treatment recommendation from genome-based antimicrobial resistance profiles <span class="info-badge">{isolate_count} isolates</span></div>
+    <div class="subtitle">Treatment recommendation from genome-based antimicrobial resistance profiles <span class="info-badge">{isolate_count} isolates</span>{available_html}</div>
 
 {alert_html}
     <!-- Tab Navigation -->

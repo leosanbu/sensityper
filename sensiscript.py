@@ -2,12 +2,14 @@ import os
 import argparse as arg
 from argparse import RawTextHelpFormatter
 
+__version__ = "2.7"
+
 parser = arg.ArgumentParser(prog="sensiscript",
 	formatter_class=RawTextHelpFormatter,
 	description='Genomic antimicrobial susceptibility typing for Neisseria gonorrhoeae.\n',
 	usage = '%(prog)s [options]')
 
-parser = arg.ArgumentParser(description='sensiscript.py: genomic antimicrobial susceptibility typing for Neisseria gonorrhoeae', usage = '%(prog)s [options]')
+parser = arg.ArgumentParser(description='sensiscript.py (v'+__version__+'): genomic antimicrobial susceptibility typing for Neisseria gonorrhoeae', usage = '%(prog)s [options]')
 parser.add_argument('-i', '--input_AMRtable', help='ARIBA output table containing genotypic AMR mechanisms', required=True)
 parser.add_argument('-a', '--antibiotics', help='List and order of antibiotics to check separated by commas (options: ceftriaxone, ciprofloxacin, azithromycin, tetracycline, penicillin, spectinomycin, zoliflodacin) (default: ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,spectinomycin,zoliflodacin)', required=False, default='ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,spectinomycin,zoliflodacin')
 parser.add_argument('-d', '--database', help='Path to the sensiscript.db file (default: sensiscript.db is in the same directory as the main script)', required=False, default='sensitype.db')
@@ -474,8 +476,8 @@ def checkAMR_and_predict(intable, amrdict, amrdictr, abxdict, penA_mosaic_vec, m
 				for count, item in enumerate(sel_columns):
 					if item in mutnamedb:
 						line_results[mutnamedb[item]] = extract_col[count]
-						if '.%' in item:
-							line_results[item] = extract_col[1]
+					if '.%' in item: # 23S percent columns are not in the database, so store them under the ARIBA column name
+						line_results[item] = extract_col[count]
 			line_results2 = call_wildtype(isolate, line_results, selected_determinants) # Check wildtypes
 			process_antibiotics = check_treatment(antibiotics, amrdict, recommended_treatment, found_mechanisms, wildtype_alleles, line_results2, mutnamedb) # Check treatment
 			recommended_treatment = process_antibiotics[0]
