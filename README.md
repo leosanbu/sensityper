@@ -3,6 +3,7 @@
 [![Python 3.6+](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-teal.svg)](https://leosanbu.github.io/sensityper/)
+[![DOI](https://zenodo.org/badge/866572118.svg)](https://doi.org/10.5281/zenodo.22835140)
 
 > **Full documentation and vignettes:** [https://leosanbu.github.io/sensityper/](https://leosanbu.github.io/sensityper/)
 
