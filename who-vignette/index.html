@@ -1,0 +1,2165 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Genomic Antimicrobial Susceptibility Prediction and Treatment Recommendation for Neisseria gonorrhoeae">
+      
+      
+      
+        <link rel="canonical" href="https://leosanbu.github.io/sensityper/who-vignette/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../metrics/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>SensiTyper tutorial - SensiTyper</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sensityper-tutorial-analysis-of-neisseria-gonorrhoeae-who-reference-strains" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="SensiTyper" class="md-header__button md-logo" aria-label="SensiTyper" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SensiTyper
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SensiTyper tutorial
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/leosanbu/sensityper" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    leosanbu/sensityper
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Vignettes
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="SensiTyper" class="md-nav__button md-logo" aria-label="SensiTyper" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
+
+    </a>
+    SensiTyper
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/leosanbu/sensityper" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    leosanbu/sensityper
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vignettes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Vignettes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SensiTyper tutorial
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SensiTyper tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tutorial-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tutorial Dataset
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-prepare-fastq-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Prepare FASTQ Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Prepare FASTQ Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-naming-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Naming Convention
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-standardize-file-naming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        (Optional) Standardize File Naming
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-run-ariba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Run ARIBA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2: Run ARIBA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Runtime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-success" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Success
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-generate-resistance-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Generate Resistance Profiles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3: Generate Resistance Profiles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-runtime_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Runtime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-output-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Output Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspect-who_strains_sensitypetsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspect WHO_strains_sensitype.tsv
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interpreting-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpreting Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explore-who_strains_sensitreathtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explore WHO_strains_sensitreat.html
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-assign-treatment-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Assign Treatment Recommendations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Assign Treatment Recommendations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-runtime_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Runtime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-output-files_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Output Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspect-who_strains_sensitreattsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspect WHO_strains_sensitreat.tsv
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspect-alert_outputtsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspect alert_output.tsv
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interpreting-treatment-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpreting Treatment Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#treatment-recommendation-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Treatment Recommendation Categories
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-explore-combined-html-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Explore Combined HTML Report
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 5: Explore Combined HTML Report">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open-who_strains_sensitreathtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open WHO_strains_sensitreat.html
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#html-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTML Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tab-1-treatment-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tab 1: Treatment Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tab-2-resistance-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tab 2: Resistance Profile
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-pipeline-alternative-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Pipeline (Alternative Approach)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Complete Pipeline (Alternative Approach)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-happens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Happens
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benefits-of-the-pipeline-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benefits of the pipeline mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use-separate-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use Separate Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-your-own-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Your Own Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#customizing-treatment-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Customizing treatment recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batch-processing-multiple-studies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch processing multiple studies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clinical-reminder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clinical Reminder
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#questions-or-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions or Issues?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sensityping metrics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tutorial-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tutorial Dataset
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-prepare-fastq-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Prepare FASTQ Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Prepare FASTQ Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-naming-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Naming Convention
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-standardize-file-naming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        (Optional) Standardize File Naming
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-run-ariba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Run ARIBA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2: Run ARIBA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Runtime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-success" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Success
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-generate-resistance-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Generate Resistance Profiles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3: Generate Resistance Profiles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-runtime_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Runtime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-output-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Output Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspect-who_strains_sensitypetsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspect WHO_strains_sensitype.tsv
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interpreting-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpreting Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explore-who_strains_sensitreathtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explore WHO_strains_sensitreat.html
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-assign-treatment-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Assign Treatment Recommendations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Assign Treatment Recommendations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-runtime_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Runtime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-output-files_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Output Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspect-who_strains_sensitreattsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspect WHO_strains_sensitreat.tsv
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspect-alert_outputtsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspect alert_output.tsv
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interpreting-treatment-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpreting Treatment Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#treatment-recommendation-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Treatment Recommendation Categories
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-explore-combined-html-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Explore Combined HTML Report
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 5: Explore Combined HTML Report">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open-who_strains_sensitreathtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open WHO_strains_sensitreat.html
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#html-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTML Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tab-1-treatment-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tab 1: Treatment Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tab-2-resistance-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tab 2: Resistance Profile
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-pipeline-alternative-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Pipeline (Alternative Approach)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Complete Pipeline (Alternative Approach)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-happens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Happens
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benefits-of-the-pipeline-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benefits of the pipeline mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use-separate-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use Separate Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-your-own-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Your Own Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#customizing-treatment-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Customizing treatment recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batch-processing-multiple-studies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch processing multiple studies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clinical-reminder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clinical Reminder
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#questions-or-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions or Issues?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="sensityper-tutorial-analysis-of-neisseria-gonorrhoeae-who-reference-strains">SensiTyper tutorial - Analysis of <em>Neisseria gonorrhoeae</em> WHO reference strains<a class="headerlink" href="#sensityper-tutorial-analysis-of-neisseria-gonorrhoeae-who-reference-strains" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>This tutorial demonstrates a complete SensiTyper workflow using WHO <em>Neisseria gonorrhoeae</em> reference strains with known antimicrobial resistance (AMR) profiles.</p>
+<p><strong>Prerequisites</strong>:</p>
+<ul>
+<li>Python 3.6+</li>
+<li>ARIBA installed (<code>conda install -c bioconda ariba</code>)</li>
+<li>Sensityping scripts and databases (see README.md for installation)</li>
+</ul>
+<h2 id="tutorial-dataset">Tutorial Dataset<a class="headerlink" href="#tutorial-dataset" title="Permanent link">&para;</a></h2>
+<p>We will use whole-genome sequencing Illumina data produced from 29 <a href="https://doi.org/10.1093/jac/dkae176"><strong><em>N. gonorrhoeae</em> WHO reference strains</strong></a> representing diverse resistance profiles. FASTQ files for these strains can be obtained from the European Nucleotide Archive (ENA) study accession <a href="https://www.ebi.ac.uk/ena/browser/view/PRJNA1067895">PRJNA1067895</a>.</p>
+<p>Pre-computed outputs from running this tutorial are available in the <code>examples/</code> directory:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>examples/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── ariba_output/                         # ARIBA results per strain
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   ├── WHO_A_SRR27944640_ARIBA/
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│   │   └── report_complete.tsv
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│   ├── WHO_B_SRR27944628_ARIBA/
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   │   └── report_complete.tsv
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   ├── ... (one folder per strain)
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   └── ariba_summary.csv                 # ARIBA summary — input for sensitype
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>└── sensityper_output/                    # SensiTyper results
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    ├── WHO_strains_sensitype.tsv         # Resistance profiles
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    ├── WHO_strains_sensitreat.tsv        # Treatment recommendations
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    ├── WHO_strains_sensitreat.html       # Interactive combined HTML report
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    └── alert_output.tsv                  # XDR / no-treatment isolates
+</code></pre></div>
+<h2 id="step-1-prepare-fastq-data">Step 1: Prepare FASTQ Data<a class="headerlink" href="#step-1-prepare-fastq-data" title="Permanent link">&para;</a></h2>
+<p>First, download the FASTQ files for all or a subset of the following strains from the ENA <a href="https://www.ebi.ac.uk/ena/browser/view/PRJNA1067895">PRJNA1067895</a>. Here is a table with individual run accessions for each strain:</p>
+<table>
+<thead>
+<tr>
+<th>Strain</th>
+<th>Run accession</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WHO_A</td>
+<td>SRR27944640</td>
+</tr>
+<tr>
+<td>WHO_B</td>
+<td>SRR27944628</td>
+</tr>
+<tr>
+<td>WHO_C</td>
+<td>SRR27944606</td>
+</tr>
+<tr>
+<td>WHO_D</td>
+<td>SRR27944595</td>
+</tr>
+<tr>
+<td>WHO_E</td>
+<td>SRR27944586</td>
+</tr>
+<tr>
+<td>WHO_F</td>
+<td>SRR27944585</td>
+</tr>
+<tr>
+<td>WHO_G</td>
+<td>SRR27944584</td>
+</tr>
+<tr>
+<td>WHO_H</td>
+<td>SRR27944583</td>
+</tr>
+<tr>
+<td>WHO_I</td>
+<td>SRR27944638</td>
+</tr>
+<tr>
+<td>WHO_J</td>
+<td>SRR27944637</td>
+</tr>
+<tr>
+<td>WHO_K</td>
+<td>SRR27944636</td>
+</tr>
+<tr>
+<td>WHO_L</td>
+<td>SRR27944635</td>
+</tr>
+<tr>
+<td>WHO_M</td>
+<td>SRR27944634</td>
+</tr>
+<tr>
+<td>WHO_N</td>
+<td>SRR27944633</td>
+</tr>
+<tr>
+<td>WHO_O</td>
+<td>SRR27944632</td>
+</tr>
+<tr>
+<td>WHO_P</td>
+<td>SRR27944631</td>
+</tr>
+<tr>
+<td>WHO_Q</td>
+<td>SRR27944630</td>
+</tr>
+<tr>
+<td>WHO_R</td>
+<td>SRR27944629</td>
+</tr>
+<tr>
+<td>WHO_S</td>
+<td>SRR27944627</td>
+</tr>
+<tr>
+<td>WHO_S2</td>
+<td>SRR27944626</td>
+</tr>
+<tr>
+<td>WHO_T</td>
+<td>SRR27944625</td>
+</tr>
+<tr>
+<td>WHO_U</td>
+<td>SRR27944624</td>
+</tr>
+<tr>
+<td>WHO_V</td>
+<td>SRR27944623</td>
+</tr>
+<tr>
+<td>WHO_W</td>
+<td>SRR27944622</td>
+</tr>
+<tr>
+<td>WHO_X</td>
+<td>SRR27944621</td>
+</tr>
+<tr>
+<td>WHO_Y</td>
+<td>SRR27944620</td>
+</tr>
+<tr>
+<td>WHO_Z</td>
+<td>SRR27944619</td>
+</tr>
+<tr>
+<td>WHO_alpha</td>
+<td>SRR27944639</td>
+</tr>
+<tr>
+<td>WHO_beta</td>
+<td>SRR27944617</td>
+</tr>
+</tbody>
+</table>
+<h3 id="file-naming-convention">File Naming Convention<a class="headerlink" href="#file-naming-convention" title="Permanent link">&para;</a></h3>
+<p>FASTQ files must follow one of these naming patterns:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>{sample}_1.fastq.gz / {sample}_2.fastq.gz
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>{sample}_R1.fastq.gz / {sample}_R2.fastq.gz
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>{sample}_R1_001.fastq.gz / {sample}_R2_001.fastq.gz
+</code></pre></div>
+<h3 id="optional-standardize-file-naming">(Optional) Standardize File Naming<a class="headerlink" href="#optional-standardize-file-naming" title="Permanent link">&para;</a></h3>
+<p>If your FASTQ files have inconsistent naming, use the <code>rename</code> module:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Preview changes (dry-run)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>sensityper.py<span class="w"> </span>rename<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span>--directories<span class="w"> </span>examples/<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span>--pre
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># Execute renaming</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>python<span class="w"> </span>sensityper.py<span class="w"> </span>rename<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span>--directories<span class="w"> </span>examples/<span class="w"> </span><span class="se">\</span>
+</code></pre></div>
+<h2 id="step-2-run-ariba">Step 2: Run ARIBA<a class="headerlink" href="#step-2-run-ariba" title="Permanent link">&para;</a></h2>
+<p>ARIBA identifies antimicrobial resistance genes and mutations from whole-genome sequencing data.</p>
+<h3 id="command">Command<a class="headerlink" href="#command" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python<span class="w"> </span>sensityper.py<span class="w"> </span>ariba<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span>--input_dirs<span class="w"> </span>/path/to/PRJNA1067895_Illumina<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span>--output_dir<span class="w"> </span>PRJNA1067895_ARIBA<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span>--threads<span class="w"> </span><span class="m">8</span>
+</code></pre></div>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>--input_dirs</code>: Directory containing FASTQ files</li>
+<li><code>--output_dir</code>: Where to save ARIBA results</li>
+<li><code>--threads</code>: CPU cores to use (adjust based on your system)</li>
+</ul>
+<h3 id="expected-runtime">Expected Runtime<a class="headerlink" href="#expected-runtime" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>~2-5 minutes per isolate</strong> (depending on CPU)</li>
+</ul>
+<h3 id="expected-output">Expected Output<a class="headerlink" href="#expected-output" title="Permanent link">&para;</a></h3>
+<p>Output folders are named <code>{strain_accession}_ARIBA</code>. The pre-computed results for this dataset are in <code>examples/ariba_output/</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>PRJNA1067895_ARIBA/
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>├── WHO_A_SRR27944640_ARIBA/
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>│   └── report_complete.tsv
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>├── WHO_B_SRR27944628_ARIBA/
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>│   └── report_complete.tsv
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>├── ... (one folder per strain)
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>└── ariba_summary.csv          ← Main output for next step
+</code></pre></div>
+<h3 id="verify-success">Verify Success<a class="headerlink" href="#verify-success" title="Permanent link">&para;</a></h3>
+<p>Check that <code>ariba_summary.csv</code> was created:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>head<span class="w"> </span>-n<span class="w"> </span><span class="m">3</span><span class="w"> </span>PRJNA1067895_ARIBA/ariba_summary.csv
+</code></pre></div>
+<p><strong>Expected Output</strong> (truncated):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>name,penA.cluster,penA.match,penA.assembled,penA.pct_coverage,...
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>WHO_A_SRR27944640,yes,yes,yes,100,...
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>WHO_B_SRR27944628,yes,yes,yes,100,...
+</code></pre></div></p>
+<p>A pre-computed version is available at <code>examples/ariba_output/ariba_summary.csv</code>.</p>
+<p><strong>Note on paths</strong>: the <code>name</code> column of the bundled <code>ariba_summary.csv</code> holds paths <strong>relative to the repository root</strong> (<code>examples/ariba_output/&lt;sample&gt;_ARIBA/report_complete.tsv</code>). The <code>sensitype</code> module opens each of those per-sample reports to confirm wild-type positions, so run the commands below from the root of the cloned repository. To run from anywhere else, rewrite that column to absolute paths first.</p>
+<h2 id="step-3-generate-resistance-profiles">Step 3: Generate Resistance Profiles<a class="headerlink" href="#step-3-generate-resistance-profiles" title="Permanent link">&para;</a></h2>
+<p>The <code>sensitype</code> module analyzes ARIBA output to identify genetic determinants of resistance and outputs a list of antibiotics each strain is susceptible to.</p>
+<h3 id="command_1">Command<a class="headerlink" href="#command_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>python<span class="w"> </span>sensityper.py<span class="w"> </span>sensitype<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span>--input_AMRtable<span class="w"> </span>examples/ariba_output/ariba_summary.csv<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span>--sensiscript_outfile<span class="w"> </span>WHO_strains_sensitype.tsv
+</code></pre></div>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>--input_AMRtable</code>: ARIBA summary CSV from Step 2</li>
+<li><code>--sensiscript_outfile</code>: Output file path (TSV format)</li>
+<li><code>--antibiotics</code>: (Optional) Comma-separated list to analyze specific antibiotics (default: all 8)</li>
+</ul>
+<h3 id="expected-runtime_1">Expected Runtime<a class="headerlink" href="#expected-runtime_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>~5-15 seconds</strong> for 29 isolates</li>
+</ul>
+<h3 id="expected-output-files">Expected Output Files<a class="headerlink" href="#expected-output-files" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>WHO_strains_sensitype.tsv</strong> - Tab-separated resistance mechanisms</li>
+<li><strong>WHO_strains_sensitype.html</strong> - Interactive HTML table</li>
+</ol>
+<p>Pre-computed versions are available at <code>examples/sensityper_output/</code>.</p>
+<h3 id="inspect-who_strains_sensitypetsv">Inspect WHO_strains_sensitype.tsv<a class="headerlink" href="#inspect-who_strains_sensitypetsv" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>head<span class="w"> </span>-n<span class="w"> </span><span class="m">3</span><span class="w"> </span>WHO_strains_sensitype.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f1-4
+</code></pre></div>
+<p><strong>Expected Output</strong> (truncated):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>isolate                   treatment recommendation  ceftriaxone_NWT  ceftriaxone_WT
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>WHO_A_SRR27944640         ceftriaxone,azithromycin                   penA.mosaic_WT
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>WHO_B_SRR27944628         ceftriaxone,azithromycin                   penA.mosaic_WT
+</code></pre></div></p>
+<h3 id="interpreting-results">Interpreting Results<a class="headerlink" href="#interpreting-results" title="Permanent link">&para;</a></h3>
+<p><strong>Columns</strong>:</p>
+<ul>
+<li><code>isolate</code>: Sample identifier</li>
+<li><code>treatment recommendation</code>: Comma-separated list of suitable antibiotics</li>
+<li><code>{antibiotic}_NWT</code>: <strong>Non-Wild-Type</strong> (resistance mutations, <strong>RED</strong> in HTML)</li>
+<li><code>{antibiotic}_WT</code>: <strong>Wild-Type</strong> (susceptibility markers, <strong>GREY</strong> in HTML)</li>
+</ul>
+<p><strong>Example: WHO_A_SRR27944640</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>ceftriaxone_NWT: (empty)
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>ceftriaxone_WT:  penA.A311_WT,penA.V316_WT,penA.A501_WT
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>azithromycin_NWT: (empty)
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>azithromycin_WT: 23S.A2059_WT,23S.C2611_WT,mtrC.WT,mtrD.WT
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>ciprofloxacin_NWT: (empty)
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>ciprofloxacin_WT: gyrA.D95_WT,gyrA.S91_WT,parC.D86_WT,parC.E91_WT,parC.S87_WT
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>spectinomycin_NWT: rpsE.T24P
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>spectinomycin_WT: 16S.C1184_WT
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>gepotidacin_NWT: (empty)
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>gepotidacin_WT: gyrA.A92_WT,parC.D86_WT
+</code></pre></div></p>
+<p><strong>Interpretation</strong>:</p>
+<ul>
+<li><strong>Ceftriaxone</strong>: Susceptible (no key <em>penA</em> mutations)</li>
+<li><strong>Azithromycin</strong>: Susceptible (no key <em>23S rRNA</em> or <em>mtrD</em> mutations)</li>
+<li><strong>Ciprofloxacin</strong>: Susceptible (no key <em>gyrA</em> or <em>parC</em> mutations)</li>
+<li><strong>Spectinomycin</strong>: Resistant (<em>rpsE</em> T24P)</li>
+<li><strong>Gepotidacin</strong>: Susceptible (neither <em>gyrA</em> A92T nor <em>parC</em> D86N)</li>
+<li><strong>Treatment</strong>: Suitable for ceftriaxone + azithromycin dual therapy</li>
+</ul>
+<p><strong>Example: WHO_Q_SRR27944630 (XDR)</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>ceftriaxone_NWT: penA.60.001,penA.A311V,penA.V316T
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>ceftriaxone_WT: penA.A501_WT
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>azithromycin_NWT: 23S.A2059G[99.9%]
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>azithromycin_WT: 23S.C2611_WT,mtrC.WT,mtrD.WT
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>ciprofloxacin_NWT: gyrA.D95_A,gyrA.S91F,parC.S87R
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>ciprofloxacin_WT: parC.D86_WT,parC.E91_WT
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>spectinomycin_NWT: (empty)
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>spectinomycin_WT: 16S.C1184_WT,rpsE.T24_WT
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>gepotidacin_NWT: (empty)
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>gepotidacin_WT: gyrA.A92_WT,parC.D86_WT
+</code></pre></div></p>
+<p><strong>Interpretation</strong>:</p>
+<ul>
+<li><strong>Ceftriaxone</strong>: Resistant (mosaic <em>penA</em> with key resistance mutations)</li>
+<li><strong>Azithromycin</strong>: Resistant (23S rRNA mutation at position 2059)</li>
+<li><strong>Ciprofloxacin</strong>: Resistant (gyrA mutations at codons 91 and 95)</li>
+<li><strong>Spectinomycin</strong>: Susceptible (16S C1184 and <em>rpsE</em> T24 both wild-type)</li>
+<li><strong>Gepotidacin</strong>: Susceptible (excluded only when <em>gyrA</em> A92T <strong>and</strong> <em>parC</em> D86N occur together; neither is present)</li>
+<li><strong>Treatment</strong>: XDR - requires alternative regimen or newer oral agents</li>
+</ul>
+<h3 id="explore-who_strains_sensitreathtml">Explore WHO_strains_sensitreat.html<a class="headerlink" href="#explore-who_strains_sensitreathtml" title="Permanent link">&para;</a></h3>
+<p>Open the HTML file in your web browser:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>open<span class="w"> </span>WHO_strains_sensitreat.html<span class="w">  </span><span class="c1"># macOS</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>xdg-open<span class="w"> </span>WHO_strains_sensitreat.html<span class="w">  </span><span class="c1"># Linux</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>start<span class="w"> </span>WHO_strains_sensitreat.html<span class="w">  </span><span class="c1"># Windows</span>
+</code></pre></div>
+<p><strong>Interactive Features</strong>:</p>
+<ul>
+<li><strong>Click column headers</strong> to sort (▲/▼ indicators)</li>
+<li><strong>Search box</strong> for live filtering</li>
+<li><strong>Antibiotic filter</strong> (multi-select dropdown)</li>
+<li><strong>Color coding</strong>: Red=resistance (NWT), Blue=susceptible (WT)</li>
+<li><strong>Pagination</strong> (10/25/50/100/All entries per page)</li>
+<li><strong>WT columns</strong> to show or hide identified wildtype positions</li>
+</ul>
+<h2 id="step-4-assign-treatment-recommendations">Step 4: Assign Treatment Recommendations<a class="headerlink" href="#step-4-assign-treatment-recommendations" title="Permanent link">&para;</a></h2>
+<p>The <code>sensitreat</code> module assigns evidence-based treatment regimens based on resistance profiles.</p>
+<h3 id="command_2">Command<a class="headerlink" href="#command_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>python<span class="w"> </span>sensityper.py<span class="w"> </span>sensitreat<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span>--input_file<span class="w"> </span>WHO_strains_sensitype.tsv<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span>--treatment_output<span class="w"> </span>WHO_strains_sensitreat.tsv
+</code></pre></div>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>--input_file</code>: Resistance TSV from Step 3</li>
+<li><code>--treatment_output</code>: Output file path for treatment recommendations</li>
+<li><code>--available_antibiotics</code>: (Optional) Limit to available antibiotics (default: all except azithromycin monotherapy)</li>
+<li><code>--sensitreat_order</code>: (Optional) Customize regimen priority order</li>
+</ul>
+<h3 id="expected-runtime_2">Expected Runtime<a class="headerlink" href="#expected-runtime_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>~2-5 seconds</strong> for 29 isolates</li>
+</ul>
+<h3 id="expected-output-files_1">Expected Output Files<a class="headerlink" href="#expected-output-files_1" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>alert_output.tsv</strong> - XDR/untreatable isolates flagged for review</li>
+<li><strong>WHO_strains_sensitreat.tsv</strong> - Treatment recommendations per isolate</li>
+<li><strong>WHO_strains_sensitreat.html</strong> - <strong>Combined tabbed HTML</strong> with both resistance and treatment tables</li>
+</ol>
+<p>Pre-computed versions are available in <code>examples/sensityper_output/</code>.</p>
+<h3 id="inspect-who_strains_sensitreattsv">Inspect WHO_strains_sensitreat.tsv<a class="headerlink" href="#inspect-who_strains_sensitreattsv" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>head<span class="w"> </span>-n<span class="w"> </span><span class="m">3</span><span class="w"> </span>WHO_strains_sensitreat.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f1,4-6
+</code></pre></div>
+<p><strong>Expected Output</strong> (truncated):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>isolate            Predicted Profile                                                       Recommended Treatment                         Comment
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>WHO_A_SRR27944640  ceftriaxone=YES, azithromycin=YES, ciprofloxacin=YES, tetracycline=YES,  Ceftriaxone 1 g IM + Azithromycin 2 g orally  Acceptable combination therapy
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>                   penicillin=YES, spectinomycin=NO, zoliflodacin=YES, gepotidacin=YES
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>WHO_B_SRR27944628  ceftriaxone=YES, azithromycin=YES, ciprofloxacin=YES, tetracycline=YES,  Ceftriaxone 1 g IM + Azithromycin 2 g orally  Acceptable combination therapy
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>                   penicillin=YES, spectinomycin=YES, zoliflodacin=YES, gepotidacin=YES
+</code></pre></div></p>
+<h3 id="inspect-alert_outputtsv">Inspect alert_output.tsv<a class="headerlink" href="#inspect-alert_outputtsv" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>cat<span class="w"> </span>alert_output.tsv
+</code></pre></div>
+<p><strong>Expected Output</strong> (if XDR isolates present):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Alert  isolate           treatment recommendation
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>XDR WHO_Q_SRR27944630   spectinomycin,zoliflodacin,gepotidacin
+</code></pre></div></p>
+<p><strong>Alert Types</strong>:</p>
+<ul>
+<li><strong>XDR</strong>: Extensively Drug-Resistant (resistant to ceftriaxone, azithromycin, AND ciprofloxacin)</li>
+<li><strong>None</strong>: No suitable treatment available from specified antibiotics</li>
+</ul>
+<h3 id="interpreting-treatment-recommendations">Interpreting Treatment Recommendations<a class="headerlink" href="#interpreting-treatment-recommendations" title="Permanent link">&para;</a></h3>
+<p><strong>Example 1: WHO_A_SRR27944640 (Susceptible)</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>Predicted Profile:       ceftriaxone=YES, azithromycin=YES, ciprofloxacin=YES, tetracycline=YES, penicillin=YES, spectinomycin=NO, zoliflodacin=YES, gepotidacin=YES
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>Recommended Treatment:   Ceftriaxone 1 g IM + Azithromycin 2 g orally
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>Comment:                 Acceptable combination therapy
+</code></pre></div>
+<p><strong>Clinical Interpretation</strong>:</p>
+<ul>
+<li><strong>Regimen</strong>: Standard dual therapy (first-line)</li>
+<li><strong>Route</strong>: Ceftriaxone intramuscular (IM), Azithromycin oral</li>
+<li><strong>Rationale</strong>: Susceptible to both agents, combination prevents resistance development</li>
+<li><strong>Category</strong>: Acceptable combination therapy (preferred dual therapy)</li>
+</ul>
+<p><strong>Example 2: WHO_R_SRR27944629 (Ceftriaxone-Resistant)</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>Predicted Profile:       ceftriaxone=NO, azithromycin=YES, ciprofloxacin=NO, tetracycline=NO, penicillin=NO, spectinomycin=YES, zoliflodacin=YES, gepotidacin=YES
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>Recommended Treatment:   Spectinomycin 2 g IM + Azithromycin 2 g orally
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>Comment:                 Alternative regimen
+</code></pre></div>
+<p><strong>Clinical Interpretation</strong>:</p>
+<ul>
+<li><strong>Regimen</strong>: Alternative dual therapy (ceftriaxone resistance detected)</li>
+<li><strong>Route</strong>: Both intramuscular or oral</li>
+<li><strong>Rationale</strong>: Avoid ceftriaxone due to resistance, use spectinomycin + azithromycin</li>
+<li><strong>Category</strong>: Alternative regimen</li>
+<li><strong>⚠️ Important</strong>: Spectinomycin has lower cure rates for <strong>pharyngeal infections</strong> - avoid when possible</li>
+</ul>
+<p><strong>Example 3: WHO_Q_SRR27944630 (XDR)</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>Predicted Profile:       ceftriaxone=NO, azithromycin=NO, ciprofloxacin=NO, tetracycline=NO, penicillin=NO, spectinomycin=YES, zoliflodacin=YES, gepotidacin=YES
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>Recommended Treatment:   Spectinomycin 2 g IM
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>Comment:                 Lower cure rates in oropharyngeal infection; avoid as monotherapy for oropharyngeal infection when possible
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>Alert:                   XDR
+</code></pre></div>
+<p><strong>Clinical Interpretation</strong>:</p>
+<ul>
+<li><strong>Regimen</strong>: Spectinomycin monotherapy (highest-priority available regimen; zoliflodacin and gepotidacin are also predicted active)</li>
+<li><strong>Alert</strong>: XDR isolate - flagged for clinical review</li>
+<li><strong>Action Required</strong>:</li>
+<li>Confirm infection site (spectinomycin ineffective for pharyngeal)</li>
+<li>Consider newer oral agents (zoliflodacin, gepotidacin)</li>
+<li>Consult infectious disease specialist</li>
+<li>Report to public health authorities</li>
+<li>Ensure test of cure after treatment</li>
+</ul>
+<h3 id="treatment-recommendation-categories">Treatment Recommendation Categories<a class="headerlink" href="#treatment-recommendation-categories" title="Permanent link">&para;</a></h3>
+<p><strong>Guideline-recommended monotherapy</strong>:</p>
+<ul>
+<li>Ceftriaxone 1 g IM</li>
+<li>Used when: Azithromycin resistance detected OR azithromycin unavailable</li>
+</ul>
+<p><strong>Acceptable combination therapy</strong>:</p>
+<ul>
+<li>Ceftriaxone 1 g IM + Azithromycin 2 g orally</li>
+<li>Used when: Both agents susceptible</li>
+<li>Preferred regimen for uncomplicated gonorrhea</li>
+</ul>
+<p><strong>Alternative regimen</strong>:</p>
+<ul>
+<li>Spectinomycin 2 g IM + Azithromycin 2 g orally</li>
+<li>Used when: Ceftriaxone resistance detected</li>
+<li>⚠️ Lower cure rates for pharyngeal infections</li>
+</ul>
+<p><strong>Newer oral options</strong>:</p>
+<ul>
+<li>Zoliflodacin 3 g orally (single dose)</li>
+<li>Gepotidacin 3 g orally twice (2 doses, 10-12 h apart)</li>
+<li>US FDA-approved for uncomplicated urogenital infection; lower cure rates in oropharyngeal infection</li>
+</ul>
+<h2 id="step-5-explore-combined-html-report">Step 5: Explore Combined HTML Report<a class="headerlink" href="#step-5-explore-combined-html-report" title="Permanent link">&para;</a></h2>
+<p>The combined HTML report is the primary output for clinical interpretation and surveillance.</p>
+<h3 id="open-who_strains_sensitreathtml">Open WHO_strains_sensitreat.html<a class="headerlink" href="#open-who_strains_sensitreathtml" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>open<span class="w"> </span>WHO_strains_sensitreat.html<span class="w">  </span><span class="c1"># macOS</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>xdg-open<span class="w"> </span>WHO_strains_sensitreat.html<span class="w">  </span><span class="c1"># Linux</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>start<span class="w"> </span>WHO_strains_sensitreat.html<span class="w">  </span><span class="c1"># Windows</span>
+</code></pre></div>
+<p>A pre-computed version is available at <code>examples/sensityper_output/WHO_strains_sensitreat.html</code>.</p>
+<h3 id="html-structure">HTML Structure<a class="headerlink" href="#html-structure" title="Permanent link">&para;</a></h3>
+<p><strong>Report Header</strong>: shows the isolate count and the antibiotics available for treatment in this setting, as passed to <code>--available_antibiotics</code>. These gate which regimens <code>sensitreat</code> may choose, so an isolate predicted susceptible to a drug that is not available will not be assigned it.</p>
+<p><strong>Alert Banner</strong> (if applicable):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>⚠️ Clinical Alerts
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>• Isolate WHO_Q_SRR27944630: XDR (Extensively Drug-Resistant) - Requires clinical review
+</code></pre></div></p>
+<p><strong>Tab Navigation</strong>:
+- <strong>Tab 1: Treatment Recommendations</strong> (shown by default)
+- <strong>Tab 2: Resistance Profile</strong> (detailed mechanisms)</p>
+<h3 id="tab-1-treatment-recommendations">Tab 1: Treatment Recommendations<a class="headerlink" href="#tab-1-treatment-recommendations" title="Permanent link">&para;</a></h3>
+<p><strong>Columns</strong> (4 total):</p>
+<ol>
+<li><strong>Isolate</strong> - Sample identifier</li>
+<li><strong>Predicted Profile</strong> - Color-coded susceptibility badges</li>
+<li>Green badge = YES (susceptible)</li>
+<li>Gray badge = NO (resistant)</li>
+<li><strong>Recommended Treatment</strong> - Full regimen with dosing instructions</li>
+<li><strong>Comment</strong> - Clinical guidance and recommendation category</li>
+</ol>
+<p><strong>Interactive Features</strong>:</p>
+<ul>
+<li><strong>Sort</strong>: Click column headers</li>
+<li><strong>Search</strong>: Live filtering across all columns</li>
+<li><strong>Pagination</strong>: 10/25/50/100/All entries per page</li>
+</ul>
+<p><img alt="Treatment Recommendations tab — colour-coded susceptibility badges and regimen assignments per isolate" src="../images/screenshot_html_treatment.png" /></p>
+<h3 id="tab-2-resistance-profile">Tab 2: Resistance Profile<a class="headerlink" href="#tab-2-resistance-profile" title="Permanent link">&para;</a></h3>
+<p><strong>Columns</strong> (varies by antibiotic):</p>
+<ul>
+<li><code>isolate</code></li>
+<li><code>Predicted Profile</code> - the same colour-coded susceptibility badges as Tab 1</li>
+<li>For each antibiotic: <code>{antibiotic}_NWT</code>, <code>{antibiotic}_WT</code></li>
+</ul>
+<p><strong>Interactive Features</strong>:</p>
+<ul>
+<li><strong>Sort</strong>: Click column headers</li>
+<li><strong>Search</strong>: Live filtering</li>
+<li><strong>Antibiotic Filter</strong>: Multi-select dropdown</li>
+<li><strong>Pagination</strong>: Same as Tab 1</li>
+</ul>
+<p><img alt="Resistance Profile tab — NWT (red) and WT (blue) columns for all antibiotics" src="../images/screenshot_html_resistance_with_WT.png" /></p>
+<p>WT columns can also be hidden with the 'Show WT' switch:
+<img alt="Resistance Profile tab — filtered view showing only NWT columns (WT columns hidden)" src="../images/screenshot_html_resistance_without_WT.png" /></p>
+<h2 id="complete-pipeline-alternative-approach">Complete Pipeline (Alternative Approach)<a class="headerlink" href="#complete-pipeline-alternative-approach" title="Permanent link">&para;</a></h2>
+<p>Instead of running modules separately, use the <strong>pipeline</strong> module for end-to-end automation. The pre-computed outputs in <code>examples/</code> were generated with this single command:</p>
+<h3 id="single-command">Single Command<a class="headerlink" href="#single-command" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>python<span class="w"> </span>sensityper.py<span class="w"> </span>pipeline<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">    </span>--modules<span class="w"> </span>ariba,sensitype,sensitreat<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">    </span>--other_arguments<span class="w"> </span><span class="s1">'--input_dirs /path/to/PRJNA1067895_Illumina \</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="s1">                       --output_dir PRJNA1067895_ARIBA \</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="s1">                       --sensiscript_outfile WHO_strains_sensitype.tsv \</span>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="s1">                       --treatment_output WHO_strains_sensitreat.tsv'</span>
+</code></pre></div>
+<h3 id="what-happens">What Happens<a class="headerlink" href="#what-happens" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>ARIBA module</strong>: Processes FASTQ files → <code>ariba_output/ariba_summary.csv</code></li>
+<li><strong>Sensitype module</strong>: Analyzes ARIBA output → <code>WHO_strains_sensitype.tsv</code></li>
+<li><strong>Sensitreat module</strong>: Assigns treatments → <code>WHO_strains_sensitreat.tsv</code> + <code>WHO_strains_sensitreat.html</code></li>
+</ol>
+<h3 id="benefits-of-the-pipeline-mode">Benefits of the <code>pipeline</code> mode<a class="headerlink" href="#benefits-of-the-pipeline-mode" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Single command</strong>: Less manual intervention</li>
+<li><strong>Optimized HTML</strong>: Only one combined HTML generated (no duplicate standalone HTML)</li>
+<li><strong>Automatic chaining</strong>: Output of one module feeds into next</li>
+</ul>
+<h3 id="when-to-use-separate-modules">When to Use Separate Modules<a class="headerlink" href="#when-to-use-separate-modules" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Re-running analysis</strong>: Already have ARIBA results, only need to update treatment logic</li>
+<li><strong>Custom antibiotics</strong>: Want to analyze different antibiotic subsets</li>
+<li><strong>Debugging</strong>: Isolate specific module failures</li>
+<li><strong>External ARIBA</strong>: Using ARIBA results from another study</li>
+</ul>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<h3 id="using-your-own-data">Using Your Own Data<a class="headerlink" href="#using-your-own-data" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Prepare FASTQ files</strong>:</li>
+<li>Ensure paired-end reads (R1/R2)</li>
+<li>Follow naming convention</li>
+<li>
+<p>Place in a single directory</p>
+</li>
+<li>
+<p><strong>Run pipeline</strong>:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>python<span class="w"> </span>sensityper.py<span class="w"> </span>pipeline<span class="w"> </span>ariba,sensitype,sensitreat<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="w">    </span>--other_arguments<span class="w"> </span><span class="s2">"--input_dirs /path/to/your/fastqs \</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="s2">                       --output_dir my_analysis \</span>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="s2">                       --sensiscript_outfile my_resistance.tsv \</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="s2">                       --treatment_output my_treatment.tsv \</span>
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="s2">                       --threads 16"</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Review outputs</strong>:</p>
+</li>
+<li>Check <code>alert_output.tsv</code> for XDR isolates</li>
+<li>Open the generated HTML report for interactive results</li>
+<li>Share HTML with clinical team (self-contained, no external dependencies)</li>
+</ol>
+<h3 id="customizing-treatment-recommendations">Customizing treatment recommendations<a class="headerlink" href="#customizing-treatment-recommendations" title="Permanent link">&para;</a></h3>
+<p><strong>Limit to available antibiotics</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>python<span class="w"> </span>sensityper.py<span class="w"> </span>sensitreat<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="w">    </span>--input_file<span class="w"> </span>my_resistance.tsv<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="w">    </span>--available_antibiotics<span class="w"> </span>ceftriaxone,azithromycin,spectinomycin<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="w">    </span>--treatment_output<span class="w"> </span>my_treatment.tsv
+</code></pre></div></p>
+<p><strong>Change regimen priority</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>python<span class="w"> </span>sensityper.py<span class="w"> </span>sensitreat<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">    </span>--input_file<span class="w"> </span>my_resistance.tsv<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">    </span>--sensitreat_order<span class="w"> </span>ceftriaxone,azithromycin+spectinomycin,spectinomycin<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">    </span>--treatment_output<span class="w"> </span>my_treatment.tsv
+</code></pre></div></p>
+<h3 id="batch-processing-multiple-studies">Batch processing multiple studies<a class="headerlink" href="#batch-processing-multiple-studies" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Process multiple sequencing runs</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>python<span class="w"> </span>sensityper.py<span class="w"> </span>ariba<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="w">    </span>--input_dirs<span class="w"> </span>/data/run1,/data/run2,/data/run3<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="w">    </span>--output_dir<span class="w"> </span>batch_ariba<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="w">    </span>--threads<span class="w"> </span><span class="m">32</span>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="c1"># Continue pipeline</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>python<span class="w"> </span>sensityper.py<span class="w"> </span>pipeline<span class="w"> </span>sensitype,sensitreat<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="w">    </span>--input_AMRtable<span class="w"> </span>batch_ariba/ariba_summary.csv<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="w">    </span>--sensiscript_outfile<span class="w"> </span>batch_resistance.tsv<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a><span class="w">    </span>--treatment_output<span class="w"> </span>batch_treatment.tsv
+</code></pre></div>
+<h3 id="clinical-reminder">Clinical Reminder<a class="headerlink" href="#clinical-reminder" title="Permanent link">&para;</a></h3>
+<p><strong>This tool is for surveillance and research</strong>. Clinical decisions should consider:
+- Patient allergies and contraindications
+- Infection site (pharyngeal vs. urogenital)
+- Local resistance patterns
+- Current treatment guidelines
+- Treatment history and previous failures</p>
+<p>Always consult infectious disease specialists for:
+- XDR isolates
+- Treatment failures
+- Severe infections (disseminated, PID)
+- Immunocompromised patients</p>
+<h2 id="additional-resources">Additional Resources<a class="headerlink" href="#additional-resources" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><a href="../">README.md</a></strong> - Installation and quick start</li>
+<li><strong>ARIBA documentation</strong> - https://github.com/sanger-pathogens/ariba</li>
+<li><strong>WHO gonorrhea guidelines</strong> - https://www.who.int/publications/i/item/9789241549691</li>
+<li><strong>CDC gonorrhea treatment</strong> - https://www.cdc.gov/std/treatment-guidelines/gonorrhea.htm</li>
+</ul>
+<h2 id="questions-or-issues">Questions or Issues?<a class="headerlink" href="#questions-or-issues" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Open an issue on GitHub!</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
