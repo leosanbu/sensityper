@@ -1,0 +1,29 @@
+{
+  "title": "SensiTyper: genomic antimicrobial susceptibility prediction and treatment recommendation for Neisseria gonorrhoeae",
+  "description": "SensiTyper is a genomic antimicrobial susceptibility typing pipeline for Neisseria gonorrhoeae. It predicts antibiotic resistance profiles from whole-genome sequencing data (ARIBA output) and provides rule-based treatment recommendations.",
+  "upload_type": "software",
+  "creators": [
+    { "name": "Golparian, Daniel" },
+    { "name": "Sánchez-Busó, Leonor" },
+    { "name": "Unemo, Magnus" }
+  ],
+  "license": "GPL-3.0-only",
+  "keywords": [
+    "Neisseria gonorrhoeae",
+    "antimicrobial resistance",
+    "genomic surveillance",
+    "treatment recommendation"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/leosanbu/sensityper",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://pypi.org/project/sensityper/",
+      "relation": "isAlternateIdentifier",
+      "scheme": "url"
+    }
+  ]
+}
