@@ -50,6 +50,7 @@ Important usage note
 """
 
 import os
+import re
 import subprocess
 import argparse
 import csv
