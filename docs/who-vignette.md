@@ -14,7 +14,7 @@ This tutorial demonstrates a complete SensiTyper workflow using WHO *Neisseria g
 
 We will use whole-genome sequencing Illumina data produced from 29 [***N. gonorrhoeae* WHO reference strains**](https://doi.org/10.1093/jac/dkae176) representing diverse resistance profiles. FASTQ files for these strains can be obtained from the European Nucleotide Archive (ENA) study accession [PRJNA1067895](https://www.ebi.ac.uk/ena/browser/view/PRJNA1067895).
 
-Pre-computed outputs from running this tutorial are available in the `examples/` directory:
+Pre-computed outputs from running this tutorial are available in the `examples/` directory of the [GitHub repository](https://github.com/leosanbu/sensityper) (not included in the `pip` package; clone the repository and run the commands from its root):
 
 ```
 examples/
@@ -84,12 +84,12 @@ If your FASTQ files have inconsistent naming, use the `rename` module:
 
 ```bash
 # Preview changes (dry-run)
-python sensityper.py rename \
+sensityper rename \
     --directories examples/ \
     --pre
 
 # Execute renaming
-python sensityper.py rename \
+sensityper rename \
     --directories examples/ \
 ```
 
@@ -100,7 +100,7 @@ ARIBA identifies antimicrobial resistance genes and mutations from whole-genome 
 ### Command
 
 ```bash
-python sensityper.py ariba \
+sensityper ariba \
     --input_dirs /path/to/PRJNA1067895_Illumina \
     --output_dir PRJNA1067895_ARIBA \
     --threads 8
@@ -156,7 +156,7 @@ The `sensitype` module analyzes ARIBA output to identify genetic determinants of
 ### Command
 
 ```bash
-python sensityper.py sensitype \
+sensityper sensitype \
     --input_AMRtable examples/ariba_output/ariba_summary.csv \
     --sensiscript_outfile WHO_strains_sensitype.tsv
 ```
@@ -272,7 +272,7 @@ The `sensitreat` module assigns evidence-based treatment regimens based on resis
 ### Command
 
 ```bash
-python sensityper.py sensitreat \
+sensityper sensitreat \
     --input_file WHO_strains_sensitype.tsv \
     --treatment_output WHO_strains_sensitreat.tsv
 ```
@@ -480,7 +480,7 @@ Instead of running modules separately, use the **pipeline** module for end-to-en
 ### Single Command
 
 ```bash
-python sensityper.py pipeline \
+sensityper pipeline \
     --modules ariba,sensitype,sensitreat \
     --other_arguments '--input_dirs /path/to/PRJNA1067895_Illumina \
                        --output_dir PRJNA1067895_ARIBA \
@@ -518,7 +518,7 @@ python sensityper.py pipeline \
 
 2. **Run pipeline**:
    ```bash
-   python sensityper.py pipeline ariba,sensitype,sensitreat \
+   sensityper pipeline ariba,sensitype,sensitreat \
        --other_arguments "--input_dirs /path/to/your/fastqs \
                           --output_dir my_analysis \
                           --sensiscript_outfile my_resistance.tsv \
@@ -535,7 +535,7 @@ python sensityper.py pipeline \
 
 **Limit to available antibiotics**:
 ```bash
-python sensityper.py sensitreat \
+sensityper sensitreat \
     --input_file my_resistance.tsv \
     --available_antibiotics ceftriaxone,azithromycin,spectinomycin \
     --treatment_output my_treatment.tsv
@@ -543,7 +543,7 @@ python sensityper.py sensitreat \
 
 **Change regimen priority**:
 ```bash
-python sensityper.py sensitreat \
+sensityper sensitreat \
     --input_file my_resistance.tsv \
     --sensitreat_order ceftriaxone,azithromycin+spectinomycin,spectinomycin \
     --treatment_output my_treatment.tsv
@@ -553,13 +553,13 @@ python sensityper.py sensitreat \
 
 ```bash
 # Process multiple sequencing runs
-python sensityper.py ariba \
+sensityper ariba \
     --input_dirs /data/run1,/data/run2,/data/run3 \
     --output_dir batch_ariba \
     --threads 32
 
 # Continue pipeline
-python sensityper.py pipeline sensitype,sensitreat \
+sensityper pipeline sensitype,sensitreat \
     --input_AMRtable batch_ariba/ariba_summary.csv \
     --sensiscript_outfile batch_resistance.tsv \
     --treatment_output batch_treatment.tsv

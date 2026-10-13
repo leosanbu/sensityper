@@ -41,6 +41,14 @@ The input is a **tab-delimited table** containing, per isolate:
 
 ### Example input table (`example_data.tab`)
 
+This file is bundled with the package. To copy it to your working directory:
+
+```bash
+python -c "import sensityper, shutil, pathlib; shutil.copy(pathlib.Path(sensityper.__file__).parent / 'resources' / 'examples' / 'example_data.tab', '.')"
+```
+
+From a source checkout it is at `src/sensityper/resources/examples/example_data.tab`.
+
 ```text
 isolate_id	CRO_predicted	CRO_treatment	AZM_predicted	AZM_treatment	CRO+AZM_recommend	CRO+AZM_treatment
 WHO_A	YES	YES	YES	YES	YES	YES
@@ -66,7 +74,7 @@ This mode evaluates **each antibiotic independently**, asking:
 ### Command
 
 ```bash
-python sensityping_metrics.py \
+sensityping-metrics \
   -i example_data.tab \
   -o example_predict.tab \
   -d example_plots \
@@ -178,7 +186,7 @@ You must explicitly define:
 ### Command
 
 ```bash
-python sensityping_metrics.py \
+sensityping-metrics \
   -i example_data.tab \
   -o example_firstline.tab \
   -d example_out \
@@ -336,7 +344,7 @@ Running only one would give a **biased or incomplete interpretation**.
 
 ```bash
 # Mode 1: per-antibiotic model performance
-python sensityping_metrics.py \
+sensityping-metrics \
   -i sensiscript_with_phenotypes.tab \
   -o metrics_predicted.tab \
   -d metrics_predicted_dir \
@@ -348,7 +356,7 @@ python sensityping_metrics.py \
   --radar_metrics PPV,sensitivity,specificity,coverage_fraction
 
 # Mode 2: clinical cascade performance
-python sensityping_metrics.py \
+sensityping-metrics \
   -i sensiscript_with_phenotypes.tab \
   -o metrics_firstline.tab \
   -d metrics_firstline_dir \

@@ -1,7 +1,7 @@
 # SensiTyper - Genomic Antimicrobial Susceptibility Prediction and Treatment Recommendation for *Neisseria gonorrhoeae*
 
 [![Python 3.6+](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](https://github.com/leosanbu/sensityper/blob/main/LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-teal.svg)](https://leosanbu.github.io/sensityper/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.866572118.svg)](https://doi.org/10.5281/zenodo.22835140)
 
@@ -43,7 +43,7 @@ SensiTyper reads the summary output obtained from ARIBA containing key determina
 
 ### Workflow:
 
-![SensiTyper workflow — from raw FASTQ reads to treatment recommendations](docs/images/sensityper_workflow.png)
+![SensiTyper workflow — from raw FASTQ reads to treatment recommendations](https://raw.githubusercontent.com/leosanbu/sensityper/main/docs/images/sensityper_workflow.png)
 
 ### Resistance Determinants
 
@@ -87,25 +87,38 @@ The table below lists the genetic markers evaluated by the prediction logic for 
   ```bash
   conda install -c bioconda ariba
   ```
-- **Sensityping metrics only** — the companion evaluation script (`sensityping_metrics.py`) additionally requires standard scientific Python:
+- **Sensityping metrics only** — the companion evaluation script (`sensityping-metrics`) additionally requires standard scientific Python, installed with the `metrics` extra:
   ```bash
-  pip install numpy pandas scikit-learn plotly
+  pip install 'sensityper[metrics]'
   ```
 
-### Setup
+### Install from PyPI
+
+```bash
+pip install sensityper
+sensityper --help
+```
+
+The databases are bundled with the package. The command `sensityper` is installed on your PATH.
+
+> **Note:** ARIBA is *not* installed by `pip install sensityper`. It is only needed for the `ariba` module (and `pipeline` runs that include it), and must be installed separately, e.g. `conda install -c bioconda ariba`. The `sensitype` and `sensitreat` modules need no external software.
+
+### Setup from source
 
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/leosanbu/sensityper.git
    cd sensityper
+   pip install -e .
    ```
 
-2. **Verify database files** are present in `resources/`:
+2. **Verify database files** are present in `src/sensityper/resources/`:
    ```
    resources/
    ├── sensitype.db         # Resistance mutation database
    ├── sensitype.penA.db    # penA mosaic allele database
-   └── ariba_db/            # ARIBA reference database
+   ├── ariba_db/            # ARIBA reference database
+   └── examples/            # Example input for sensityping-metrics
  
    ```
 
@@ -114,11 +127,11 @@ The table below lists the genetic markers evaluated by the prediction logic for 
    export SENSITYPE_DB=/path/to/sensitype.db
    export SENSITYPE_PENA_DB=/path/to/sensitype.penA.db
    export SENSITYPE_ARIBA_DB=/path/to/ariba_db
-   export SENSITYPE_ARIBA_BATCH=/path/to/ariba_batch.py
+   export SENSITYPE_ARIBA_BATCH=/path/to/ariba_batch_v0.2.py
    export SENSITYPE_RULES_PATH=/path/to/sensiscript.py
    ```
 
-   If not set, the scripts will automatically look in the structure of directories available in the repository. 
+   If not set, the bundled files inside the installed package are used. 
 
 ## Usage
 
@@ -127,7 +140,7 @@ The table below lists the genetic markers evaluated by the prediction logic for 
 Run ARIBA in batch mode on FASTQ directories.
 
 ```bash
-python sensityper.py ariba \
+sensityper ariba \
     --input_dirs /data/run1,/data/run2 \
     --output_dir ariba_results \
     --db_path /path/to/ariba_db \
@@ -137,7 +150,7 @@ python sensityper.py ariba \
 **Arguments**:
 - `--input_dirs` - Comma-separated list of directories containing FASTQ files
 - `--output_dir` - Output directory for ARIBA results
-- `--db_path`- Path to the ARIBA database, by default in `resources/ariba_db`
+- `--db_path`- Path to the ARIBA database, by default the bundled `resources/ariba_db`
 - `--threads` - Number of CPU threads (default: 1)
 
 **FASTQ Naming**: Fastq files must follow one of these patterns:
@@ -150,19 +163,17 @@ python sensityper.py ariba \
 Generate resistance profiles from ARIBA output.
 
 ```bash
-python sensityper.py sensitype \
+sensityper sensitype \
     --input_AMRtable ariba_summary.csv \
     --sensiscript_outfile sensiscript_results.tsv \
-    --sensiscript_db resources/sensitype.db \
-    --sensiscript_pena resources/sensitype.penA.db \
     --sensiscript_antibiotics ceftriaxone,azithromycin,ciprofloxacin
 ```
 
 **Arguments**:
 - `--input_AMRtable` - ARIBA summary CSV file (required)
 - `--sensiscript_outfile` - Output TSV file path (default: `sensiscript_results.tsv`)
-- `--sensiscript_db` - Path to sensitype main database of genetic AMR determinants (default: `resources/sensitype.db`)
-- `--sensiscript_pena` - Path to a database of penA mosaics (default: `resources/sensitype.penA.db`)
+- `--sensiscript_db` - Path to sensitype main database of genetic AMR determinants (default: bundled `resources/sensitype.db`)
+- `--sensiscript_pena` - Path to a database of penA mosaics (default: bundled `resources/sensitype.penA.db`)
 - `--sensiscript_antibiotics` - Comma-separated antibiotic list (default: ceftriaxone,azithromycin,ciprofloxacin,tetracycline,penicillin,spectinomycin,zoliflodacin,gepotidacin)
 
 **Outputs**:
@@ -174,7 +185,7 @@ python sensityper.py sensitype \
 Assign treatment recommendations from resistance profiles.
 
 ```bash
-python sensityper.py sensitreat \
+sensityper sensitreat \
     --input_file resistance_profiles.tsv \
     --available_antibiotics ceftriaxone,azithromycin,ciprofloxacin,spectinomycin \
     --sensitreat_order ceftriaxone+azithromycin,ceftriaxone,azithromycin+spectinomycin,ciprofloxacin,spectinomycin \
@@ -203,7 +214,7 @@ python sensityper.py sensitreat \
 Chain multiple modules together in a single command.
 
 ```bash
-python sensityper.py pipeline \
+sensityper pipeline \
     --modules sensitype,sensitreat \
     --other_arguments '--input_AMRtable ariba_summary.csv --sensiscript_outfile sensiscript_results.tsv'
 ```
@@ -217,7 +228,7 @@ python sensityper.py pipeline \
 Standardize FASTQ file naming across directories.
 
 ```bash
-python sensityper.py rename \
+sensityper rename \
     --directories /data/run1,/data/run2 \
     --pre
 ```
@@ -229,7 +240,7 @@ python sensityper.py rename \
 ### Complete Pipeline (FASTQ → Treatment Recommendations)
 
 ```bash
-python sensityper.py pipeline \
+sensityper pipeline \
     --modules ariba,sensitype,sensitreat \
     --other_arguments '--input_dirs /data/fastqs \
                        --output_dir ariba_outputdir \
@@ -265,7 +276,7 @@ It complements the SensiTyper pipeline by providing rigorous, reproducible perfo
 
 ```bash
 # Model-centric evaluation (per antibiotic)
-python sensityping_metrics.py \
+sensityping-metrics \
   -i sensiscript_with_phenotypes.tab \
   -o metrics_predicted.tab \
   -d metrics_predicted_dir \
@@ -276,7 +287,7 @@ python sensityping_metrics.py \
   --radar_flag --radar_metrics PPV,sensitivity,specificity,coverage_fraction
 
 # Clinical cascade evaluation (treatment workflow)
-python sensityping_metrics.py \
+sensityping-metrics \
   -i sensiscript_with_phenotypes.tab \
   -o metrics_firstline.tab \
   -d metrics_firstline_dir \
@@ -390,7 +401,7 @@ When running `sensityper sensitreat` or the `pipeline` mode including `sensitrea
 
 **Solutions**:
 - Check FASTQ file naming (use `rename` module to standardize)
-- Increase retry attempts in ariba_batch.py (default: 3)
+- Increase retry attempts in ariba_batch_v0.2.py (default: 3)
 - Run ARIBA with only one thread
 
 ### Treatment Shows "None"
@@ -419,7 +430,7 @@ When running `sensityper sensitreat` or the `pipeline` mode including `sensitrea
 If you use SensiTyper in your research, please cite:
 
 ```
-Golparian D, Sánchez-Busó L and Unemo M. Genomic Surveillance Meets Clinical Practice: Rule-Based Individualised Treatment Prediction for Gonorrhoea using SensiTyper (submitted).
+Golparian D, Sánchez-Busó L and Unemo M. Genomic Surveillance Meets Clinical Practice: Rule-Based Individualised Treatment Prediction for Gonorrhoea using SensiTyper. Nature Communications (2026, In press).
 ```
 
 ## Contact

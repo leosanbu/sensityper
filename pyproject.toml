@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sensityper"
+dynamic = ["version"]
+description = "Genomic antimicrobial susceptibility prediction and treatment recommendation for Neisseria gonorrhoeae"
+readme = "README.md"
+license = { text = "GPL-3.0-only" }
+requires-python = ">=3.6"
+authors = [
+    { name = "Daniel Golparian" },
+    { name = "Leonor Sánchez-Busó" },
+    { name = "Magnus Unemo" },
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+[project.optional-dependencies]
+metrics = ["numpy", "pandas", "scikit-learn", "plotly"]
+
+[project.urls]
+Homepage = "https://github.com/leosanbu/sensityper"
+Documentation = "https://leosanbu.github.io/sensityper/"
+
+[project.scripts]
+sensityper = "sensityper.sensityper:main"
+sensityping-metrics = "sensityper.sensityping_metrics:cli"
+
+[tool.setuptools.dynamic]
+version = { attr = "sensityper.sensityper.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+sensityper = ["resources/*", "resources/ariba_db/*", "resources/examples/*"]

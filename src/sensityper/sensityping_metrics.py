@@ -48,14 +48,14 @@ EXAMPLE COMMANDS
 ================================================================================
 
 1) Per-antibiotic predictions vs treatment (no combos here) + CIs + SSD:
-   python sensityping_metrics.py -i results.tsv -o out.txt -d ./out \
+   sensityping-metrics -i results.tsv -o out.txt -d ./out \
       --analysis_type predicted_vs_treatment \
       --ci_flag --ci_method hybrid --ci_level 0.95 --n_boot 2000 --seed 1 \
       --ssd_flag --ssd_width 0.05 --ssd_mode conservative \
       --radar_flag --radar_metrics PPV,one_minus_FDR,coverage_fraction
 
 2) First-line (rule-based) vs treatment with order including a combo token present in the table:
-   python sensityping_metrics.py -i treatment_output.tsv -o firstline_metrics.txt -d ./out \
+   sensityping-metrics -i treatment_output.tsv -o firstline_metrics.txt -d ./out \
       --analysis_type first_line_vs_treatment \
       --order CIP,CRO+AZM,CRO,SPC \
       --ci_flag --ci_method hybrid \
@@ -81,21 +81,26 @@ NOTES
 __version__ = "2.0"
 
 import os
+import sys
 import argparse
 import math
 import warnings
 from typing import Optional
 
-import numpy as np
-import pandas as pd
-from sklearn.metrics import (
-    confusion_matrix,
-    f1_score,
-    matthews_corrcoef,
-    roc_auc_score,
-    cohen_kappa_score
-)
-import plotly.graph_objects as go
+try:
+    import numpy as np
+    import pandas as pd
+    from sklearn.metrics import (
+        confusion_matrix,
+        f1_score,
+        matthews_corrcoef,
+        roc_auc_score,
+        cohen_kappa_score
+    )
+    import plotly.graph_objects as go
+    _MISSING_DEPS = None
+except ImportError as _e:  # optional dependencies, see pip install 'sensityper[metrics]'
+    _MISSING_DEPS = _e
 
 # ---------------------------
 # Utilities
@@ -795,7 +800,10 @@ def main(input_file, output_file, output_dir, analysis_type, order,
 # CLI
 # ---------------------------
 
-if __name__ == "__main__":
+def cli():
+    if _MISSING_DEPS is not None:
+        sys.exit("sensityping-metrics needs extra dependencies (%s).\n"
+                 "Install them with:  pip install 'sensityper[metrics]'" % _MISSING_DEPS)
 
     # IMPORTANT: argparse uses percent-formatting internally on help strings in Python 3.6.
     # Any literal '%' must be escaped as '%%' to avoid crashes when rendering -h.
@@ -804,14 +812,14 @@ if __name__ == "__main__":
 Examples
 --------
 1) Per-antibiotic predictions vs treatment (no combos here) + CIs + SSD:
-   python sensityping_metrics.py -i results.tsv -o out.txt -d ./out \\
+   sensityping-metrics -i results.tsv -o out.txt -d ./out \\
       --analysis_type predicted_vs_treatment \\
       --ci_flag --ci_method hybrid --ci_level 0.95 --n_boot 2000 --seed 1 \\
       --ssd_flag --ssd_width 0.05 --ssd_mode conservative \\
       --radar_flag --radar_metrics PPV,one_minus_FDR,coverage_fraction
 
 2) First-line (rule-based) vs treatment with order including a combo token present in the table:
-   python sensityping_metrics.py -i treatment_output.tsv -o firstline_metrics.txt -d ./out \\
+   sensityping-metrics -i treatment_output.tsv -o firstline_metrics.txt -d ./out \\
       --analysis_type first_line_vs_treatment \\
       --order CIP,CRO+AZM,CRO,SPC \\
       --ci_flag --ci_method hybrid \\
@@ -931,3 +939,6 @@ Notes
          args.id_extraction, args.id_column,
          args.ci_flag, args.ci_method, args.ci_level, args.n_boot, args.seed,
          args.ssd_flag, args.ssd_width, args.ssd_mode, args.ssd_p)
+
+if __name__ == "__main__":
+    cli()
