@@ -1,6 +1,6 @@
 # SensiTyper - Genomic Antimicrobial Susceptibility Prediction and Treatment Recommendation for *Neisseria gonorrhoeae*
 
-[![Python 3.6+](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](https://github.com/leosanbu/sensityper/blob/main/LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-teal.svg)](https://leosanbu.github.io/sensityper/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.866572118.svg)](https://doi.org/10.5281/zenodo.22835140)
@@ -82,7 +82,7 @@ The table below lists the genetic markers evaluated by the prediction logic for 
 
 ### Prerequisites
 
-- **Python 3.6+** — the core pipeline (`ariba`, `sensitype` and `sensitreat` modules) requires no external Python packages
+- **Python 3.8+** — the core pipeline (`ariba`, `sensitype` and `sensitreat` modules) requires no external Python packages
 - **[ARIBA](https://github.com/sanger-pathogens/ariba/wiki)** (Antimicrobial Resistance Identification By Assembly)
   ```bash
   conda install -c bioconda ariba

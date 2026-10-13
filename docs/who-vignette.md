@@ -6,7 +6,7 @@ This tutorial demonstrates a complete SensiTyper workflow using WHO *Neisseria g
 
 **Prerequisites**:
 
-- Python 3.6+
+- Python 3.8+
 - ARIBA installed (`conda install -c bioconda ariba`)
 - Sensityping scripts and databases (see README.md for installation)
 

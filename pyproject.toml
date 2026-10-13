@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "Genomic antimicrobial susceptibility prediction and treatment recommendation for Neisseria gonorrhoeae"
 readme = "README.md"
 license = { text = "GPL-3.0-only" }
-requires-python = ">=3.6"
+requires-python = ">=3.8"
 authors = [
     { name = "Daniel Golparian" },
     { name = "Leonor Sánchez-Busó" },

@@ -23,7 +23,7 @@ These cannot be answered in a single analysis without mixing incompatible assump
 
 The script is standalone and requires only standard scientific Python:
 
-- python >= 3.6
+- python >= 3.8
 - numpy
 - pandas
 - scikit-learn
