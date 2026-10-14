@@ -41,13 +41,13 @@ The input is a **tab-delimited table** containing, per isolate:
 
 ### Example input table (`example_data.tab`)
 
-This file is bundled with the package. To copy it to your working directory:
+This file is bundled with the package. To copy the example data to your working directory (it creates an `examples/` folder):
 
 ```bash
-python -c "import sensityper, shutil, pathlib; shutil.copy(pathlib.Path(sensityper.__file__).parent / 'resources' / 'examples' / 'example_data.tab', '.')"
+sensityper examples
 ```
 
-From a source checkout it is at `src/sensityper/resources/examples/example_data.tab`.
+The table is then `examples/example_data.tab`. From a source checkout it is at `src/sensityper/resources/examples/example_data.tab`.
 
 ```text
 isolate_id	CRO_predicted	CRO_treatment	AZM_predicted	AZM_treatment	CRO+AZM_recommend	CRO+AZM_treatment
@@ -75,7 +75,7 @@ This mode evaluates **each antibiotic independently**, asking:
 
 ```bash
 sensityping-metrics \
-  -i example_data.tab \
+  -i examples/example_data.tab \
   -o example_predict.tab \
   -d example_plots \
   --analysis_type predicted_vs_treatment \
@@ -187,7 +187,7 @@ You must explicitly define:
 
 ```bash
 sensityping-metrics \
-  -i example_data.tab \
+  -i examples/example_data.tab \
   -o example_firstline.tab \
   -d example_out \
   --analysis_type first_line_vs_treatment \

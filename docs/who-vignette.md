@@ -14,10 +14,10 @@ This tutorial demonstrates a complete SensiTyper workflow using WHO *Neisseria g
 
 We will use whole-genome sequencing Illumina data produced from 29 [***N. gonorrhoeae* WHO reference strains**](https://doi.org/10.1093/jac/dkae176) representing diverse resistance profiles. FASTQ files for these strains can be obtained from the European Nucleotide Archive (ENA) study accession [PRJNA1067895](https://www.ebi.ac.uk/ena/browser/view/PRJNA1067895).
 
-Pre-computed outputs from running this tutorial are bundled with the package (they are also in `src/sensityper/resources/examples/` of the [GitHub repository](https://github.com/leosanbu/sensityper)). Copy them to your working directory with:
+Pre-computed outputs from running this tutorial are bundled with the package (they are also in `src/sensityper/resources/examples/` of the [GitHub repository](https://github.com/leosanbu/sensityper)). Copy them to your working directory with the `examples` command:
 
 ```bash
-python -c "import sensityper, shutil, pathlib; shutil.copytree(pathlib.Path(sensityper.__file__).parent / 'resources' / 'examples', 'examples')"
+sensityper examples
 ```
 
 This creates an `examples/` folder with the following content:

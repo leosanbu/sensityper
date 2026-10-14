@@ -42,7 +42,8 @@ Breaking changes vs earlier internal versions
                    The 'ariba' module now stops with a clear message if ARIBA is not installed.
 - v1.0.2:          The WHO tutorial data (ARIBA outputs and pre-computed results) is now bundled
                    with the package, in resources/examples/ next to the sensityping-metrics
-                   example files. The message printed when ARIBA is not installed now states
+                   example files; the new 'sensityper examples' command copies them to the
+                   current directory. The message printed when ARIBA is not installed now states
                    that ARIBA needs Python 3.12 or older and setuptools<82. Documentation updated
                    for installation from PyPI and conda. No change to predictions or outputs.
 
@@ -297,6 +298,19 @@ def create_output_dir(output_dir: str) -> None:
         print("Created output directory: {d}".format(d=output_dir))
     else:
         print("Output directory already exists: {d}".format(d=output_dir))
+
+def run_examples(parsed_args) -> None:
+    """
+    Copies the example data bundled with the package (WHO tutorial data and the
+    sensityping-metrics example files) to a folder in the current directory.
+    """
+    source = SCRIPT_DIR / "resources" / "examples"
+    dest = Path(parsed_args.dest)
+    if dest.exists():
+        sys.exit("ERROR: '{d}' already exists. Choose another folder with --dest or remove it.".format(d=dest))
+    shutil.copytree(str(source), str(dest))
+    print("Example data copied to: {d}".format(d=dest.resolve()))
+    print("The tutorial commands expect this folder to be called 'examples' in the directory where you run them.")
 
 def rename_files(directory: str, preview: bool = False) -> None:
     """
@@ -907,6 +921,15 @@ def main():
         help=("Preview only (no changes).\n"
               "  e.g., --pre")
     )
+
+    # examples
+    examples_parser = subparsers.add_parser('examples', help="Copy the bundled example data to the current directory")
+    examples_parser.add_argument(
+        '--dest', default='examples',
+        help=("Folder to create (default: examples).\n"
+              "  e.g., --dest examples")
+    )
+    examples_parser.set_defaults(func=run_examples)
 
     args = parser.parse_args()
 

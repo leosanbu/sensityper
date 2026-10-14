@@ -98,6 +98,8 @@ sensityper --help
 
 The databases are bundled with the package. The command `sensityper` is installed on your PATH.
 
+To try SensiTyper with the bundled example data (WHO tutorial data and the `sensityping-metrics` example), run `sensityper examples` in your working directory; it creates an `examples/` folder.
+
 > **Note:** ARIBA is *not* installed by `pip install sensityper`. It is only needed for the `ariba` module (and `pipeline` runs that include it), and must be installed separately (see *Install with conda* below; ARIBA needs Python 3.12 or older and `setuptools<82`). The `sensitype` and `sensitreat` modules need no external software.
 
 ### Install with conda
