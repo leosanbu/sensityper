@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=62.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -38,4 +38,4 @@ version = { attr = "sensityper.sensityper.__version__" }
 where = ["src"]
 
 [tool.setuptools.package-data]
-sensityper = ["resources/*", "resources/ariba_db/*", "resources/examples/*"]
+sensityper = ["resources/*", "resources/ariba_db/*", "resources/examples/**/*"]

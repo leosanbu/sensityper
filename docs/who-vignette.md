@@ -14,7 +14,13 @@ This tutorial demonstrates a complete SensiTyper workflow using WHO *Neisseria g
 
 We will use whole-genome sequencing Illumina data produced from 29 [***N. gonorrhoeae* WHO reference strains**](https://doi.org/10.1093/jac/dkae176) representing diverse resistance profiles. FASTQ files for these strains can be obtained from the European Nucleotide Archive (ENA) study accession [PRJNA1067895](https://www.ebi.ac.uk/ena/browser/view/PRJNA1067895).
 
-Pre-computed outputs from running this tutorial are available in the `examples/` directory of the [GitHub repository](https://github.com/leosanbu/sensityper) (not included in the `pip` package; clone the repository and run the commands from its root):
+Pre-computed outputs from running this tutorial are bundled with the package (they are also in `src/sensityper/resources/examples/` of the [GitHub repository](https://github.com/leosanbu/sensityper)). Copy them to your working directory with:
+
+```bash
+python -c "import sensityper, shutil, pathlib; shutil.copytree(pathlib.Path(sensityper.__file__).parent / 'resources' / 'examples', 'examples')"
+```
+
+This creates an `examples/` folder with the following content:
 
 ```
 examples/
@@ -147,7 +153,7 @@ WHO_B_SRR27944628,yes,yes,yes,100,...
 
 A pre-computed version is available at `examples/ariba_output/ariba_summary.csv`.
 
-**Note on paths**: the `name` column of the bundled `ariba_summary.csv` holds paths **relative to the repository root** (`examples/ariba_output/<sample>_ARIBA/report_complete.tsv`). The `sensitype` module opens each of those per-sample reports to confirm wild-type positions, so run the commands below from the root of the cloned repository. To run from anywhere else, rewrite that column to absolute paths first.
+**Note on paths**: the `name` column of the bundled `ariba_summary.csv` holds paths **relative to the working directory** (`examples/ariba_output/<sample>_ARIBA/report_complete.tsv`). The `sensitype` module opens each of those per-sample reports to confirm wild-type positions, so run the commands below from the directory that contains the copied `examples/` folder. To run from anywhere else, rewrite that column to absolute paths first.
 
 ## Step 3: Generate Resistance Profiles
 

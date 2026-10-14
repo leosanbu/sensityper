@@ -40,6 +40,11 @@ Breaking changes vs earlier internal versions
                    commands (python sensityper.py at the repository root no longer exists).
                    Console output no longer crashes on non-UTF-8 terminals (e.g. Windows).
                    The 'ariba' module now stops with a clear message if ARIBA is not installed.
+- v1.0.2:          The WHO tutorial data (ARIBA outputs and pre-computed results) is now bundled
+                   with the package, in resources/examples/ next to the sensityping-metrics
+                   example files. The message printed when ARIBA is not installed now states
+                   that ARIBA needs Python 3.12 or older and setuptools<82. Documentation updated
+                   for installation from PyPI and conda. No change to predictions or outputs.
 
 Important usage note
 --------------------
@@ -65,7 +70,7 @@ import sys
 from pathlib import Path
 from typing import Optional  # 3.6+ compatible unions
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 # -------------------------------------------------------------------
 # Path resolution helpers: CLI > ENV > script-dir fallback
@@ -139,7 +144,9 @@ def _require_ariba() -> None:
     """Exit with a clear message if the external ARIBA program is not on PATH."""
     if shutil.which('ariba') is None:
         sys.exit("ERROR: ARIBA was not found on your PATH. The 'ariba' module needs ARIBA installed "
-                 "separately (it is not bundled with sensityper), e.g.: conda install -c bioconda ariba. "
+                 "separately (it is not bundled with sensityper). ARIBA is no longer maintained: its conda "
+                 "package needs Python 3.12 or older and setuptools<82, e.g.: "
+                 "conda create -n sensityper -c conda-forge -c bioconda python=3.12 sensityper ariba \"setuptools<82\". "
                  "See https://github.com/sanger-pathogens/ariba/wiki")
 
 # -------------------------------------------------------------------

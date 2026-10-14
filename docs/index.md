@@ -82,10 +82,7 @@ The table below lists the genetic markers evaluated by the prediction logic for 
 ### Prerequisites
 
 - **Python 3.8+** — the core pipeline (`ariba`, `sensitype` and `sensitreat` modules) requires no external Python packages
-- **[ARIBA](https://github.com/sanger-pathogens/ariba/wiki)** (Antimicrobial Resistance Identification By Assembly)
-  ```bash
-  conda install -c bioconda ariba
-  ```
+- **[ARIBA](https://github.com/sanger-pathogens/ariba/wiki)** (Antimicrobial Resistance Identification By Assembly) — only needed for the `ariba` module. ARIBA is no longer actively maintained (last release October 2023): its conda package supports Python up to 3.12 and needs setuptools older than 82. See *Install with conda* below for a working command.
 - **Sensityping metrics only** — the companion evaluation script (`sensityping-metrics`) additionally requires standard scientific Python, installed with the `metrics` extra:
   ```bash
   pip install 'sensityper[metrics]'
@@ -100,7 +97,23 @@ sensityper --help
 
 The databases are bundled with the package, and the command `sensityper` is installed on your PATH.
 
-> **Note:** ARIBA is *not* installed by `pip install sensityper`. It is only needed for the `ariba` module (and `pipeline` runs that include it), and must be installed separately, e.g. `conda install -c bioconda ariba`. The `sensitype` and `sensitreat` modules need no external software.
+> **Note:** ARIBA is *not* installed by `pip install sensityper`. It is only needed for the `ariba` module (and `pipeline` runs that include it), and must be installed separately (see *Install with conda* below; ARIBA needs Python 3.12 or older and `setuptools<82`). The `sensitype` and `sensitreat` modules need no external software.
+
+### Install with conda
+
+```bash
+conda install -c conda-forge -c bioconda sensityper
+```
+
+The conda package (from the [Bioconda](https://bioconda.github.io/) channel) installs SensiTyper and the extra libraries needed by `sensityping-metrics`. It does **not** install ARIBA, which is only needed for the `ariba` module (the `sensitype` and `sensitreat` modules work without it).
+
+To use the `ariba` module as well, create an environment that includes ARIBA. ARIBA is no longer actively maintained, so this needs Python 3.12 or older and `setuptools<82`:
+
+```bash
+conda create -n sensityper -c conda-forge -c bioconda python=3.12 sensityper ariba "setuptools<82"
+conda activate sensityper
+sensityper --help
+```
 
 ### Setup from source
 
@@ -117,7 +130,7 @@ The databases are bundled with the package, and the command `sensityper` is inst
    ├── sensitype.db         # Resistance mutation database
    ├── sensitype.penA.db    # penA mosaic allele database
    ├── ariba_db/            # ARIBA reference database
-   └── examples/            # Example input for sensityping-metrics
+   └── examples/            # Example data (WHO tutorial and sensityping-metrics)
 
    ```
 
@@ -418,6 +431,16 @@ When running `sensityper sensitreat` or the `pipeline` mode including `sensitrea
 - Check FASTQ file naming (use `rename` module to standardize)
 - Increase retry attempts in ariba_batch_v0.2.py (default: 3)
 - Run ARIBA with only one thread
+
+### ARIBA Crashes on Start: `No module named 'pkg_resources'`
+
+**Symptom**: `ariba` (and therefore `sensityper ariba`) stops immediately with `ModuleNotFoundError: No module named 'pkg_resources'`
+
+**Cause**: ARIBA 2.14.7 (the current Bioconda build at the time of writing) imports `pkg_resources`, which was removed from **setuptools 82** and later. ARIBA's conda package does not pin setuptools, so a fresh environment can end up with a version that is too new. This is a problem in ARIBA's packaging, not in SensiTyper.
+
+**Solutions**:
+- Install an older setuptools in the same environment: `conda install "setuptools<82"` (or `pip install "setuptools<82"`)
+- ARIBA is no longer actively maintained, so this will not be fixed upstream: keep the pin in any environment that uses ARIBA
 
 ### Treatment Shows "None"
 
