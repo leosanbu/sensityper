@@ -42,10 +42,12 @@ Breaking changes vs earlier internal versions
                    The 'ariba' module now stops with a clear message if ARIBA is not installed.
 - v1.0.2:          The WHO tutorial data (ARIBA outputs and pre-computed results) is now bundled
                    with the package, in resources/examples/ next to the sensityping-metrics
-                   example files; the new 'sensityper examples' command copies them to the
-                   current directory. The message printed when ARIBA is not installed now states
+                   example files. The message printed when ARIBA is not installed now states
                    that ARIBA needs Python 3.12 or older and setuptools<82. Documentation updated
                    for installation from PyPI and conda. No change to predictions or outputs.
+- v1.0.3:          Added the 'sensityper examples' command, which copies the bundled example
+                   data to a folder in the current directory (--dest to choose the name).
+                   No change to predictions or outputs.
 
 Important usage note
 --------------------
@@ -71,7 +73,7 @@ import sys
 from pathlib import Path
 from typing import Optional  # 3.6+ compatible unions
 
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 
 # -------------------------------------------------------------------
 # Path resolution helpers: CLI > ENV > script-dir fallback
