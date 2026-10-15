@@ -1,0 +1,10 @@
+# Keep Unix (LF) line endings in the working tree on every platform.
+# The ARIBA database and the example data are read by programs that break on
+# Windows (CRLF) line endings, and packages must not be built from CRLF copies.
+* text=auto eol=lf
+
+# Never touch binary files.
+*.pickle binary
+*.gz binary
+*.png binary
+*.jpg binary

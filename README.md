@@ -429,6 +429,22 @@ When running `sensityper sensitreat` or the `pipeline` mode including `sensitrea
 - Install an older setuptools in the same environment: `conda install "setuptools<82"` (or `pip install "setuptools<82"`)
 - ARIBA is no longer actively maintained, so this will not be fixed upstream: keep the pin in any environment that uses ARIBA
 
+### ARIBA Fails with the Bundled Database (versions 1.0.1 to 1.0.3)
+
+**Symptom**: the `ariba` module (or a `pipeline` run that includes it) stops while ARIBA is building its read index, with errors such as `Unsorted positions on sequence #1`, `building of index for read_store.gz failed` or `No such file or directory: .../report.tsv`
+
+**Cause**: in the packages published to PyPI and Bioconda up to version 1.0.3, the bundled ARIBA database (`resources/ariba_db`) contains Windows line endings, which ARIBA cannot read correctly. The copy of the database in the GitHub repository is not affected. This is fixed in version 1.0.4 and later, so the workaround below is only needed for 1.0.1 to 1.0.3 (or upgrade with `pip install -U sensityper`).
+
+**Solution**: use the database from a clone of the repository by passing its path with `--db_path`:
+
+```bash
+git clone --depth 1 https://github.com/leosanbu/sensityper.git
+sensityper ariba --input_dirs <FASTQ_DIR> --output_dir <OUTPUT_DIR> \
+    --db_path sensityper/src/sensityper/resources/ariba_db
+```
+
+In `pipeline` mode, add `--db_path sensityper/src/sensityper/resources/ariba_db` to the `--other_arguments` string. The `sensitype` and `sensitreat` modules are not affected.
+
 ### Treatment Shows "None"
 
 **Symptom**: Treatment recommendation is "None" for an isolate

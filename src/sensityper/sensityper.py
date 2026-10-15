@@ -48,6 +48,11 @@ Breaking changes vs earlier internal versions
 - v1.0.3:          Added the 'sensityper examples' command, which copies the bundled example
                    data to a folder in the current directory (--dest to choose the name).
                    No change to predictions or outputs.
+- v1.0.4:          Fixed the ARIBA database bundled in the package. In versions 1.0.1 to 1.0.3 its
+                   files had Windows (CRLF) line endings, which made ARIBA fail while building its
+                   read index (pass --db_path with a clean copy of resources/ariba_db to work around
+                   it in those versions). Line endings of the bundled files are now fixed to LF via
+                   .gitattributes. No change to predictions or outputs.
 
 Important usage note
 --------------------
@@ -73,7 +78,7 @@ import sys
 from pathlib import Path
 from typing import Optional  # 3.6+ compatible unions
 
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 
 # -------------------------------------------------------------------
 # Path resolution helpers: CLI > ENV > script-dir fallback
